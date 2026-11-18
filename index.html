@@ -485,7 +485,7 @@ function downloadExport(content,type,name){const url=URL.createObjectURL(new Blo
 async function readExportRows(table,pid,valid){
  if(!Object.hasOwn(exportTables,table))throw Error('Unbekannter Exportbereich');
  const indirect=table==='umbau_tasks'||table==='umbau_files';
- const qs='?select=*'+(indirect?'':'&project_id=eq.'+encodeURIComponent(pid))+'&order='+(table==='umbau_model'?'project_id.asc':'id.asc');
+ const qs='?select=*'+(indirect?'':'&project_id=eq.'+encodeURIComponent(pid))+'&order='+(table==='umbau_model'?'project_id.asc':table==='umbau_bauteil_raeume'?'bauteil_id.asc,room_id.asc':'id.asc');
  const rows=[];for(let offset=0;;){if(!valid())throw Error('Sitzung geändert');const page=await api(table,qs+'&limit=500&offset='+offset);if(!Array.isArray(page))throw Error('Ungültige Datenantwort');rows.push(...page);if(page.length<500)return rows;offset+=page.length;if(offset>100000)throw Error('Exportlimit erreicht')}
 }
 async function exportProject(mode){
