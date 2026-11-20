@@ -374,6 +374,7 @@ function openSearchEntry(entry){
  if(date&&date!==calendarDay&&!w.busy&&!$(w.root)?.querySelector('form[data-dirty="true"]')){calendarDay=date;renderWorkspace(w)}
  if(entry.page!=='calendar'||$('panageiCalendarPage').hidden)window.panageiOpenPage?.(entry.page);const root=$(w.root);let target=[...root.querySelectorAll('[data-entry-id]')].find(el=>el.dataset.entryId===entry.id);
  if(!target&&!w.busy&&!root.querySelector('form[data-dirty="true"]')){if(w.table==='umbau_archive'){Object.keys(archiveFilters).forEach(k=>archiveFilters[k]='')}if(w.table==='umbau_diary'){diaryFilters.from='';diaryFilters.to='';diaryFilters.search=''}renderWorkspace(w);target=[...root.querySelectorAll('[data-entry-id]')].find(el=>el.dataset.entryId===entry.id)}
+ if(target?.closest('details.invoice-list'))target.closest('details.invoice-list').open=true;
  revealTarget(target||root);
  if(!target)alert('Der Treffer liegt in einer gefilterten Liste. Bitte zuerst Eingaben speichern und die Filter zurücksetzen.');
 }
@@ -408,7 +409,7 @@ const openRoomFloors=new Set();
 function roomRelatedRows(workspace,roomId,project){return workspace?.pid===project?workspace.rows.filter(r=>r.room_id===roomId):null}
 function roomCenterData(room,project,spaces){
  const get=table=>roomRelatedRows(spaces.find(w=>w.table===table),room.id,project);
- const archive=get('umbau_archive'),materials=get('umbau_materials'),costs=get('umbau_costs'),diary=get('umbau_diary'),appointments=get('umbau_appointments');
+ const archive=get('umbau_archive'),materials=get('umbau_materials'),costs=get('umbau_costs')?.filter(isInvoice)??null,diary=get('umbau_diary'),appointments=get('umbau_appointments');
  const tasks=room.tasks||[],dates=[...tasks.filter(t=>!t.done&&t.due_date).map(t=>({title:t.text,date:t.due_date,task:t.id})),...(archive||[]).filter(a=>a.category==='Wartung'&&a.next_due).map(a=>({title:a.title,date:a.next_due,id:a.id})),...(appointments||[]).map(a=>({title:a.title,date:a.event_date,time:a.event_time,appointment:a.id}))].sort((a,b)=>a.date.localeCompare(b.date));
  return {archive,materials,costs,diary,tasks,dates,photos:room.cloudFiles||[],done:tasks.filter(t=>t.done).length,planned:costs?.reduce((sum,r)=>sum+Number(r.planned||0),0),actual:costs?.reduce((sum,r)=>sum+Number(r.actual||0),0)};
 }
@@ -475,7 +476,7 @@ function renderRoomCenterDetails(root,room){
  const taskbox=section('Aufgaben',data.tasks,()=>openRoomSearch(room.id,null,true));for(const t of data.tasks)line(taskbox,t.text,[t.done?'Erledigt':'Offen',t.trade,t.due_date?fmtDate(t.due_date):''].filter(Boolean).join(' · '),()=>openRoomSearch(room.id,t.id));
  const photos=section('Raumfotos',data.photos,()=>{if(openRoomSearch(room.id)){const card=[...document.querySelectorAll('#roomCards .roomCard')].find(el=>el.dataset.roomId===room.id);revealTarget(card?.querySelector('.photoInput'),true)}});for(const f of data.photos){const b=line(photos,f.original_name||'Raumfoto','Datei anzeigen',()=>{b.disabled=true;const status=node('div',null,photos);void openWorkspaceFile(f.storage_path,status).finally(()=>b.disabled=false)});}
  const materials=section('Material',data.materials,()=>roomCenterNew('umbau_materials','aufgaben',room.id));for(const r of data.materials||[])line(materials,r.title,[r.quantity,r.unit,r.purchased?'Beschafft':'Offen'].filter(v=>v!=null).join(' · '),()=>openSearchEntry({workspace:'umbau_materials',id:r.id,page:'aufgaben'}));
- const costs=section('Kosten',data.costs,()=>roomCenterNew('umbau_costs','kosten',room.id));if(data.costs!==null)node('p','Budget '+money(data.planned)+' · Ist '+money(data.actual),costs);for(const r of data.costs||[])line(costs,r.title,money(r.actual),()=>openSearchEntry({workspace:'umbau_costs',id:r.id,page:'kosten'}));
+ const costs=section('Kosten',data.costs,()=>roomCenterNew('umbau_costs','kosten',room.id));if(data.costs!==null)node('p','Ist-Kosten '+money(data.actual),costs);for(const r of data.costs||[])line(costs,r.title,money(r.actual),()=>openSearchEntry({workspace:'umbau_costs',id:r.id,page:'kosten'}));
  const dates=section('Termine, Fristen & Wartung',data.dates,()=>roomCenterNew('umbau_appointments','calendar',room.id));for(const d of data.dates)line(dates,d.title,fmtDate(d.date)+(d.time?' · '+d.time.slice(0,5)+' Uhr':''),()=>d.appointment?openSearchEntry({workspace:'umbau_appointments',id:d.appointment,page:'calendar'}):d.id?openSearchEntry({workspace:'umbau_archive',id:d.id,page:'archiv'}):openRoomSearch(room.id,d.task));
  const notes=section('Notizen',room.notes?[room.notes]:[]);if(room.notes)node('p',room.notes,notes,'room-center-notes');
 }
@@ -506,7 +507,7 @@ function renderActivity(){
 function syncBlocked(){return cloud.dirty||cloud.pushing||cloud.loading||modelSaving||workspaces.some(w=>w.busy)||!!document.querySelector('form[data-dirty="true"]')||[...document.querySelectorAll('#roomCards .newTask')].some(e=>e.value.trim())||!!document.activeElement?.matches('input,textarea,select')}
 
 
-const exportTables={umbau_rooms:'Räume',umbau_tasks:'Aufgaben',umbau_materials:'Material',umbau_costs:'Kosten',umbau_archive:'Archiv',umbau_diary:'Bautagebuch',umbau_appointments:'Termine',umbau_installation_markers:'Installationspläne',umbau_files:'Raumfotos (Dateiverweise)',umbau_bauabschnitte:'Bauabschnitte',umbau_dokumente:'Historische Dokumente',umbau_bauteile:'Bauteile',umbau_bauteil_raeume:'Bauteilzuordnungen',umbau_gebaeudetechnik:'Gebäudetechnik',umbau_model:'Hausmodell',umbau_model_versions:'Modellstände',umbau_activity:'Änderungsverlauf'};
+const exportTables={umbau_budgets:'Budgets',umbau_rooms:'Räume',umbau_tasks:'Aufgaben',umbau_materials:'Material',umbau_costs:'Kosten',umbau_archive:'Archiv',umbau_diary:'Bautagebuch',umbau_appointments:'Termine',umbau_installation_markers:'Installationspläne',umbau_files:'Raumfotos (Dateiverweise)',umbau_bauabschnitte:'Bauabschnitte',umbau_dokumente:'Historische Dokumente',umbau_bauteile:'Bauteile',umbau_bauteil_raeume:'Bauteilzuordnungen',umbau_gebaeudetechnik:'Gebäudetechnik',umbau_model:'Hausmodell',umbau_model_versions:'Modellstände',umbau_activity:'Änderungsverlauf'};
 const csvColumns={umbau_rooms:['name','floor','area_m2','length_m','width_m','height_m','notes','id'],umbau_tasks:['title','room_id','done','trade','priority','due_date','id'],umbau_materials:['title','room_id','trade','quantity','unit','purchased','notes','id'],umbau_costs:['title','room_id','trade','planned','actual','notes','id'],umbau_archive:['title','room_id','trade','category','document_date','next_due','interval_months','notes','storage_path','id'],umbau_diary:['title','room_id','trade','entry_date','notes','storage_path','id'],umbau_appointments:['title','category','room_id','trade','task_id','event_date','event_time','notes','reminders','id']};
 function csvValue(v){if(v==null)return '""';if(typeof v==='number'&&Number.isFinite(v))return '"'+String(v).replace('.',',')+'"';let t=typeof v==='object'?JSON.stringify(v):typeof v==='boolean'?(v?'Ja':'Nein'):String(v);if(/^[\s\u0000-\u001f]*[=+\-@]/.test(t)||/^[\t\r\n]/.test(t))t="'"+t;return '"'+t.replace(/"/g,'""')+'"'}
 function exportCsv(rows,columns){return '\uFEFF'+[columns.map(csvValue).join(';'),...rows.map(r=>columns.map(c=>csvValue(r[c])).join(';'))].join('\r\n')}
@@ -516,7 +517,7 @@ function downloadExport(content,type,name){const url=URL.createObjectURL(new Blo
 async function readExportRows(table,pid,valid){
  if(!Object.hasOwn(exportTables,table))throw Error('Unbekannter Exportbereich');
  const indirect=table==='umbau_tasks'||table==='umbau_files';
- const qs='?select=*'+(indirect?'':'&project_id=eq.'+encodeURIComponent(pid))+'&order='+(table==='umbau_model'?'project_id.asc':table==='umbau_bauteil_raeume'?'bauteil_id.asc,room_id.asc':'id.asc');
+ const qs='?select=*'+(indirect?'':'&project_id=eq.'+encodeURIComponent(pid))+'&order='+(table==='umbau_model'?'project_id.asc':table==='umbau_budgets'?'trade.asc':table==='umbau_bauteil_raeume'?'bauteil_id.asc,room_id.asc':'id.asc');
  const rows=[];for(let offset=0;;){if(!valid())throw Error('Sitzung geändert');const page=await api(table,qs+'&limit=500&offset='+offset);if(!Array.isArray(page))throw Error('Ungültige Datenantwort');rows.push(...page);if(page.length<500)return rows;offset+=page.length;if(offset>100000)throw Error('Exportlimit erreicht')}
 }
 async function exportProject(mode){
@@ -546,11 +547,11 @@ function renderDashboard(){
  const done=tasks.length?Math.round(complete/tasks.length*100):0;
  const get=table=>workspaces.find(w=>w.table===table&&w.pid===cloud.project);
  const cost=get('umbau_costs'),material=get('umbau_materials');
- const sum=(rows,key)=>rows.reduce((total,row)=>total+Number(row[key]||0),0);
+ const totals=costTotals(cost?.rows||[],projectBudgetRows());
  const cards=[
    ['Aufgaben erledigt',done+' %','aufgaben'],
    ['Offene Aufgaben',String(tasks.length-complete),'aufgaben'],
-   ['Restbudget',cost?money(sum(cost.rows,'planned')-sum(cost.rows,'actual')):'Wird geladen …','kosten'],
+   ['Restbudget',cost&&totals.budget!==null?money(totals.budget-totals.actual):budgetState.error?'Nicht verfügbar':'—','kosten'],
    ['Materialbedarf offen',material?String(material.rows.filter(r=>!r.purchased).length):'Wird geladen …','aufgaben','materialWorkspace']
  ];
  const summary=node('div',null,root,'dashboard-intro');
@@ -608,9 +609,9 @@ function renderRenovation(){renderDashboard();
    };
    const jump=node('button',t.text,controls);jump.type='button';jump.onclick=()=>openRoomSearch(t.room_id,t.id);node('small',[t.room,t.trade||'Ohne Gewerk',priorityOptions.find(x=>x[0]===t.priority)?.[1]||'Normal',t.due_date?'Frist '+fmtDate(t.due_date):'Ohne Frist',t.done?'Erledigt':'Offen'].join(' · '),row)}
 }
-function clearWorkspaces(){historicObserver?.disconnect();highlightedTaskRoom='';taskPlanTransform=null;calendarDay='';Object.assign(calendarFilters,{room:'',trade:'',kind:'',period:'open'});Object.keys(archiveFilters).forEach(k=>archiveFilters[k]='');historicState={pid:null,phase:null,phases:[],models:[],rot:-0.72,floor:'all'};$('historicWorkspace')?.replaceChildren();workspaceEpoch++;for(const w of workspaces){w.rows=[];w.pid=null;w.edit=null;w.busy=false;$(w.root)?.replaceChildren()}}
-async function loadWorkspaces(){const pid=cloud.project,epoch=workspaceEpoch;if(!pid||!cloud.role)return;for(const w of workspaces){if(w.busy||($(w.root)?.querySelector('form[data-dirty="true"]')&&w.pid===pid))continue;try{const rows=await api(w.table,'?project_id=eq.'+encodeURIComponent(pid)+'&select=*&order=created_at.desc');if(epoch!==workspaceEpoch||pid!==cloud.project||!cloud.role)return;w.rows=rows||[];w.pid=pid;renderWorkspace(w)}catch(e){if(epoch===workspaceEpoch&&pid===cloud.project){const root=$(w.root);root.replaceChildren();node('h2',w.title,root);node('p','Laden fehlgeschlagen: '+e.message,root);const retry=node('button','Erneut laden',root);retry.onclick=()=>loadWorkspaces()}}}}
-function wsField(form,f,value){const label=node('label',f.label,form);label.classList.add('workspace-field');label.dataset.fieldType=f.type||'text';let input;if(f.type==='reminders'){const box=node('div',null,label);box.className='reminder-options';for(const [minutes,title] of reminderOptions){const l=node('label',null,box),c=node('input',null,l);c.type='checkbox';c.name=f.key+'_'+minutes;c.checked=(value||[]).includes(minutes);node('span',title,l)}return box}else if(f.type==='select'||f.type==='room'||f.type==='task'){input=node('select',null,label);optionList(input,f.type==='room'?[['','Projekt gesamt'],...allRooms().map(r=>[r.id,r.label])]:f.type==='task'?[['','Keine Aufgabe']]:f.options)}else if(f.type==='textarea'){input=node('textarea',null,label);input.rows=2}else{input=node('input',null,label);input.type=f.type||'text';if(f.step)input.step=f.step;if(f.min!=null)input.min=f.min;if(f.max!=null)input.max=f.max;if(f.type==='text')input.maxLength=300}input.name=f.key;input.required=!!f.required;if(f.type==='checkbox')input.checked=!!value;else if(f.type!=='file')input.value=value??f.default??'';return input}
+function clearWorkspaces(){budgetState={pid:null,rows:[],error:false};historicObserver?.disconnect();highlightedTaskRoom='';taskPlanTransform=null;calendarDay='';Object.assign(calendarFilters,{room:'',trade:'',kind:'',period:'open'});Object.keys(archiveFilters).forEach(k=>archiveFilters[k]='');historicState={pid:null,phase:null,phases:[],models:[],rot:-0.72,floor:'all'};$('historicWorkspace')?.replaceChildren();workspaceEpoch++;for(const w of workspaces){w.rows=[];w.pid=null;w.edit=null;w.busy=false;$(w.root)?.replaceChildren()}}
+async function loadWorkspaces(){const pid=cloud.project,epoch=workspaceEpoch;if(!pid||!cloud.role)return;try{const budgets=await api('umbau_budgets','?select=trade,amount&project_id=eq.'+encodeURIComponent(pid));if(epoch!==workspaceEpoch||pid!==cloud.project||!cloud.role)return;budgetState={pid,rows:budgets,error:false}}catch(e){if(epoch!==workspaceEpoch||pid!==cloud.project)return;budgetState={pid,rows:[],error:true}}renderDashboard();for(const w of workspaces){if(w.busy||($(w.root)?.querySelector('form[data-dirty="true"]')&&w.pid===pid))continue;try{const rows=await api(w.table,'?project_id=eq.'+encodeURIComponent(pid)+'&select=*&order=created_at.desc');if(epoch!==workspaceEpoch||pid!==cloud.project||!cloud.role)return;w.rows=rows||[];w.pid=pid;renderWorkspace(w)}catch(e){if(epoch===workspaceEpoch&&pid===cloud.project){const root=$(w.root);root.replaceChildren();node('h2',w.title,root);node('p','Laden fehlgeschlagen: '+e.message,root);const retry=node('button','Erneut laden',root);retry.onclick=()=>loadWorkspaces()}}}}
+function wsField(form,f,value){const label=node('label',f.label,form);label.classList.add('workspace-field');label.dataset.fieldType=f.type||'text';let input;if(f.type==='reminders'){const box=node('div',null,label);box.className='reminder-options';for(const [minutes,title] of reminderOptions){const l=node('label',null,box),c=node('input',null,l);c.type='checkbox';c.name=f.key+'_'+minutes;c.checked=(value||[]).includes(minutes);node('span',title,l)}return box}else if(f.type==='select'||f.type==='room'||f.type==='task'){input=node('select',null,label);optionList(input,f.type==='room'?[['','Projekt gesamt'],...allRooms().map(r=>[r.id,r.label])]:f.type==='task'?[['','Keine Aufgabe']]:typeof f.options==='function'?f.options(value):f.options)}else if(f.type==='textarea'){input=node('textarea',null,label);input.rows=2}else{input=node('input',null,label);input.type=f.type||'text';if(f.step)input.step=f.step;if(f.min!=null)input.min=f.min;if(f.max!=null)input.max=f.max;if(f.type==='text')input.maxLength=300}input.name=f.key;input.required=!!f.required;if(f.type==='checkbox')input.checked=!!value;else if(f.type!=='file')input.value=value??f.default??'';return input}
 function pathEncoded(path){return path.split('/').map(encodeURIComponent).join('/')}
 async function workspaceUpload(file,pid,folder){if(!file)return null;const ext=file.name.split('.').pop().toLowerCase();if(!['pdf','jpg','jpeg','png','webp','heic'].includes(ext)||file.size>20*1024*1024)throw Error('Erlaubt: PDF oder Bild, maximal 20 MB.');const types={pdf:'application/pdf',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',heic:'image/heic'};const path=pid+'/'+folder+'/'+uid()+'.'+ext;await cloudFetch('/storage/v1/object/umbau26/'+pathEncoded(path),{method:'POST',headers:{'Content-Type':types[ext],'x-upsert':'false'},body:file});return path}
 async function openWorkspaceFile(path,status){const pid=cloud.project;if(!path||!pid||!path.startsWith(pid+'/'))return;try{const res=await cloudFetch('/storage/v1/object/sign/umbau26/'+pathEncoded(path),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expiresIn:120})});if(pid!==cloud.project||!cloud.role)return;const href=CLOUD_URL+'/storage/v1'+res.signedURL;const a=node('a','Datei öffnen (2 Min.)',status);a.href=href;a.target='_blank';a.rel='noopener noreferrer'}catch(e){status.textContent='Datei nicht verfügbar: '+e.message}}
@@ -622,30 +623,100 @@ function renderWorkspace(w){
   const edited=w.rows.find(r=>r.id===w.edit),form=node('form',null,root,'workspace-form');const fields=node('div',null,form,'workspace-fields');
   for(const f of w.fields)wsField(fields,f,edited?.[f.key]??(typeof f.default==='function'?f.default():f.default));if(w.table==='umbau_appointments')bindAppointmentTask(form,edited?.task_id);
   if(w.folder){node('small','PDF oder Bild bis 20 MB. Beim Ersetzen oder Löschen eines Eintrags bleibt die alte Datei zur Sicherheit im Speicher erhalten.',form);const label=node('div',null,fields,'workspace-file-field');const id='file-'+w.root;const title=node('label',edited?.storage_path?'Neue Datei (optional)':'Datei (optional)',label);title.htmlFor=id;const input=node('input',null,label,'workspace-file-native');input.type='file';input.id=id;input.name='attachment';input.accept='.pdf,.jpg,.jpeg,.png,.webp,.heic';const pick=node('label','Datei auswählen',label,'workspace-file-pick');pick.htmlFor=id;const filename=node('span','Keine Datei ausgewählt',label,'workspace-file-name');filename.setAttribute('aria-live','polite');input.addEventListener('change',()=>{filename.textContent=input.files?.[0]?.name||'Keine Datei ausgewählt';form.dataset.dirty='true'})}
-  fields.before(node('h3',edited?'Eintrag bearbeiten':'Neuer Eintrag'));const submit=node('button',edited?'Änderungen speichern':'Hinzufügen',form,'workspace-primary');submit.type='submit';const cancel=node('button','Abbrechen',form);cancel.type='button';cancel.hidden=!edited;cancel.onclick=()=>{w.edit=null;renderWorkspace(w)};
+  fields.before(node('h3',edited?(w.editLabel||'Eintrag bearbeiten'):(w.newLabel||'Neuer Eintrag')));const submit=node('button',edited?'Änderungen speichern':(w.submitLabel||'Hinzufügen'),form,'workspace-primary');submit.type='submit';const cancel=node('button','Abbrechen',form);cancel.type='button';cancel.hidden=!edited;cancel.onclick=()=>{w.edit=null;renderWorkspace(w)};
   form.addEventListener('input',()=>{form.dataset.dirty='true'});
   form.onsubmit=async e=>{e.preventDefault();if(w.busy||!writableWorkspace()||!form.reportValidity())return;const pid=cloud.project,epoch=workspaceEpoch,body={project_id:pid,updated_at:new Date().toISOString()};let uploaded=null;for(const f of w.fields){if(f.type==='reminders'){body[f.key]=reminderOptions.filter(([m])=>form.elements.namedItem(f.key+'_'+m)?.checked).map(([m])=>m);continue}const el=form.elements.namedItem(f.key);body[f.key]=f.type==='checkbox'?el.checked:f.type==='number'?(el.value===''?null:Number(el.value)):['date','room','task'].includes(f.type)?el.value||null:el.value.trim()}w.busy=true;submit.disabled=true;status.textContent='Speichere …';try{const file=form.elements.namedItem('attachment')?.files?.[0];if(file){uploaded=await workspaceUpload(file,pid,w.folder);body.storage_path=uploaded}if(pid!==cloud.project||epoch!==workspaceEpoch||!writableWorkspace())throw Error('Sitzung geändert');const result=await api(w.table,edited?'?id=eq.'+edited.id+'&project_id=eq.'+pid:'',{method:edited?'PATCH':'POST',headers:{Prefer:'return=representation'},body:JSON.stringify(body)});if(!Array.isArray(result)||result.length!==1)throw Error('Speichern nicht bestätigt');uploaded=null;if(epoch!==workspaceEpoch||pid!==cloud.project)return;w.edit=null;form.dataset.dirty='false';w.rows=edited?w.rows.map(row=>row.id===edited.id?result[0]:row):[result[0],...w.rows];renderWorkspace(w);void loadActivity()}catch(err){status.textContent='Speichern fehlgeschlagen: '+err.message;if(uploaded&&pid===cloud.project&&epoch===workspaceEpoch){try{await cloudFetch('/storage/v1/object/umbau26/'+pathEncoded(uploaded),{method:'DELETE'})}catch{}}}finally{w.busy=false;submit.disabled=false}};
  }
- const rows=w.rows.filter(row=>!w.filter||w.filter(row));if(w.sort)rows.sort(w.sort);const listHead=node('div',null,root,'workspace-list-heading');node('h3','Einträge',listHead);node('span',String(rows.length),listHead,'workspace-count');if(!rows.length)node('p',w.rows.length?'Keine passenden Einträge.':'Noch keine Einträge vorhanden.',root,'workspace-empty');
- for(const row of rows){const item=node('div',null,w.table==='umbau_appointments'?root.querySelector('.month-calendar-entries'):root,'workspace-row');item.dataset.entryId=row.id;if(w.table==='umbau_appointments'){item.dataset.appointmentDate=row.event_date;item.hidden=row.event_date!==calendarDay}node('strong',row.title,item);node('small',[roomName(row.room_id),row.trade,...w.details(row)].filter(Boolean).join(' · '),item);if(row.notes)node('p',row.notes,item);const actions=node('div',null,item,'workspace-actions');if(row.storage_path){const b=node('button','Datei anzeigen',actions);b.onclick=()=>{const area=node('span','',actions);void openWorkspaceFile(row.storage_path,area)}}if(writableWorkspace()){if(w.extraActions)w.extraActions(row,actions,status,w);const edit=node('button','Bearbeiten',actions);edit.onclick=()=>{if(w.busy)return;if(root.querySelector('form[data-dirty="true"]')&&!confirm('Ungespeicherte Eingaben verwerfen?'))return;w.edit=row.id;renderWorkspace(w);root.querySelector('form')?.scrollIntoView({block:'nearest',behavior:'smooth'})};const del=node('button','Löschen',actions);del.onclick=async()=>{if(w.busy||!writableWorkspace()||!confirm('Eintrag löschen?'))return;const pid=cloud.project,epoch=workspaceEpoch;w.busy=true;try{const result=await api(w.table,'?id=eq.'+row.id+'&project_id=eq.'+pid,{method:'DELETE',headers:{Prefer:'return=representation'}});if(!Array.isArray(result)||result.length!==1)throw Error('Löschen nicht bestätigt');if(epoch!==workspaceEpoch||pid!==cloud.project)return;w.rows=w.rows.filter(r=>r.id!==row.id);w.edit=null;renderWorkspace(w);void loadActivity()}catch(e){status.textContent='Löschen fehlgeschlagen: '+e.message}finally{w.busy=false}}}}
+ const rows=w.rows.filter(row=>!w.filter||w.filter(row));if(w.sort)rows.sort(w.sort);
+ let listRoot=root;
+ if(w.listLabel){
+   listRoot=node('details',null,root,'invoice-list');
+   node('summary',w.listLabel+' · '+rows.length,listRoot);
+   root.insertBefore(listRoot,root.querySelector('.workspace-form'));
+   listRoot.open=!!w.listOpen||!!w.edit;
+   listRoot.ontoggle=()=>{if(listRoot.isConnected)w.listOpen=listRoot.open};
+ }else{
+   const listHead=node('div',null,root,'workspace-list-heading');node('h3','Einträge',listHead);node('span',String(rows.length),listHead,'workspace-count');
+ }
+ if(!rows.length)node('p',w.rows.length?'Keine passenden Einträge.':'Noch keine Einträge vorhanden.',listRoot,'workspace-empty');
+ for(const row of rows){const item=node('div',null,w.table==='umbau_appointments'?root.querySelector('.month-calendar-entries'):listRoot,'workspace-row');item.dataset.entryId=row.id;if(w.table==='umbau_appointments'){item.dataset.appointmentDate=row.event_date;item.hidden=row.event_date!==calendarDay}node('strong',row.title,item);node('small',[roomName(row.room_id),row.trade,...w.details(row)].filter(Boolean).join(' · '),item);if(row.notes)node('p',row.notes,item);const actions=node('div',null,item,'workspace-actions');if(row.storage_path){const b=node('button','Datei anzeigen',actions);b.onclick=()=>{const area=node('span','',actions);void openWorkspaceFile(row.storage_path,area)}}if(writableWorkspace()){if(w.extraActions)w.extraActions(row,actions,status,w);const edit=node('button','Bearbeiten',actions);edit.onclick=()=>{if(w.busy)return;if(root.querySelector('form[data-dirty="true"]')&&!confirm('Ungespeicherte Eingaben verwerfen?'))return;w.edit=row.id;renderWorkspace(w);root.querySelector('form')?.scrollIntoView({block:'nearest',behavior:'smooth'})};const del=node('button','Löschen',actions);del.onclick=async()=>{if(w.busy||!writableWorkspace()||!confirm('Eintrag löschen?'))return;const pid=cloud.project,epoch=workspaceEpoch;w.busy=true;try{const result=await api(w.table,'?id=eq.'+row.id+'&project_id=eq.'+pid,{method:'DELETE',headers:{Prefer:'return=representation'}});if(!Array.isArray(result)||result.length!==1)throw Error('Löschen nicht bestätigt');if(epoch!==workspaceEpoch||pid!==cloud.project)return;w.rows=w.rows.filter(r=>r.id!==row.id);w.edit=null;renderWorkspace(w);void loadActivity()}catch(e){status.textContent='Löschen fehlgeschlagen: '+e.message}finally{w.busy=false}}}}
 }
 const sharedFields=[{key:'title',label:'Bezeichnung',required:true},{key:'room_id',label:'Raum',type:'room'},{key:'trade',label:'Gewerk'},{key:'notes',label:'Notizen',type:'textarea'}];
 workspaces.push({root:'materialWorkspace',table:'umbau_materials',title:'Materialbedarf',description:'Materialliste je Raum und Gewerk. Mengen und Beschaffungsstatus werden in Supabase gespeichert.',fields:[...sharedFields,{key:'quantity',label:'Menge',type:'number',step:'any',min:.001,default:1,required:true},{key:'unit',label:'Einheit',default:'Stk.',required:true},{key:'purchased',label:'Beschafft',type:'checkbox'}],details:r=>[r.quantity+' '+r.unit,r.purchased?'Beschafft':'Offen'],rows:[],pid:null,edit:null,busy:false});
 
 
+let budgetState={pid:null,rows:[],error:false};
+function projectBudgetRows(){return budgetState.pid===cloud.project?budgetState.rows:[]}
+function isInvoice(row){return typeof row.paid==='boolean'}
+function costTotals(rows,budgets){
+ const invoices=rows.filter(isInvoice);
+ const sum=items=>items.reduce((total,row)=>total+Math.round(Number(row.actual||0)*100),0)/100;
+ const actual=sum(invoices),open=sum(invoices.filter(row=>!row.paid));
+ const total=budgets.find(row=>row.trade==='');
+ return {budget:total?Number(total.amount):null,actual,open};
+}
+function costTradeOptions(value){
+ const budgets=projectBudgetRows().map(row=>row.trade).filter(Boolean);
+ const w=workspaces.find(w=>w.table==='umbau_costs'&&w.pid===cloud.project);
+ const names=new Set([...budgets,...(w?.rows||[]).map(row=>row.trade).filter(Boolean),value].filter(Boolean));
+ names.delete('Sonstiges');
+ return [['','Gewerk auswählen'],...[...names].sort((a,b)=>a.localeCompare(b,'de')).map(name=>[name,name]),['Sonstiges','Sonstiges']];
+}
 function costSummary(root,rows){
- const sum=(key)=>rows.reduce((a,r)=>a+Number(r[key]||0),0),planned=sum('planned'),actual=sum('actual'),balance=planned-actual;
- const m=node('div',null,root,'workspace-metrics');for(const [title,value] of [['Budget',money(planned)],['Ist-Kosten',money(actual)],['Restbudget',money(balance)],['Budgetnutzung',planned>0?Math.round(actual/planned*100)+' %':'—']]){const card=node('div',null,m);node('strong',value,card);node('small',title,card)}
- const p=node('progress',null,root);p.max=100;p.value=planned>0?Math.min(100,actual/planned*100):0;p.setAttribute('aria-label','Budgetnutzung');
- if(balance<0)node('p','Budget überschritten: '+money(-balance),root,'workspace-status');
- for(const [label,get] of [['Nach Gewerk',r=>r.trade||'Ohne Gewerk'],['Nach Raum',r=>roomName(r.room_id)]]){
- const d=node('details',null,root);node('summary',label,d);const groups=new Map();for(const r of rows){const key=get(r),v=groups.get(key)||{planned:0,actual:0};v.planned+=Number(r.planned||0);v.actual+=Number(r.actual||0);groups.set(key,v)}
- const table=node('table',null,d,'cost-breakdown');const head=node('tr',null,table);for(const t of ['Bereich','Soll','Ist','Rest'])node('th',t,head);
- for(const [key,v] of [...groups].sort((a,b)=>b[1].actual-a[1].actual)){const tr=node('tr',null,table);for(const t of [key,money(v.planned),money(v.actual),money(v.planned-v.actual)])node('td',t,tr)}
+ const budgets=projectBudgetRows();
+ const {budget,actual,open}=costTotals(rows,budgets);
+ const balance=budget===null?null:budget-actual,percent=budget>0?Math.round(actual/budget*100):null;
+ const metrics=node('div',null,root,'workspace-metrics');
+ for(const [title,value] of [['Gesamtbudget',budget===null?'—':money(budget)],['Ist-Kosten',money(actual)],['Restbudget',balance===null?'—':money(balance)],['Budgetnutzung',percent===null?'—':percent+' %'],['Offene Rechnungen',money(open)]]){
+   const card=node('div',null,metrics);node('strong',value,card);node('small',title,card);
+ }
+ if(budgetState.pid===cloud.project&&budgetState.error)node('p','Das Budget konnte nicht geladen werden.',root,'workspace-status');
+ const details=node('details',null,root,'budget-breakdown');
+ node('summary','Budgetübersicht nach Gewerken',details);
+ const groups=new Map();
+ for(const row of budgets)if(row.trade)groups.set(row.trade,{budget:Number(row.amount),actual:0});
+ for(const row of rows.filter(isInvoice)){
+   const trade=row.trade||'Sonstiges',entry=groups.get(trade)||{budget:null,actual:0};
+   entry.actual+=Math.round(Number(row.actual||0)*100);
+   groups.set(trade,entry);
+ }
+ if(!groups.size)node('p','Die Einzelbudgets werden ergänzt, sobald sie feststehen.',details,'workspace-empty');
+ else{
+   const table=node('table',null,details,'cost-breakdown'),head=node('tr',null,table);
+   for(const label of ['Gewerk','Budget','Ist-Kosten','Restbudget'])node('th',label,head);
+   for(const [name,value] of [...groups].sort(([a],[b])=>a.localeCompare(b,'de'))){
+     const row=node('tr',null,table);
+     for(const part of [name,value.budget===null?'—':money(value.budget),money(value.actual/100),value.budget===null?'—':money(value.budget-value.actual/100)])node('td',part,row);
+   }
+ }
+ const legacy=rows.filter(row=>!isInvoice(row));
+ if(legacy.length){
+   const history=node('details',null,root);
+   node('summary','Frühere Kostenpositionen · '+legacy.length,history);
+   node('p','Diese Positionen werden separat geführt.',history);
+   for(const row of legacy){const item=node('div',null,history,'workspace-row');node('strong',row.title,item);node('small','Budget '+money(row.planned)+' · Ist '+money(row.actual),item);
+     if(row.storage_path){const button=node('button','Beleg anzeigen',item);button.type='button';button.onclick=()=>void openWorkspaceFile(row.storage_path,node('span','',item));}
+   }
  }
 }
-workspaces.push({root:'costWorkspace',table:'umbau_costs',title:'Kostenpositionen',description:'Geplante und tatsächliche Beträge in EUR. Belege bleiben im privaten Supabase-Speicher.',fields:[...sharedFields,{key:'planned',label:'Budget (€)',type:'number',min:0,step:'.01',default:0,required:true},{key:'actual',label:'Ist-Kosten (€)',type:'number',min:0,step:'.01',default:0,required:true},{key:'invoice_date',label:'Rechnungsdatum',type:'date'}],folder:'Belege',summary:costSummary,details:r=>['Soll '+money(r.planned),'Ist '+money(r.actual),'Rest '+money(Number(r.planned)-Number(r.actual)),r.invoice_date?'Rechnung '+fmtDate(r.invoice_date):''],rows:[],pid:null,edit:null,busy:false});
-
+workspaces.push({
+ root:'costWorkspace',table:'umbau_costs',title:'Kostenpositionen',
+ description:'Geplante und tatsächliche Beträge in EUR. Belege bleiben im privaten Supabase-Speicher.',
+ fields:[
+   {key:'title',label:'Bezeichnung',required:true},
+   {key:'trade',label:'Gewerk',type:'select',options:costTradeOptions,required:true},
+   {key:'room_id',label:'Zuordnung',type:'room'},
+   {key:'actual',label:'Rechnungsbetrag (€)',type:'number',min:.01,step:'.01',required:true},
+   {key:'invoice_date',label:'Rechnungsdatum',type:'date',default:todayLocal,required:true},
+   {key:'paid',label:'Bezahlt',type:'checkbox',default:false},
+   {key:'notes',label:'Notizen',type:'textarea'}
+ ],
+ folder:'Belege',summary:costSummary,filter:isInvoice,listLabel:'Rechnungen',
+ editLabel:'Rechnung bearbeiten',newLabel:'Neue Rechnung',submitLabel:'Rechnung hinzufügen',
+ sort:(a,b)=>String(b.invoice_date||'').localeCompare(String(a.invoice_date||'')),
+ details:r=>[money(r.actual),r.paid?'Bezahlt':'Offen',r.invoice_date?fmtDate(r.invoice_date):''],
+ rows:[],pid:null,edit:null,busy:false
+});
 
 const archiveFilters={category:'',search:'',room:'',trade:'',file:''};
 
