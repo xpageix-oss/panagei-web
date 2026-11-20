@@ -61,7 +61,7 @@
   #panageiAuth {column-gap:8px;}
   #panageiAuth input {padding:0 9px;font-size:14px;}
 }
-</style><div id="panageiLanding"><div id="panageiWatermarks" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 4v16M4 9h16M12 9v11M12 14h8"/><path d="M8 2v4M16 2v4M8 18v4M16 18v4"/></svg><svg viewBox="0 0 24 24"><path d="M3 21 21 3l-4-1-4 4 5 5 4-4-1-4M3 21l6-2-4-4-2 6Z"/><path d="m8 16 2 2M12 12l2 2"/></svg><svg viewBox="0 0 24 24"><path d="M4 4h16v5H4zM7 9v11M17 9v11M4 20h16M10 4v5M14 4v5"/><path d="M7 13h10M7 17h10"/></svg><svg viewBox="0 0 24 24"><path d="M4 18h16M7 18l2-12h6l2 12M9 6h6M10 10h4M10 14h4"/><path d="M2 21h20"/></svg><svg viewBox="0 0 24 24"><path d="M3 10 12 3l9 7v11H3zM9 21v-8h6v8M3 10h18"/></svg><svg viewBox="0 0 24 24"><path d="M4 5h16M6 5v14M18 5v14M6 19h12M9 8h6v8H9z"/><path d="M12 2v3M12 19v3"/></svg><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5M2 7h3M19 14h3"/></svg></div><button type="button" id="panageiLogo" aria-label="Anmeldung anzeigen" aria-expanded="false">PANAGEI<span>+</span></button><form id="panageiAuth" hidden><input id="panageiEmail" type="text" autocomplete="email" placeholder="Benutzername / E-Mail" aria-label="Benutzername oder E-Mail" required><input id="panageiPassword" type="password" autocomplete="current-password" placeholder="Passwort" aria-label="Passwort" required minlength="6"><button type="submit" id="panageiSignIn">Anmelden</button><button type="button" id="panageiSignUp" hidden>Registrieren</button><div id="panageiMessage" role="status" aria-live="polite"></div></form></div><div id="panageiApp" hidden><header><small>PANAGEI<span style="color:#65e1c4;font-weight:900;display:inline;margin:0">+</span> / UMBAU 2026</small><h1>Digitale Gebäudeakte</h1><span>Gebäude · Dokumentation · Sanierung</span></header><div id="panageiTabs" role="tablist" aria-label="PANAGEI Navigation"><button type="button" data-panagei-tab="dashboard" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg><span><strong>Dashboard</strong><small>Projektübersicht</small></span></button><button type="button" data-panagei-tab="historie" role="tab" aria-selected="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7M3 4v8h8m1-5v5l3 2"/></svg><span><strong>Bauhistorie</strong><small>Bauzustände</small></span></button><button type="button" data-panagei-tab="bauteile" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg><span><strong>Bauverzeichnis</strong><small>Stockwerke & Räume</small></span></button><button type="button" data-panagei-tab="technik" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-12h-7l1-8Z"/></svg><span><strong>Gebäudetechnik</strong><small>Installationen</small></span></button><button type="button" data-panagei-tab="infos" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 18V5a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v2M3 18l3-8h16l-3 9H5a2 2 0 0 1-2-1Z"/></svg><span><strong>Dokumente</strong><small>Originalunterlagen</small></span></button><button type="button" data-panagei-tab="aufgaben" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 6 2 2 3-4m2 2h11M3 12l2 2 3-4m2 2h11M3 18l2 2 3-4m2 2h11"/></svg><span><strong>Aufgaben</strong><small>Räume & Sanierung</small></span></button><button type="button" data-panagei-tab="modell" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 9 5v9l-9 5-9-5V8l9-5ZM3 8l9 5 9-5m-9 5v9"/></svg><span><strong>Hausmodell</strong><small>3D-Ansicht</small></span></button><button type="button" data-panagei-tab="kosten" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M19 5a8 8 0 1 0 0 14M3 10h12M3 14h10"/></svg><span><strong>Kosten</strong><small>Budget &amp; Belege</small></span></button><button type="button" data-panagei-tab="archiv" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="5" rx="1"/><path d="M5 8v12h14V8m-10 4h6"/></svg><span><strong>Gebäudearchiv</strong><small>Fotos &amp; Wartung</small></span></button><button type="button" data-panagei-tab="tagebuch" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5c-3-3-6-3-10-2v16c4-1 7-1 10 2 3-3 6-3 10-2V3c-4-1-7-1-10 2Zm0 0v16M5 8h3m-3 4h3m8-4h3m-3 4h3"/></svg><span><strong>Bautagebuch</strong><small>Tagesberichte</small></span></button><button type="button" data-panagei-tab="installation" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 11h8v10m0-10V3m5 7h5m-5 5 2-3 2 3-2 3z"/></svg><span><strong>Installationspläne</strong><small>Dokumentation</small></span></button><button type="button" data-panagei-tab="zeitreise" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 7 5 3v6l-5 3-5-3v-6l5-3Zm-5 3 5 3 5-3m-5 3v6M3 12a9 9 0 0 1 15-6.7L21 8m0-5v5h-5M21 14a9 9 0 0 1-15 5.7L3 17m0 5v-5h5"/></svg><span><strong>3D-Zeitreise</strong><small>Historische Bauzustände</small></span></button><button type="button" data-panagei-tab="calendar" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18m-14 4h2m3 0h2m3 0h1M7 17h2m3 0h2"/></svg><span><strong>Kalender</strong><small>Termine & Fristen</small></span></button><button type="button" data-panagei-tab="settings" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m10 3-1 3-3 1-3 3 2 2-2 2 3 3 3 1 1 3h4l1-3 3-1 3-3-2-2 2-2-3-3-3-1-1-3Z"/></svg><span><strong>Einstellungen</strong><small>App & Darstellung</small></span></button><button type="button" data-panagei-tab="admin" role="tab" aria-selected="false" hidden><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 3 7v5c0 5 4 8 9 10 5-2 9-5 9-10V7l-9-4Z"/><path d="m8 12 3 3 5-6"/></svg><span><strong>Administration</strong><small>Verwaltung</small></span></button></div><main class="panagei-model-page" id="panageiModelPage" hidden role="tabpanel"><div class="model-heading"><div class="model-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="m3 7 9-5 9 5v10l-9 5-9-5zM3 7l9 5 9-5M12 12v10"/></svg></div><div><h2>Hausmodell</h2><p>Interaktive Gebäudeansicht</p></div></div><section class="model-stage"><nav><select id="level"><option value="all">Gesamtes Haus</option></select><button id="iso">3D-Ansicht</button><button id="top">Draufsicht</button><button id="zoomIn" aria-label="Vergrößern">＋ Zoom</button><button id="zoomOut" aria-label="Verkleinern">− Zoom</button><button id="obj">OBJ exportieren</button></nav><div id="modelFallback"><p style="padding:0 16px" id="modelStatus">Hausmodell wird nach der Anmeldung aus der Datenbank geladen.</p></div><canvas id="view" style="display:none;min-height:320px"></canvas><p class="note" style="padding:0 18px">Ein Finger: drehen · Zwei Finger oder Zoom-Tasten: vergrößern · Mausrad: zoomen · Etagen einzeln wählen für Einblick. Wände ohne künstliche Teilungsfugen; verdeckte Flächen werden nach Tiefe dargestellt. OBJ exportiert die aktuell gewählte Ansicht mit allen Bauteilen dieser Auswahl. Tippe oder klicke auf ein Bauteil oder einen Raum, um Details zu sehen.</p><div id="modelInspector" class="model-inspector"><div class="inspector-head"><div><h3>Gebäudedetails</h3><p>Bauteil im Modell anklicken oder Raum auswählen.</p></div><button id="modelClearSelection" type="button">Auswahl aufheben</button></div><label for="modelRoomSelect">Raum auswählen</label><select id="modelRoomSelect"><option value="">Kein Raum ausgewählt</option></select><div id="modelSelectionDetails" aria-live="polite"></div><div id="modelEditStatus" role="status"></div></div></section><section id="cloudBox" style="background:#f3f8f6;border:1px solid #a4b8b0;padding:12px;border-radius:10px;margin:12px 0;font:14px system-ui"><b>PANAGEI+ · Cloud</b><div id="cloudStatus" role="status">Nicht angemeldet</div><div id="cloudLogin"><input id="cloudEmail" type="email" placeholder="E-Mail" style="max-width:210px"><input id="cloudPassword" type="password" placeholder="Passwort (mind. 6 Zeichen)" style="max-width:210px"><button id="cloudSignIn">Anmelden</button><button id="cloudSignUp">Registrieren</button></div><div id="cloudLogged" hidden><span id="cloudIdentity"></span> <button id="cloudLogout">Abmelden</button><div><button id="cloudRefresh">Cloud neu laden</button><button id="cloudInvite">Mitglied hinzufügen</button></div><div id="cloudProjects"></div><p style="font-size:12px">Änderungen werden nach dem Speichern synchronisiert. Bei mehreren gleichzeitigen Bearbeitungen desselben Raums können Konflikte entstehen. </p></div></section><aside id="projectPanel"></aside></main><div id="panageiHistoryPage" class="panagei-page" role="tabpanel"><div class="history-heading"><div class="history-clock" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="19"/><path d="M24 12v13l9 5"/></svg></div><div><h2>Bauhistorie</h2><p class="panagei-lead">Die bauliche Entwicklung des Gebäudes</p></div></div><div id="historyCards"></div></div><div id="panageiComponentsPage" class="panagei-page" hidden role="tabpanel"><h2>Bauverzeichnis</h2><p class="panagei-lead">Aktueller Zustand nach Stockwerk und Raum.</p><div id="panageiRoomCenter" class="panagei-panel"></div><div id="inventoryCards"></div></div><div id="panageiTechPage" class="panagei-page" hidden role="tabpanel"><h2>Gebäudetechnik</h2><p class="panagei-lead">Installationen und Erneuerungen.</p><div id="techCards"></div></div>
+</style><div id="panageiLanding"><div id="panageiWatermarks" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 4v16M4 9h16M12 9v11M12 14h8"/><path d="M8 2v4M16 2v4M8 18v4M16 18v4"/></svg><svg viewBox="0 0 24 24"><path d="M3 21 21 3l-4-1-4 4 5 5 4-4-1-4M3 21l6-2-4-4-2 6Z"/><path d="m8 16 2 2M12 12l2 2"/></svg><svg viewBox="0 0 24 24"><path d="M4 4h16v5H4zM7 9v11M17 9v11M4 20h16M10 4v5M14 4v5"/><path d="M7 13h10M7 17h10"/></svg><svg viewBox="0 0 24 24"><path d="M4 18h16M7 18l2-12h6l2 12M9 6h6M10 10h4M10 14h4"/><path d="M2 21h20"/></svg><svg viewBox="0 0 24 24"><path d="M3 10 12 3l9 7v11H3zM9 21v-8h6v8M3 10h18"/></svg><svg viewBox="0 0 24 24"><path d="M4 5h16M6 5v14M18 5v14M6 19h12M9 8h6v8H9z"/><path d="M12 2v3M12 19v3"/></svg><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5M2 7h3M19 14h3"/></svg></div><button type="button" id="panageiLogo" aria-label="Anmeldung anzeigen" aria-expanded="false">PANAGEI<span>+</span></button><form id="panageiAuth" hidden><input id="panageiEmail" type="text" autocomplete="email" placeholder="Benutzername / E-Mail" aria-label="Benutzername oder E-Mail" required><input id="panageiPassword" type="password" autocomplete="current-password" placeholder="Passwort" aria-label="Passwort" required minlength="6"><button type="submit" id="panageiSignIn">Anmelden</button><button type="button" id="panageiSignUp" hidden>Registrieren</button><div id="panageiMessage" role="status" aria-live="polite"></div></form></div><div id="panageiApp" hidden><header><small>PANAGEI<span style="color:#65e1c4;font-weight:900;display:inline;margin:0">+</span> / UMBAU 2026</small><h1>Digitale Gebäudeakte</h1><span>Gebäude · Dokumentation · Sanierung</span></header><div id="panageiTabs" role="tablist" aria-label="PANAGEI Navigation"><button type="button" data-panagei-tab="dashboard" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg><span><strong>Dashboard</strong><small>Projektübersicht</small></span></button><button type="button" data-panagei-tab="historie" role="tab" aria-selected="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7M3 4v8h8m1-5v5l3 2"/></svg><span><strong>Bauhistorie</strong><small>Bauzustände</small></span></button><button type="button" data-panagei-tab="bauteile" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg><span><strong>Raumzentrale</strong><small>Stockwerke & Räume</small></span></button><button type="button" data-panagei-tab="infos" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 18V5a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v2M3 18l3-8h16l-3 9H5a2 2 0 0 1-2-1Z"/></svg><span><strong>Dokumente</strong><small>Originalunterlagen</small></span></button><button type="button" data-panagei-tab="aufgaben" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 6 2 2 3-4m2 2h11M3 12l2 2 3-4m2 2h11M3 18l2 2 3-4m2 2h11"/></svg><span><strong>Aufgaben</strong><small>Räume & Sanierung</small></span></button><button type="button" data-panagei-tab="modell" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 9 5v9l-9 5-9-5V8l9-5ZM3 8l9 5 9-5m-9 5v9"/></svg><span><strong>Hausmodell</strong><small>3D-Ansicht</small></span></button><button type="button" data-panagei-tab="kosten" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M19 5a8 8 0 1 0 0 14M3 10h12M3 14h10"/></svg><span><strong>Kosten</strong><small>Budget &amp; Belege</small></span></button><button type="button" data-panagei-tab="calendar" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18m-14 4h2m3 0h2m3 0h1M7 17h2m3 0h2"/></svg><span><strong>Kalender</strong><small>Termine & Fristen</small></span></button><button type="button" data-panagei-tab="settings" role="tab" aria-selected="false"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m10 3-1 3-3 1-3 3 2 2-2 2 3 3 3 1 1 3h4l1-3 3-1 3-3-2-2 2-2-3-3-3-1-1-3Z"/></svg><span><strong>Einstellungen</strong><small>App & Darstellung</small></span></button><button type="button" data-panagei-tab="admin" role="tab" aria-selected="false" hidden><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 3 7v5c0 5 4 8 9 10 5-2 9-5 9-10V7l-9-4Z"/><path d="m8 12 3 3 5-6"/></svg><span><strong>Administration</strong><small>Verwaltung</small></span></button></div><main class="panagei-model-page" id="panageiModelPage" hidden role="tabpanel"><div class="model-heading"><div class="model-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="m3 7 9-5 9 5v10l-9 5-9-5zM3 7l9 5 9-5M12 12v10"/></svg></div><div><h2>Hausmodell</h2><p>Interaktive Gebäudeansicht</p></div></div><section class="model-stage"><nav><select id="level"><option value="all">Gesamtes Haus</option></select><button id="iso">3D-Ansicht</button><button id="top">Draufsicht</button><button id="zoomIn" aria-label="Vergrößern">＋ Zoom</button><button id="zoomOut" aria-label="Verkleinern">− Zoom</button><button id="obj">OBJ exportieren</button></nav><div id="modelFallback"><p style="padding:0 16px" id="modelStatus">Hausmodell wird nach der Anmeldung aus der Datenbank geladen.</p></div><canvas id="view" style="display:none;min-height:320px"></canvas><div id="modelInspector" class="model-inspector"><div class="inspector-head"><div><h3>Gebäudedetails</h3><p>Bauteil im Modell anklicken oder Raum auswählen.</p></div><button id="modelClearSelection" type="button">Auswahl aufheben</button></div><label for="modelRoomSelect">Raum auswählen</label><select id="modelRoomSelect"><option value="">Kein Raum ausgewählt</option></select><div id="modelSelectionDetails" aria-live="polite"></div><div id="modelEditStatus" role="status"></div></div></section><section id="cloudBox" style="background:#f3f8f6;border:1px solid #a4b8b0;padding:12px;border-radius:10px;margin:12px 0;font:14px system-ui"><b>PANAGEI+ · Cloud</b><div id="cloudStatus" role="status">Nicht angemeldet</div><div id="cloudLogin"><input id="cloudEmail" type="email" placeholder="E-Mail" style="max-width:210px"><input id="cloudPassword" type="password" placeholder="Passwort (mind. 6 Zeichen)" style="max-width:210px"><button id="cloudSignIn">Anmelden</button><button id="cloudSignUp">Registrieren</button></div><div id="cloudLogged" hidden><span id="cloudIdentity"></span> <button id="cloudLogout">Abmelden</button><div><button id="cloudRefresh">Cloud neu laden</button><button id="cloudInvite">Mitglied hinzufügen</button></div><div id="cloudProjects"></div><p style="font-size:12px">Änderungen werden nach dem Speichern synchronisiert. Bei mehreren gleichzeitigen Bearbeitungen desselben Raums können Konflikte entstehen. </p></div></section><aside id="projectPanel"></aside></main><div id="panageiHistoryPage" class="panagei-page" role="tabpanel"><div class="history-heading"><div class="history-clock" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="19"/><path d="M24 12v13l9 5"/></svg></div><div><h2>Bauhistorie</h2><p class="panagei-lead">Die bauliche Entwicklung des Gebäudes</p></div></div><div id="historyCards"></div></div><div id="panageiComponentsPage" class="panagei-page" hidden role="tabpanel"><h2>Raumzentrale</h2><p class="panagei-lead">Alle Infos zum Raum.</p><div id="panageiRoomCenter" class="panagei-panel"></div></div>
 <div id="panageiInfoPage" class="panagei-page" hidden role="tabpanel"><h2>Dokumente</h2><p class="panagei-lead">Private Bauunterlagen aus Supabase.</p><div class="panagei-panel"><div id="documentCards"></div><div id="panageiPlanSlot"></div></div></div>
 <div id="panageiTasksPage" class="panagei-page" hidden role="tabpanel"><h2>Aufgaben & Sanierung</h2><p class="panagei-lead">Arbeitsfortschritt, Raumplanung und Materialbedarf.</p>
 <div id="panageiTaskToolbar" class="panagei-panel">
@@ -72,7 +72,7 @@
 <div class="panagei-panel"><div id="panageiTaskCanvas"></div></div>
 <div class="panagei-panel"><h2>Räume und Aufgaben</h2><div id="panageiTaskRooms"></div></div>
 </div><div id="materialWorkspace" class="panagei-panel"></div></div>
-<div id="panageiCostPage" class="panagei-page" hidden role="tabpanel"><h2>Kostenmanagement</h2><p class="panagei-lead">Budget, tatsächliche Ausgaben und Rechnungsbelege.</p><div id="costWorkspace" class="panagei-panel"></div></div><div id="panageiArchivePage" class="panagei-page" hidden role="tabpanel"><h2>Digitales Gebäudearchiv</h2><p class="panagei-lead">Fotodokumentation, Baupläne, technische Unterlagen und Wartungstermine.</p><div class="panagei-panel" id="archiveWorkspace"></div></div><div id="panageiDashboardPage" class="panagei-page" hidden role="tabpanel"><h2>Projektübersicht</h2><p class="panagei-lead">Aufgaben, Material, Kosten und Termine auf einen Blick.</p><div id="panageiGlobalSearch" class="panagei-panel"></div><div id="panageiQuickActions" class="panagei-panel"></div><div id="dashboardWorkspace" class="panagei-panel"></div><div id="panageiSyncPanel" class="panagei-panel"></div><div id="panageiActivity" class="panagei-panel"></div><div id="panageiExport" class="panagei-panel"></div><details class="panagei-install-help"><summary>PANAGEI+ auf dem Home-Bildschirm</summary><p>Auf dem iPhone in Safari: Teilen → Zum Home-Bildschirm → Als Web-App öffnen (falls angezeigt) → Hinzufügen. Diese App öffnet die Live-Version. Internetverbindung und Anmeldung sind für Projektdaten erforderlich.</p></details></div><div id="panageiDiaryPage" class="panagei-page" hidden role="tabpanel"><h2>Bautagebuch</h2><p class="panagei-lead">Arbeiten, Fortschritte und besondere Ereignisse dokumentieren.</p><div id="diaryWorkspace" class="panagei-panel"></div></div><div id="panageiInstallPage" class="panagei-page" hidden role="tabpanel"><h2>Installationspläne</h2><p class="panagei-lead">Dokumentation vorhandener Anschlüsse und Leitungsverläufe. Skizze, keine geprüfte Ausführungsplanung.</p><div id="installWorkspace" class="panagei-panel"></div></div><div id="panageiHistoricPage" class="panagei-page" hidden role="tabpanel"><h2>3D-Zeitreise</h2><p class="panagei-lead">Bauphasen vergleichen. Nur hinterlegte Modellstände werden angezeigt; fehlende Geometrie wird nicht erfunden.</p><div id="historicWorkspace" class="panagei-panel"></div></div><div id="panageiCalendarPage" class="panagei-page" hidden role="tabpanel"><h2>Kalender</h2><p class="panagei-lead">Eigenständige Termine, Aufgabenfristen und Wartungstermine · Ortszeit Deutschland.</p><div id="calendarWorkspace" class="panagei-panel"></div></div><div id="panageiSettingsPage" class="panagei-page" hidden role="tabpanel"><h2>Einstellungen</h2><p class="panagei-lead">Persönliche App-Einstellungen auf diesem Gerät.</p><div id="settingsWorkspace" class="panagei-panel"></div></div><div id="panageiAdminPage" class="panagei-page" hidden role="tabpanel">
+<div id="panageiCostPage" class="panagei-page" hidden role="tabpanel"><h2>Kostenmanagement</h2><p class="panagei-lead">Budget, tatsächliche Ausgaben und Rechnungsbelege.</p><div id="costWorkspace" class="panagei-panel"></div></div><div id="panageiDashboardPage" class="panagei-page" hidden role="tabpanel"><h2>Projektübersicht</h2><p class="panagei-lead">Aufgaben, Material, Kosten und Termine auf einen Blick.</p><div id="panageiGlobalSearch" class="panagei-panel"></div><div id="panageiQuickActions" class="panagei-panel"></div><div id="dashboardWorkspace" class="panagei-panel"></div></div><div id="panageiCalendarPage" class="panagei-page" hidden role="tabpanel"><h2>Kalender</h2><p class="panagei-lead">Eigenständige Termine, Aufgabenfristen und Wartungstermine · Ortszeit Deutschland.</p><div id="calendarWorkspace" class="panagei-panel"></div></div><div id="panageiSettingsPage" class="panagei-page" hidden role="tabpanel"><h2>Einstellungen</h2><p class="panagei-lead">Persönliche App-Einstellungen auf diesem Gerät.</p><div id="settingsWorkspace" class="panagei-panel"></div><div hidden><div id="panageiActivity"></div><div id="panageiExport"></div></div></div><div id="panageiAdminPage" class="panagei-page" hidden role="tabpanel">
 <h2>Administration</h2><p class="panagei-lead">Cloud-Synchronisierung und Mitgliederverwaltung. Nur für Administratoren sichtbar.</p>
 <div class="panagei-panel" id="panageiAdminSlot"></div>
 </div><section id="panageiExistingPlans" style="padding:16px"><h2>Bauzeichnungen</h2><p>Private Originalunterlagen</p><div id="privatePlanStatus" role="status"></div><div id="privatePlanList"></div></section></div><script>
@@ -115,7 +115,7 @@ let x0=Math.max(0,Math.floor(Math.min(a[0],b[0],v[0]))),x1=Math.min(W-1,Math.cei
 for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){let u=((b[1]-v[1])*(x+.5-v[0])+(v[0]-b[0])*(y+.5-v[1]))/den,t=((v[1]-a[1])*(x+.5-v[0])+(a[0]-v[0])*(y+.5-v[1]))/den,w=1-u-t;if(u<-.00001||t<-.00001||w<-.00001)continue;let z=u*a[2]+t*b[2]+w*v[2],i=y*W+x;if(z<depth[i])continue;depth[i]=z;modelPick[i]=f.pick??-1;let j=i*4;pix[j]=rgb[0];pix[j+1]=rgb[1];pix[j+2]=rgb[2];pix[j+3]=255;}}}
 ctx.putImageData(im,0,0);
 }
-function render(){if(!D||!D.levels.length)return;if(!c.clientWidth||!c.clientHeight)return;let d=Math.min(devicePixelRatio||1,1.5);c.width=c.clientWidth*d;c.height=c.clientHeight*d;let all=selected==='all';centerZ=all?(exploded?D.roof.ridge:D.roof.ridge*.5873015873):D.levels[+selected].z+offset(+selected)+D.levels[+selected].height/2;S=c.closest('#panageiTaskCanvas')?Math.min(c.width/(modelPayload.dimensions.length+2),c.height/(modelPayload.dimensions.width+2)):Math.min(c.width/(modelPayload.dimensions.length*1.5151515),c.height/(all?(exploded?D.roof.ridge*2.8571429:modelPayload.dimensions.length*1.5151515):modelPayload.dimensions.length*1.090909))*zoom;if(c.closest('#panageiTaskCanvas')){modelPick=null;modelLabels=[];if(selected==='2')drawOG();else drawOtherPlan(+selected);return;}ctx.clearRect(0,0,c.width,c.height);let faces=[];function face(v,col,pick=-1){let q=v.map(project);const chosen=modelSelection?.kind==='element'&&modelSelection.index===pick&&pick!==-1;faces.push({q,col:chosen?'#e3a84b':col,pick,z:q.reduce((s,p)=>s+p[2],0)/q.length})}for(const [i,b] of D.elements.entries()){if(!visible(b))continue;let v=vertices(b);for(let ix of indices)face(ix.map(j=>v[j]),b.color,i)}if(!c.closest('#panageiTaskCanvas')&&showRoof&&!onlyStairs&&(all||+selected>=3)){for(let [i,f]of roofFaces().entries())face(f,i<2?'#976b52':'#d5d0c4',-2)}paintSolidFaces(faces);drawModelLabels(d);}
+function render(){if(!D||!D.levels.length)return;if(!c.clientWidth||!c.clientHeight)return;let d=Math.min(devicePixelRatio||1,1.5);c.width=c.clientWidth*d;c.height=c.clientHeight*d;let all=selected==='all';centerZ=all?(exploded?D.roof.ridge:D.roof.ridge*.5873015873):D.levels[+selected].z+offset(+selected)+D.levels[+selected].height/2;S=c.closest('#panageiTaskCanvas')?Math.min(c.width/(modelPayload.dimensions.length+2),c.height/(modelPayload.dimensions.width+2)):Math.min(c.width/(modelPayload.dimensions.length*1.5151515),c.height/(all?(exploded?D.roof.ridge*2.8571429:modelPayload.dimensions.length*1.5151515):modelPayload.dimensions.length*1.090909))*zoom;if(c.closest('#panageiTaskCanvas')){modelPick=null;modelLabels=[];if(!drawImportedTaskPlan(+selected)){if(selected==='2')drawOG();else drawOtherPlan(+selected)}return;}ctx.clearRect(0,0,c.width,c.height);let faces=[];function face(v,col,pick=-1){let q=v.map(project);const chosen=modelSelection?.kind==='element'&&modelSelection.index===pick&&pick!==-1;faces.push({q,col:chosen?'#e3a84b':col,pick,z:q.reduce((s,p)=>s+p[2],0)/q.length})}for(const [i,b] of D.elements.entries()){if(!visible(b))continue;let v=vertices(b);for(let ix of indices)face(ix.map(j=>v[j]),b.color,i)}if(!c.closest('#panageiTaskCanvas')&&showRoof&&!onlyStairs&&(all||+selected>=3)){for(let [i,f]of roofFaces().entries())face(f,i<2?'#976b52':'#d5d0c4',-2)}paintSolidFaces(faces);drawModelLabels(d);}
 
 const panel=$('projectPanel');
 let initialInfo='';
@@ -192,7 +192,7 @@ const historyFields={beschreibung:'Beschreibung',baubeginn:'Baubeginn',fertigste
 function historyValues(target,row,keys){const dl=historyNode('dl',null,'history-values');for(const key of keys){const v=row[key];if(v==null||v==='')continue;dl.append(historyNode('dt',historyFields[key]||key),historyNode('dd',typeof v==='boolean'?(v?'Ja':'Nein'):String(v)));}if(dl.children.length)target.append(dl);else target.append(historyNode('p','Noch nicht erfasst.','archive-empty'));}
 function archiveCard(root,title,sub){const card=historyNode('details',null,'history-card'),head=historyNode('summary'),body=historyNode('div',null,'history-body');const label=historyNode('span',null,'archive-label');label.append(historyNode('strong',title));if(sub){const meta=historyNode('span',sub,'archive-meta');label.append(meta);}head.append(label);head.append(historyNode('span',null,'archive-chevron'));card.append(head,body);root.append(card);return body;}
 async function loadHistory(){clearHistory();const gen=historyGeneration,pid=cloud.project,user=cloud.user?.id;const valid=()=>gen===historyGeneration&&cloud.project===pid&&cloud.user?.id===user&&cloud.token&&cloud.role;if(!valid())return;historyLoadedKey=pid+'|'+user;
-const roots=['historyCards','inventoryCards','techCards','documentCards'].map(id=>document.getElementById(id));const query='?select=*&project_id=eq.'+encodeURIComponent(pid);const read=async(root,fn)=>{root.replaceChildren(historyNode('p','Wird geladen …','archive-empty'));try{await fn();}catch(e){if(valid())root.replaceChildren(historyNode('p','Laden fehlgeschlagen: '+e.message,'archive-empty'));}};
+const roots=['historyCards','inventoryCards','techCards','documentCards'].map(id=>document.getElementById(id));const query='?select=*&project_id=eq.'+encodeURIComponent(pid);const read=async(root,fn)=>{if(!root)return;root.replaceChildren(historyNode('p','Wird geladen …','archive-empty'));try{await fn();}catch(e){if(valid())root.replaceChildren(historyNode('p','Laden fehlgeschlagen: '+e.message,'archive-empty'));}};
 const phasesPromise=api('umbau_bauabschnitte',query+'&order=jahr_von.asc,jahr_bis.asc');const year=r=>r.jahr_von===r.jahr_bis?String(r.jahr_von):r.jahr_von+'–'+r.jahr_bis;
 await Promise.all([
 read(roots[0],async()=>{const phases=await phasesPromise;if(!valid())return;const root=roots[0];root.replaceChildren();if(!phases.length){root.append(historyNode('p','Keine Bauabschnitte vorhanden.'));return}const track=historyNode('div',null,'phase-track'), detail=historyNode('section',null,'phase-detail');root.append(track,detail);const tiles=[],urls=[];const currentYear=new Date().getFullYear();const inProgress=phases.map((r,i)=>({r,i})).filter(({r})=>Number(r.jahr_von)<=currentYear&&Number(r.jahr_bis)>=currentYear);const latest=phases.reduce((best,r,i)=>Number(r.jahr_von)>=Number(phases[best].jahr_von)?i:best,0);const current=inProgress.length?inProgress[inProgress.length-1].i:latest;const saved=historySelection?.project===pid?phases.findIndex(r=>r.id===historySelection.id):-1;let active=saved>=0?saved:current;let docs=[];function select(i){active=i;historySelection={project:pid,id:phases[i].id};tiles.forEach((b,j)=>b.setAttribute('aria-pressed',String(j===i)));const r=phases[i];detail.replaceChildren();const visual=historyNode('div');if(urls[i]){const img=historyNode('img');img.src=urls[i];img.alt='Illustration des Bauzustands';visual.append(img)}else visual.append(historyNode('div','Illustration noch nicht verfügbar','phase-placeholder'));visual.append(historyNode('p','Illustrative Rekonstruktion · kein historisches Foto.','phase-caption'));const info=historyNode('div');const heading=historyNode('h3',null,'phase-heading');heading.append(historyNode('strong',year(r)),historyNode('span',r.bezeichnung));info.append(heading);if(i===current)info.append(historyNode('p','Aktueller Bauabschnitt','phase-current-detail'));if(r.beschreibung)info.append(historyNode('p',r.beschreibung,'phase-description'));else info.append(historyNode('p','Noch keine Beschreibung hinterlegt.','phase-description phase-muted'));if(r.quelle||r.status)historyValues(info,r,['quelle','status']);const group=docs.filter(d=>d.bauabschnitt_id===r.id);info.append(historyNode('h3','Zugehörige Dokumente ('+group.length+')','phase-doc-heading')); if(!group.length)info.append(historyNode('p','Keine Dokumente zugeordnet.','archive-empty'));const docList=historyNode('div',null,'phase-doc-grid');for(const d of group){const btn=historyNode('button',d.titel||'Dokument öffnen','phase-doc');btn.onclick=async()=>{try{if(!valid())return;const path=d.storage_path.split('/').map(encodeURIComponent).join('/');const res=await cloudFetch('/storage/v1/object/sign/umbau26/'+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expiresIn:120})});if(!valid())return;const a=historyNode('a','Dokument anzeigen');a.href=CLOUD_URL+'/storage/v1'+res.signedURL;a.target='_blank';a.rel='noopener noreferrer';btn.replaceWith(a)}catch(e){btn.textContent='Dokument nicht verfügbar – erneut versuchen'}};docList.append(btn)}if(group.length)info.append(docList);detail.append(visual,info)}for(const [i,r] of phases.entries()){const b=historyNode('button',null,'phase-tile');b.type='button';b.setAttribute('aria-label',year(r)+' – '+r.bezeichnung);const name=historyNode('span',null,'phase-name');name.textContent=r.bezeichnung.replace(/\p{L}{20,}/gu,v=>v.replace(/(gebäude|wohnhaus)(?=\p{L})/iu,'$1\u00ad'));b.append(historyNode('div','Illustration wird geladen …','phase-placeholder'),historyNode('strong',year(r)),name);if(i===current){b.classList.add('phase-current');const marker=historyNode('span','Aktueller Abschnitt','phase-current-label');b.append(marker)}b.onclick=()=>{select(i);centerActive()};tiles.push(b);track.append(b)}function centerActive(){if(track.scrollWidth<=track.clientWidth||!tiles[active])return;const b=tiles[active],tr=track.getBoundingClientRect(),br=b.getBoundingClientRect();track.scrollLeft+=br.left-tr.left-(tr.width-br.width)/2;}select(active);requestAnimationFrame(centerActive);await Promise.all([api('umbau_dokumente',query).then(rows=>{if(valid()){docs=rows;select(active)}}).catch(()=>{}),...phases.map(async(r,i)=>{try{const path=[pid,'Bauhistorie','phase-'+String(i+1).padStart(2,'0')+'.jpg'].map(encodeURIComponent).join('/');const res=await fetch(CLOUD_URL+'/storage/v1/object/authenticated/umbau26/'+path,{headers:cloudHeaders(),cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);const blob=await res.blob();if(!valid())return;const url=URL.createObjectURL(blob);phaseUrls.push(url);urls[i]=url;const img=historyNode('img');img.src=url;img.alt='Illustration '+year(r);tiles[i].firstChild.replaceWith(img);tiles[i].classList.add('phase-has-image');if(active===i)select(i)}catch(e){if(valid())tiles[i].firstChild.textContent='Illustration nicht verfügbar'}})])}),
@@ -232,7 +232,7 @@ async function cloudLoadImages(){const pid=cloud.project,user=cloud.user?.id,dat
 async function cloudUploadPhoto(file,room){if(!cloud.project||!cloud.user)throw Error('Bitte zuerst in der Cloud anmelden');if(!/^[0-9a-f-]{36}$/i.test(room.id))throw Error('Raum zuerst in die Cloud übertragen');if(file.size>20*1024*1024)throw Error('Maximal 20 MB pro Datei');const path=cloud.project+'/Fotos/'+room.id+'/'+uid()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');await cloudFetch('/storage/v1/object/umbau26/'+encodeURI(path),{method:'POST',headers:{'Content-Type':file.type||'application/octet-stream','x-upsert':'false'},body:file});await api('umbau_files','',{method:'POST',body:JSON.stringify({room_id:room.id,storage_path:path,original_name:file.name,uploaded_by:cloud.user.id})});await cloudLoad()}
 function syncRows(data,pid){const rooms=new Map(),tasks=new Map();for(const [floor,list] of Object.entries(data||{}))for(const room of list){if(!/^[0-9a-f-]{36}$/i.test(room.id||''))continue;rooms.set(room.id,{id:room.id,project_id:pid,floor:Number(floor),name:room.name,length_m:numeric(room.length),width_m:numeric(room.width),height_m:numeric(room.height),area_m2:numeric(room.area),notes:room.notes||''});for(const t of room.tasks||[])if(/^[0-9a-f-]{36}$/i.test(t.id||''))tasks.set(t.id,{id:t.id,room_id:room.id,title:t.text,done:!!t.done,trade:t.trade||'',priority:t.priority||'normal',due_date:t.due_date||null})}return {rooms,tasks}}
 function changedFields(before,after){return Object.fromEntries(Object.entries(after).filter(([k,v])=>k!=='id'&&k!=='project_id'&&k!=='room_id'&&(!before||before[k]!==v)))}
-async function cloudPush(){if(!['owner','editor'].includes(cloud.role)||!cloud.project||cloud.pushing||!cloud.dirty)return;if(cloud.loading||modelSaving){cloud.timer=setTimeout(cloudPush,1000);return}const pid=cloud.project,user=cloud.user?.id,valid=()=>pid===cloud.project&&user===cloud.user?.id&&['owner','editor'].includes(cloud.role)&&!!cloud.token;cloud.pushing=true;let saved;try{cs('Speichere Änderungen in der Cloud …');for(const list of Object.values(projectData))for(const r of list){if(!/^[0-9a-f-]{36}$/i.test(r.id||''))r.id=uid();for(const t of r.tasks||[])if(!/^[0-9a-f-]{36}$/i.test(t.id||''))t.id=uid()}saved=JSON.stringify(projectData);let before=syncRows(JSON.parse(cloud.lastSnapshot||'{}'),pid),after=syncRows(JSON.parse(saved),pid);const stamp=new Date().toISOString();async function patch(table,row,old){if(!valid())throw Error('Sitzung geändert');const delta=changedFields(old,row);if(old&&!Object.keys(delta).length)return;const result=await api(table,old?'?id=eq.'+row.id:'?on_conflict=id',{method:old?'PATCH':'POST',headers:{Prefer:old?'return=representation':'resolution=merge-duplicates,return=representation'},body:JSON.stringify({...old?delta:row,updated_at:stamp})});if(!Array.isArray(result)||result.length!==1)throw Error('Speichern nicht bestätigt')}for(const [id,row] of after.rooms)await patch('umbau_rooms',row,before.rooms.get(id));for(const [id,row] of after.tasks)await patch('umbau_tasks',row,before.tasks.get(id));for(const [id,row] of before.tasks)if(!after.tasks.has(id)){if(!valid())throw Error('Sitzung geändert');await api('umbau_tasks','?id=eq.'+id+'&room_id=eq.'+row.room_id,{method:'DELETE'})}if(!valid())return;cloud.lastSnapshot=saved;const current=syncRows(projectData,pid);const equal=(a,b)=>JSON.stringify([...a])===JSON.stringify([...b]);cloud.dirty=!equal(current.rooms,after.rooms)||!equal(current.tasks,after.tasks);cs(cloud.dirty?'Weitere Änderungen stehen aus …':'Alle Änderungen in der Cloud gespeichert')}catch(e){if(valid()){cloud.dirty=true;cs('Cloud-Speichern fehlgeschlagen: '+e.message+' · Eingaben bleiben lokal erhalten')}}finally{cloud.pushing=false;if(valid()){void loadActivity();renderSyncPanel()}if(valid()&&cloud.queued){cloud.queued=false;cloudSchedule()}}}
+async function cloudPush(){if(!['owner','editor'].includes(cloud.role)||!cloud.project||cloud.pushing||!cloud.dirty)return;if(cloud.loading||modelSaving){cloud.timer=setTimeout(cloudPush,1000);return}const pid=cloud.project,user=cloud.user?.id,valid=()=>pid===cloud.project&&user===cloud.user?.id&&['owner','editor'].includes(cloud.role)&&!!cloud.token;cloud.pushing=true;let saved;try{cs('Speichere Änderungen in der Cloud …');for(const list of Object.values(projectData))for(const r of list){if(!/^[0-9a-f-]{36}$/i.test(r.id||''))r.id=uid();for(const t of r.tasks||[])if(!/^[0-9a-f-]{36}$/i.test(t.id||''))t.id=uid()}saved=JSON.stringify(projectData);let before=syncRows(JSON.parse(cloud.lastSnapshot||'{}'),pid),after=syncRows(JSON.parse(saved),pid);const stamp=new Date().toISOString();async function patch(table,row,old){if(!valid())throw Error('Sitzung geändert');const delta=changedFields(old,row);if(old&&!Object.keys(delta).length)return;const result=await api(table,old?'?id=eq.'+row.id:'?on_conflict=id',{method:old?'PATCH':'POST',headers:{Prefer:old?'return=representation':'resolution=merge-duplicates,return=representation'},body:JSON.stringify({...old?delta:row,updated_at:stamp})});if(!Array.isArray(result)||result.length!==1)throw Error('Speichern nicht bestätigt')}for(const [id,row] of after.rooms)await patch('umbau_rooms',row,before.rooms.get(id));for(const [id,row] of after.tasks)await patch('umbau_tasks',row,before.tasks.get(id));for(const [id,row] of before.tasks)if(!after.tasks.has(id)){if(!valid())throw Error('Sitzung geändert');await api('umbau_tasks','?id=eq.'+id+'&room_id=eq.'+row.room_id,{method:'DELETE'})}if(!valid())return;cloud.lastSnapshot=saved;const current=syncRows(projectData,pid);const equal=(a,b)=>JSON.stringify([...a])===JSON.stringify([...b]);cloud.dirty=!equal(current.rooms,after.rooms)||!equal(current.tasks,after.tasks);cs(cloud.dirty?'Weitere Änderungen stehen aus …':'Alle Änderungen in der Cloud gespeichert')}catch(e){if(valid()){cloud.dirty=true;cs('Cloud-Speichern fehlgeschlagen: '+e.message+' · Eingaben bleiben lokal erhalten')}}finally{cloud.pushing=false;if(valid()){void loadActivity();}if(valid()&&cloud.queued){cloud.queued=false;cloudSchedule()}}}
 
 function applyPanageiRole(){
  const viewer=cloud.role==='viewer';document.body.classList.toggle('panagei-viewer',viewer);
@@ -259,10 +259,10 @@ let realtimeJoined=false;let realtimeSocket=null,realtimeProject=null,realtimeUs
 function rtSend(event,payload,topic='realtime:panagei-project'){if(realtimeSocket?.readyState===1){const ref=String(++realtimeRef);realtimeSocket.send(JSON.stringify({topic,event,payload,ref}));return ref}}
 function updateRealtimeToken(){if(cloud.token)rtSend('access_token',{access_token:cloud.token})}
 function stopProjectRealtime(){realtimeJoined=false;const s=realtimeSocket;realtimeSocket=null;realtimeProject=null;realtimeUser=null;realtimeRevision=null;realtimePending=false;clearInterval(realtimeHeartbeat);clearTimeout(realtimeRetry);if(s){s.onclose=null;s.close()}}
-function startProjectRealtime(){if(!cloud.project||!cloud.role||!cloud.token||document.hidden)return;if(realtimeProject===cloud.project&&realtimeUser===cloud.user?.id&&realtimeSocket&&realtimeSocket.readyState<=1)return;stopProjectRealtime();const pid=cloud.project,user=cloud.user?.id;realtimeProject=pid;realtimeUser=user;try{const ws=new WebSocket(CLOUD_URL.replace(/^https:/,'wss:')+'/realtime/v1/websocket?apikey='+encodeURIComponent(CLOUD_KEY)+'&vsn=1.0.0');realtimeSocket=ws;ws.onopen=()=>{if(ws!==realtimeSocket)return;rtSend('phx_join',{config:{broadcast:{ack:false,self:false},presence:{key:''},postgres_changes:[{event:'*',schema:'public',table:'umbau_project_changes',filter:'project_id=eq.'+pid}]},access_token:cloud.token});realtimeHeartbeat=setInterval(()=>rtSend('heartbeat',{},'phoenix'),25000);void checkProjectRevision()};ws.onmessage=e=>{if(ws!==realtimeSocket)return;try{const m=JSON.parse(e.data);if(m.event==='phx_reply'&&m.topic==='realtime:panagei-project'&&m.payload?.status==='ok'){realtimeJoined=true;renderSyncPanel()}else if(m.event==='postgres_changes'){realtimePending=true;void applyRealtime()}else if(m.event==='phx_error'||m.event==='phx_close'){ws.close()}}catch{}};ws.onclose=()=>{if(ws!==realtimeSocket)return;realtimeSocket=null;realtimeJoined=false;renderSyncPanel();clearInterval(realtimeHeartbeat);if(!document.hidden&&cloud.project===pid&&cloud.user?.id===user)realtimeRetry=setTimeout(startProjectRealtime,5000)};ws.onerror=()=>ws.close()}catch{realtimeRetry=setTimeout(startProjectRealtime,10000)}}
+function startProjectRealtime(){if(!cloud.project||!cloud.role||!cloud.token||document.hidden)return;if(realtimeProject===cloud.project&&realtimeUser===cloud.user?.id&&realtimeSocket&&realtimeSocket.readyState<=1)return;stopProjectRealtime();const pid=cloud.project,user=cloud.user?.id;realtimeProject=pid;realtimeUser=user;try{const ws=new WebSocket(CLOUD_URL.replace(/^https:/,'wss:')+'/realtime/v1/websocket?apikey='+encodeURIComponent(CLOUD_KEY)+'&vsn=1.0.0');realtimeSocket=ws;ws.onopen=()=>{if(ws!==realtimeSocket)return;rtSend('phx_join',{config:{broadcast:{ack:false,self:false},presence:{key:''},postgres_changes:[{event:'*',schema:'public',table:'umbau_project_changes',filter:'project_id=eq.'+pid}]},access_token:cloud.token});realtimeHeartbeat=setInterval(()=>rtSend('heartbeat',{},'phoenix'),25000);void checkProjectRevision()};ws.onmessage=e=>{if(ws!==realtimeSocket)return;try{const m=JSON.parse(e.data);if(m.event==='phx_reply'&&m.topic==='realtime:panagei-project'&&m.payload?.status==='ok'){realtimeJoined=true;}else if(m.event==='postgres_changes'){realtimePending=true;void applyRealtime()}else if(m.event==='phx_error'||m.event==='phx_close'){ws.close()}}catch{}};ws.onclose=()=>{if(ws!==realtimeSocket)return;realtimeSocket=null;realtimeJoined=false;clearInterval(realtimeHeartbeat);if(!document.hidden&&cloud.project===pid&&cloud.user?.id===user)realtimeRetry=setTimeout(startProjectRealtime,5000)};ws.onerror=()=>ws.close()}catch{realtimeRetry=setTimeout(startProjectRealtime,10000)}}
 async function checkProjectRevision(){if(realtimeReading||document.hidden||!cloud.project||!cloud.role)return;const pid=cloud.project,user=cloud.user?.id;realtimeReading=true;try{const rows=await api('umbau_project_changes','?select=revision&project_id=eq.'+encodeURIComponent(pid));if(pid!==cloud.project||user!==cloud.user?.id)return;const rev=rows?.[0]?.revision;if(realtimeRevision!==rev){realtimeRevision=rev;realtimePending=true;}await applyRealtime()}catch{}finally{realtimeReading=false}}
 async function applyRealtime(){if(!realtimePending||document.hidden||!cloud.project||!cloud.role||syncBlocked())return;realtimePending=false;await cloudLoad()}
-setInterval(()=>{if(!document.hidden){startProjectRealtime();void checkProjectRevision();void applyRealtime();renderSyncPanel()}},10000);
+setInterval(()=>{if(!document.hidden){startProjectRealtime();void checkProjectRevision();void applyRealtime();}},10000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){startProjectRealtime();realtimePending=true;void applyRealtime()}});
 setInterval(async()=>{if(document.hidden)return;if(cloud.refresh)await cloudRefreshToken();if(cloud.project&&!cloud.dirty&&!cloud.pushing&&!modelSaving&&!document.activeElement?.matches('input,textarea,select')&&!document.querySelector('form[data-dirty="true"]'))await cloudLoad()},120000);
 
@@ -340,7 +340,7 @@ const money=v=>Number(v||0).toLocaleString('de-DE',{style:'currency',currency:'E
 
 const searchNormalize=value=>String(value??'').toLocaleLowerCase('de-DE').replace(/ß/g,'ss').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 const searchMatches=(entry,query)=>searchNormalize(query).trim().split(/\s+/).filter(Boolean).every(word=>searchNormalize([entry.title,entry.kind,entry.detail,entry.extra].join(' ')).includes(word));
-const searchWorkspaces={umbau_archive:['Dokument','archiv'],umbau_appointments:['Termin','calendar'],umbau_materials:['Material','aufgaben'],umbau_costs:['Kosten','kosten'],umbau_diary:['Bautagebuch','tagebuch']};
+const searchWorkspaces={umbau_appointments:['Termin','calendar'],umbau_materials:['Material','aufgaben'],umbau_costs:['Kosten','kosten']};
 function searchEntries(){
  if(!cloud.role||!cloud.project||!cloud.token)return [];
  const entries=[];
@@ -361,7 +361,7 @@ function openRoomSearch(id,taskId,create=false){
  const current=$('panageiTaskLevel');if(!current||![...current.options].some(o=>o.value===String(room.floor)))return false;
  if(document.querySelector('#roomCards .newTask')&&[...document.querySelectorAll('#roomCards .newTask')].some(el=>el.value.trim())&&!confirm('Noch nicht hinzugefügte Aufgabeneingaben verwerfen?'))return false;
  window.panageiOpenPage?.('aufgaben');current.value=String(room.floor);current.dispatchEvent(new Event('change',{bubbles:true}));
- const card=[...document.querySelectorAll('#roomCards .roomCard')].find(el=>el.dataset.roomId===id);if(!card)return false;card.open=true;
+ const card=[...document.querySelectorAll('#roomCards .roomCard')].find(el=>el.dataset.roomId===id);if(!card)return false;card.open=true;highlightedTaskRoom=id;const notice=$('panageiPlanNotice');if(notice)notice.textContent='';requestRender();
  const target=create?card.querySelector('.newTask'):taskId?[...card.querySelectorAll('[data-task-id]')].find(el=>el.dataset.taskId===taskId):card;
  revealTarget(target||card,create);return true;
 }
@@ -370,8 +370,11 @@ function openSearchEntry(entry){
  if(entry.room){if(entry.kind==='Raum')selectRoomCenter(entry.room);else openRoomSearch(entry.room,entry.task);return}
  if(entry.plan){window.panageiOpenPage?.('infos');const img=[...document.querySelectorAll('[data-plan]')].find(el=>el.dataset.plan===entry.plan);const details=img?.closest('details');if(details){details.open=true;revealTarget(details)}return}
  const w=workspaces.find(x=>x.table===entry.workspace&&x.pid===cloud.project);if(!w||!w.rows.some(r=>r.id===entry.id))return;
+ const date=w.table==='umbau_appointments'?w.rows.find(r=>r.id===entry.id)?.event_date:null;
+ if(date&&date!==calendarDay&&!w.busy&&!$(w.root)?.querySelector('form[data-dirty="true"]')){calendarDay=date;renderWorkspace(w)}
  if(entry.page!=='calendar'||$('panageiCalendarPage').hidden)window.panageiOpenPage?.(entry.page);const root=$(w.root);let target=[...root.querySelectorAll('[data-entry-id]')].find(el=>el.dataset.entryId===entry.id);
  if(!target&&!w.busy&&!root.querySelector('form[data-dirty="true"]')){if(w.table==='umbau_archive'){Object.keys(archiveFilters).forEach(k=>archiveFilters[k]='')}if(w.table==='umbau_diary'){diaryFilters.from='';diaryFilters.to='';diaryFilters.search=''}renderWorkspace(w);target=[...root.querySelectorAll('[data-entry-id]')].find(el=>el.dataset.entryId===entry.id)}
+ if(target?.closest('details.invoice-list'))target.closest('details.invoice-list').open=true;
  revealTarget(target||root);
  if(!target)alert('Der Treffer liegt in einer gefilterten Liste. Bitte zuerst Eingaben speichern und die Filter zurücksetzen.');
 }
@@ -396,20 +399,21 @@ function quickWorkspace(table,page){
 }
 function renderQuickActions(){
  const root=$('panageiQuickActions');if(!root)return;root.replaceChildren();if(!writableWorkspace())return;
- const actions=[['Neue Aufgabe',()=>{const form=root.querySelector('.quick-task-form');form.hidden=!form.hidden;if(!form.hidden)form.querySelector('select')?.focus()}],['Neues Dokument',()=>quickWorkspace('umbau_archive','archiv')],['Neuer Termin',()=>quickWorkspace('umbau_appointments','calendar')],['Bautagebuch-Eintrag',()=>quickWorkspace('umbau_diary','tagebuch')]];
+ const actions=[['Neue Aufgabe',()=>{const form=root.querySelector('.quick-task-form');form.hidden=!form.hidden;if(!form.hidden)form.querySelector('select')?.focus()}],['Neuer Termin',()=>quickWorkspace('umbau_appointments','calendar')]];
  node('h3','Schnellaktionen',root);const grid=node('div',null,root,'quick-action-grid');for(const [label,run] of actions){const b=node('button','＋ '+label,grid);b.type='button';b.onclick=run}
  const form=node('div',null,root,'quick-task-form');form.hidden=true;const label=node('label','Raum für die neue Aufgabe',form),select=node('select',null,label);optionList(select,[['','Raum auswählen'],...allRooms().map(r=>[r.id,r.label])]);const go=node('button','Aufgabe erfassen',form);go.type='button';go.disabled=true;select.onchange=()=>{go.disabled=!select.value};go.onclick=()=>{if(select.value&&writableWorkspace())openRoomSearch(select.value,null,true)};
 }
 
 let activeRoomCenter='';
+const openRoomFloors=new Set();
 function roomRelatedRows(workspace,roomId,project){return workspace?.pid===project?workspace.rows.filter(r=>r.room_id===roomId):null}
 function roomCenterData(room,project,spaces){
  const get=table=>roomRelatedRows(spaces.find(w=>w.table===table),room.id,project);
- const archive=get('umbau_archive'),materials=get('umbau_materials'),costs=get('umbau_costs'),diary=get('umbau_diary'),appointments=get('umbau_appointments');
+ const archive=get('umbau_archive'),materials=get('umbau_materials'),costs=get('umbau_costs')?.filter(isInvoice)??null,diary=get('umbau_diary'),appointments=get('umbau_appointments');
  const tasks=room.tasks||[],dates=[...tasks.filter(t=>!t.done&&t.due_date).map(t=>({title:t.text,date:t.due_date,task:t.id})),...(archive||[]).filter(a=>a.category==='Wartung'&&a.next_due).map(a=>({title:a.title,date:a.next_due,id:a.id})),...(appointments||[]).map(a=>({title:a.title,date:a.event_date,time:a.event_time,appointment:a.id}))].sort((a,b)=>a.date.localeCompare(b.date));
  return {archive,materials,costs,diary,tasks,dates,photos:room.cloudFiles||[],done:tasks.filter(t=>t.done).length,planned:costs?.reduce((sum,r)=>sum+Number(r.planned||0),0),actual:costs?.reduce((sum,r)=>sum+Number(r.actual||0),0)};
 }
-function selectRoomCenter(id){if(!cloud.role||!allRooms().some(r=>r.id===id))return;activeRoomCenter=id;window.panageiOpenPage?.('bauteile');renderRoomCenter();revealTarget($('panageiRoomCenter'))}
+function selectRoomCenter(id){if(!cloud.role||!allRooms().some(r=>r.id===id))return;activeRoomCenter=id;openRoomFloors.add(Number(allRooms().find(r=>r.id===id).floor));window.panageiOpenPage?.('bauteile');renderRoomCenter();revealTarget($('panageiRoomCenter'))}
 function roomCenterNew(table,page,roomId){
  if(!writableWorkspace())return;
  const w=workspaces.find(x=>x.table===table&&x.pid===cloud.project);
@@ -418,14 +422,51 @@ function roomCenterNew(table,page,roomId){
  quickWorkspace(table,page);const form=root.querySelector('form'),field=form?.elements.namedItem('room_id');if(field&&[...field.options].some(o=>o.value===roomId)){field.value=roomId;field.dispatchEvent(new Event('change',{bubbles:true}));form.dataset.dirty='true'}
 }
 function renderRoomCenter(){
- const root=$('panageiRoomCenter');if(!root)return;
- if(!cloud.role||!cloud.project||!cloud.token){activeRoomCenter='';root.replaceChildren();return}
- const rooms=allRooms();if(!rooms.some(r=>r.id===activeRoomCenter))activeRoomCenter=rooms[0]?.id||'';
- const room=rooms.find(r=>r.id===activeRoomCenter);root.replaceChildren();
- node('h2','Raumzentrale',root);const label=node('label','Raum auswählen',root,'room-center-select');const select=node('select',null,label);optionList(select,rooms.map(r=>[r.id,r.label]));select.value=activeRoomCenter;select.onchange=()=>{activeRoomCenter=select.value;renderRoomCenter()};
- if(!room){node('p','Noch keine Räume vorhanden.',root);return}
+ const container=$('panageiRoomCenter');if(!container)return;
+ container.replaceChildren();
+ if(!cloud.role||!cloud.project||!cloud.token){activeRoomCenter='';openRoomFloors.clear();return;}
+ const rooms=allRooms();
+ if(!rooms.some(room=>room.id===activeRoomCenter))activeRoomCenter='';
+ for(const [floor,label] of [[4,'Dachboden'],[3,'Dachgeschoss'],[2,'Obergeschoss'],[1,'Erdgeschoss'],[0,'Keller']]){
+   const group=node('details',null,container,'room-floor');
+   group.open=openRoomFloors.has(floor);
+   group.ontoggle=()=>{if(!group.isConnected)return;if(group.open)openRoomFloors.add(floor);else openRoomFloors.delete(floor)};
+   node('summary',label,group);
+   const contents=node('div',null,group,'room-floor-content');
+   const floorRooms=rooms.filter(room=>Number(room.floor)===floor);
+   if(!floorRooms.length)node('p','Noch keine Räume vorhanden.',contents,'workspace-empty');
+   for(const room of floorRooms){
+     const button=node('button',room.name,contents,'room-floor-select');
+     button.type='button';
+     button.setAttribute('aria-expanded',String(activeRoomCenter===room.id));
+     button.onclick=()=>{
+       openRoomFloors.add(floor);
+       activeRoomCenter=activeRoomCenter===room.id?'':room.id;
+       renderRoomCenter();
+       const next=[...container.querySelectorAll('.room-floor-select')].find(item=>item.dataset.roomId===room.id);
+       next?.focus();
+     };
+     button.dataset.roomId=room.id;
+     if(activeRoomCenter===room.id)renderRoomCenterDetails(node('div',null,contents,'room-floor-detail'),room);
+   }
+   if(writableWorkspace()){
+     const add=node('button','＋ Raum hinzufügen',contents);
+     add.type='button';
+     add.onclick=()=>{
+       const name=prompt('Raumname:')?.trim();
+       if(!name||!writableWorkspace())return;
+       const id=uid();
+       getRooms(floor).push({id,name,length:'',width:'',height:'',area:'',notes:'',tasks:[],photos:[]});
+       openRoomFloors.add(floor);
+       activeRoomCenter=id;
+       saveProject();
+     };
+   }
+ }
+}
+function renderRoomCenterDetails(root,room){
  const data=roomCenterData(room,cloud.project,workspaces),top=node('div',null,root,'room-center-top');
- node('h3',room.label,top);const edit=node('button',writableWorkspace()?'Raum bearbeiten':'Raum öffnen',top);edit.type='button';edit.onclick=()=>openRoomSearch(room.id);
+ node('h3',room.name,top);const edit=node('button',writableWorkspace()?'Raum bearbeiten':'Raum öffnen',top);edit.type='button';edit.onclick=()=>openRoomSearch(room.id);
  const metrics=node('div',null,root,'room-center-metrics');const measure=(v,unit)=>v===''||v==null?'—':String(v).replace('.',',')+' '+unit;
  for(const [title,value] of [['Fläche',measure(room.area,'m²')],['Länge',measure(room.length,'m')],['Breite',measure(room.width,'m')],['Höhe',measure(room.height,'m')],['Aufgaben',data.done+' / '+data.tasks.length],['Ist-Kosten',data.actual==null?'…':money(data.actual)]]){const card=node('div',null,metrics);node('small',title,card);node('strong',value,card)}
  const p=node('progress',null,root);p.max=100;p.value=data.tasks.length?Math.round(data.done/data.tasks.length*100):0;p.setAttribute('aria-label','Aufgabenfortschritt im Raum');
@@ -433,11 +474,9 @@ function renderRoomCenter(){
  function section(title,rows,action){const box=node('section',null,groups,'room-center-section');const head=node('div',null,box,'room-center-section-head');node('h3',title+(rows===null?'':' · '+rows.length),head);if(action&&writableWorkspace()){const b=node('button','＋ Hinzufügen',head);b.type='button';b.onclick=action}if(rows===null)node('p','Daten derzeit nicht geladen.',box);else if(!rows.length)node('p','Noch keine Einträge.',box);return box}
  function line(box,title,detail,run){const b=node('button',null,box,'room-center-entry');b.type='button';node('strong',title,b);if(detail)node('small',detail,b);b.onclick=run;return b}
  const taskbox=section('Aufgaben',data.tasks,()=>openRoomSearch(room.id,null,true));for(const t of data.tasks)line(taskbox,t.text,[t.done?'Erledigt':'Offen',t.trade,t.due_date?fmtDate(t.due_date):''].filter(Boolean).join(' · '),()=>openRoomSearch(room.id,t.id));
- const docs=section('Dokumente & Archiv',data.archive,()=>roomCenterNew('umbau_archive','archiv',room.id));for(const r of data.archive||[])line(docs,r.title,r.category,()=>openSearchEntry({workspace:'umbau_archive',id:r.id,page:'archiv'}));
  const photos=section('Raumfotos',data.photos,()=>{if(openRoomSearch(room.id)){const card=[...document.querySelectorAll('#roomCards .roomCard')].find(el=>el.dataset.roomId===room.id);revealTarget(card?.querySelector('.photoInput'),true)}});for(const f of data.photos){const b=line(photos,f.original_name||'Raumfoto','Datei anzeigen',()=>{b.disabled=true;const status=node('div',null,photos);void openWorkspaceFile(f.storage_path,status).finally(()=>b.disabled=false)});}
  const materials=section('Material',data.materials,()=>roomCenterNew('umbau_materials','aufgaben',room.id));for(const r of data.materials||[])line(materials,r.title,[r.quantity,r.unit,r.purchased?'Beschafft':'Offen'].filter(v=>v!=null).join(' · '),()=>openSearchEntry({workspace:'umbau_materials',id:r.id,page:'aufgaben'}));
- const costs=section('Kosten',data.costs,()=>roomCenterNew('umbau_costs','kosten',room.id));if(data.costs!==null)node('p','Budget '+money(data.planned)+' · Ist '+money(data.actual),costs);for(const r of data.costs||[])line(costs,r.title,money(r.actual),()=>openSearchEntry({workspace:'umbau_costs',id:r.id,page:'kosten'}));
- const diary=section('Bautagebuch',data.diary,()=>roomCenterNew('umbau_diary','tagebuch',room.id));for(const r of data.diary||[])line(diary,r.title,fmtDate(r.entry_date),()=>openSearchEntry({workspace:'umbau_diary',id:r.id,page:'tagebuch'}));
+ const costs=section('Kosten',data.costs,()=>roomCenterNew('umbau_costs','kosten',room.id));if(data.costs!==null)node('p','Ist-Kosten '+money(data.actual),costs);for(const r of data.costs||[])line(costs,r.title,money(r.actual),()=>openSearchEntry({workspace:'umbau_costs',id:r.id,page:'kosten'}));
  const dates=section('Termine, Fristen & Wartung',data.dates,()=>roomCenterNew('umbau_appointments','calendar',room.id));for(const d of data.dates)line(dates,d.title,fmtDate(d.date)+(d.time?' · '+d.time.slice(0,5)+' Uhr':''),()=>d.appointment?openSearchEntry({workspace:'umbau_appointments',id:d.appointment,page:'calendar'}):d.id?openSearchEntry({workspace:'umbau_archive',id:d.id,page:'archiv'}):openRoomSearch(room.id,d.task));
  const notes=section('Notizen',room.notes?[room.notes]:[]);if(room.notes)node('p',room.notes,notes,'room-center-notes');
 }
@@ -446,7 +485,7 @@ window.panageiRenderRoomCenter=renderRoomCenter;
 let activityEpoch=0,activityRows=[],activityKey='',activityBusy=false,activityError=false,activityFilter='';
 const activityKinds={umbau_appointments:'Termin',umbau_archive:'Archiv',umbau_costs:'Kosten',umbau_diary:'Bautagebuch',umbau_files:'Foto',umbau_installation_markers:'Installation',umbau_materials:'Material',umbau_model:'Hausmodell',umbau_model_versions:'Modellversion',umbau_rooms:'Raum',umbau_tasks:'Aufgabe'};
 const activityActions={INSERT:'Hinzugefügt',UPDATE:'Geändert',DELETE:'Gelöscht'};
-function clearActivity(){activityEpoch++;activityRows=[];activityKey='';activityBusy=false;activityError=false;activityFilter='';$('panageiActivity')?.replaceChildren();$('panageiSyncPanel')?.replaceChildren();window.panageiLastSync=null}
+function clearActivity(){activityEpoch++;activityRows=[];activityKey='';activityBusy=false;activityError=false;activityFilter='';$('panageiActivity')?.replaceChildren();window.panageiLastSync=null}
 function activityContext(){return cloud.role&&cloud.token&&cloud.project&&cloud.user?.id?cloud.project+'|'+cloud.user.id:''}
 async function loadActivity(){
  const key=activityContext();if(!key||activityBusy)return;const epoch=activityEpoch;activityBusy=true;renderActivity();
@@ -456,7 +495,7 @@ async function loadActivity(){
 }
 function renderActivity(){
  const root=$('panageiActivity');if(!root)return;root.replaceChildren();const key=activityContext();if(!key)return;
- node('h3','Änderungsverlauf',root);node('small','Letzte 100 protokollierte Änderungen seit v70 · projektweit.',root);
+ node('small','Letzte 100 protokollierte Änderungen seit v70 · projektweit.',root);
  const bar=node('div',null,root,'activity-filter');const sel=node('select',null,bar);optionList(sel,[['','Alle Bereiche'],...Object.entries(activityKinds)]);sel.value=activityFilter;sel.setAttribute('aria-label','Änderungen filtern');sel.onchange=()=>{activityFilter=sel.value;renderActivity()};
  const refresh=node('button','Aktualisieren',bar);refresh.type='button';refresh.disabled=activityBusy;refresh.onclick=()=>void loadActivity();
  if(activityError)node('p','Änderungsverlauf konnte nicht geladen werden.',root);
@@ -466,16 +505,9 @@ function renderActivity(){
  const list=node('div',null,root,'activity-list');for(const r of rows){const item=node('div',null,list,'workspace-row');node('strong',(activityKinds[r.entity]||'Eintrag')+' · '+(activityActions[r.operation]||'Änderung'),item);if(r.label)node('p',r.label,item);node('small',new Date(r.happened_at).toLocaleString('de-DE')+' · '+(r.actor_id===cloud.user?.id?'Du':'Projektmitglied'),item)}
 }
 function syncBlocked(){return cloud.dirty||cloud.pushing||cloud.loading||modelSaving||workspaces.some(w=>w.busy)||!!document.querySelector('form[data-dirty="true"]')||[...document.querySelectorAll('#roomCards .newTask')].some(e=>e.value.trim())||!!document.activeElement?.matches('input,textarea,select')}
-function renderSyncPanel(){
- const root=$('panageiSyncPanel');if(!root)return;root.replaceChildren();if(!activityContext())return;
- node('h3','Synchronisierung',root);const blocked=syncBlocked(),online=navigator.onLine;
- node('strong',!online?'Offline':cloud.pushing?'Speichern läuft':cloud.loading?'Daten werden geladen':cloud.dirty?'Ungespeicherte Änderungen':blocked?'Eingabe aktiv':realtimePending?'Abgleich steht aus':realtimeJoined?'Live-Verbindung aktiv':'Automatischer Abgleich (10 s)',root);
- node('small',window.panageiLastSync?'Letzter erfolgreicher Abgleich: '+new Date(window.panageiLastSync).toLocaleString('de-DE'):'Noch kein bestätigter Abgleich',root);
- const b=node('button','Jetzt synchronisieren',root);b.type='button';b.disabled=!online||!!blocked;b.onclick=async()=>{if(syncBlocked())return;b.disabled=true;await cloudLoad();await loadActivity();renderSyncPanel()};
- const p=node('button','Push-Einstellungen',root);p.type='button';p.onclick=()=>window.panageiOpenPage?.('settings');
-}
 
-const exportTables={umbau_rooms:'Räume',umbau_tasks:'Aufgaben',umbau_materials:'Material',umbau_costs:'Kosten',umbau_archive:'Archiv',umbau_diary:'Bautagebuch',umbau_appointments:'Termine',umbau_installation_markers:'Installationspläne',umbau_files:'Raumfotos (Dateiverweise)',umbau_bauabschnitte:'Bauabschnitte',umbau_dokumente:'Historische Dokumente',umbau_bauteile:'Bauteile',umbau_bauteil_raeume:'Bauteilzuordnungen',umbau_gebaeudetechnik:'Gebäudetechnik',umbau_model:'Hausmodell',umbau_model_versions:'Modellstände',umbau_activity:'Änderungsverlauf'};
+
+const exportTables={umbau_budgets:'Budgets',umbau_rooms:'Räume',umbau_tasks:'Aufgaben',umbau_materials:'Material',umbau_costs:'Kosten',umbau_archive:'Archiv',umbau_diary:'Bautagebuch',umbau_appointments:'Termine',umbau_installation_markers:'Installationspläne',umbau_files:'Raumfotos (Dateiverweise)',umbau_bauabschnitte:'Bauabschnitte',umbau_dokumente:'Historische Dokumente',umbau_bauteile:'Bauteile',umbau_bauteil_raeume:'Bauteilzuordnungen',umbau_gebaeudetechnik:'Gebäudetechnik',umbau_model:'Hausmodell',umbau_model_versions:'Modellstände',umbau_activity:'Änderungsverlauf'};
 const csvColumns={umbau_rooms:['name','floor','area_m2','length_m','width_m','height_m','notes','id'],umbau_tasks:['title','room_id','done','trade','priority','due_date','id'],umbau_materials:['title','room_id','trade','quantity','unit','purchased','notes','id'],umbau_costs:['title','room_id','trade','planned','actual','notes','id'],umbau_archive:['title','room_id','trade','category','document_date','next_due','interval_months','notes','storage_path','id'],umbau_diary:['title','room_id','trade','entry_date','notes','storage_path','id'],umbau_appointments:['title','category','room_id','trade','task_id','event_date','event_time','notes','reminders','id']};
 function csvValue(v){if(v==null)return '""';if(typeof v==='number'&&Number.isFinite(v))return '"'+String(v).replace('.',',')+'"';let t=typeof v==='object'?JSON.stringify(v):typeof v==='boolean'?(v?'Ja':'Nein'):String(v);if(/^[\s\u0000-\u001f]*[=+\-@]/.test(t)||/^[\t\r\n]/.test(t))t="'"+t;return '"'+t.replace(/"/g,'""')+'"'}
 function exportCsv(rows,columns){return '\uFEFF'+[columns.map(csvValue).join(';'),...rows.map(r=>columns.map(c=>csvValue(r[c])).join(';'))].join('\r\n')}
@@ -485,7 +517,7 @@ function downloadExport(content,type,name){const url=URL.createObjectURL(new Blo
 async function readExportRows(table,pid,valid){
  if(!Object.hasOwn(exportTables,table))throw Error('Unbekannter Exportbereich');
  const indirect=table==='umbau_tasks'||table==='umbau_files';
- const qs='?select=*'+(indirect?'':'&project_id=eq.'+encodeURIComponent(pid))+'&order='+(table==='umbau_model'?'project_id.asc':table==='umbau_bauteil_raeume'?'bauteil_id.asc,room_id.asc':'id.asc');
+ const qs='?select=*'+(indirect?'':'&project_id=eq.'+encodeURIComponent(pid))+'&order='+(table==='umbau_model'?'project_id.asc':table==='umbau_budgets'?'trade.asc':table==='umbau_bauteil_raeume'?'bauteil_id.asc,room_id.asc':'id.asc');
  const rows=[];for(let offset=0;;){if(!valid())throw Error('Sitzung geändert');const page=await api(table,qs+'&limit=500&offset='+offset);if(!Array.isArray(page))throw Error('Ungültige Datenantwort');rows.push(...page);if(page.length<500)return rows;offset+=page.length;if(offset>100000)throw Error('Exportlimit erreicht')}
 }
 async function exportProject(mode){
@@ -497,8 +529,61 @@ async function exportProject(mode){
  else{const revision=async()=>{const r=await api('umbau_project_changes','?select=revision&project_id=eq.'+encodeURIComponent(pid));return r?.[0]?.revision??null};const before=initialRevision?.[0]?.revision??null;const tables={};for(const t of Object.keys(exportTables)){tables[t]=await read(t)}const after=await revision();if(!valid())return;if(before!==after)throw Error('Projekt wurde während des Exports verändert. Bitte erneut exportieren.');const backup={format:'PANAGEI-project-data',version:1,app:'v71',exported_at:stamp,project_id:pid,includes_binary_files:false,restore_available:false,tables};downloadExport(JSON.stringify(backup,null,2),'application/json','PANAGEI_Datensicherung_'+suffix+'.json');exportStatus='Datensicherung für den Download erstellt.'}
  }catch(e){if(valid())exportStatus='Export fehlgeschlagen: '+e.message}finally{if(valid()){exportBusy=false;renderExport()}}
 }
-function renderExport(){const root=$('panageiExport');if(!root)return;if(!activityContext()){root.replaceChildren();return}if(root.querySelector('select')===document.activeElement)return;root.replaceChildren();node('h3','Datenexport & Datensicherung',root);node('p','Projektinformationen als Excel-kompatible CSV-Dateien oder gemeinsame JSON-Datensicherung herunterladen.',root);const label=node('label','Projektbereich',root),sel=node('select',null,label);optionList(sel,Object.entries(exportTables));sel.value=exportChoice;sel.disabled=exportBusy;sel.onchange=()=>{exportChoice=sel.value};const csv=node('button','CSV herunterladen',root),json=node('button','Projekt als JSON sichern',root);csv.type=json.type='button';csv.disabled=json.disabled=exportBusy;csv.onclick=()=>void exportProject('csv');json.onclick=()=>void exportProject('json');node('small','JSON enthält Projektdaten und Dateiverweise, keine PDF- oder Bilddateien, Konten oder Zugangsdaten. Kein automatischer Wiederimport. Dateien separat sichern. Exporte vertraulich aufbewahren.',root);const status=node('p',exportStatus,root);status.setAttribute('role','status');}
-function renderDashboard(){renderExport();renderActivity();renderSyncPanel();renderRoomCenter();renderGlobalSearch();renderQuickActions();const root=$('dashboardWorkspace');if(!root)return;root.replaceChildren();if(!cloud.role)return;const tasks=allRooms().flatMap(r=>(r.tasks||[]).map(t=>({...t,room:r.label}))),complete=tasks.filter(t=>t.done).length,done=tasks.length?Math.round(complete/tasks.length*100):0;const get=t=>workspaces.find(w=>w.table===t),cost=get('umbau_costs'),material=get('umbau_materials'),archive=get('umbau_archive'),sum=(rows,key)=>rows.reduce((a,r)=>a+Number(r[key]||0),0);const cards=[['Aufgaben erledigt',done+' %','aufgaben'],['Offene Aufgaben',String(tasks.length-complete),'aufgaben'],['Restbudget',cost?.pid===cloud.project?money(sum(cost.rows,'planned')-sum(cost.rows,'actual')):'Wird geladen …','kosten'],['Material offen',material?.pid===cloud.project?String(material.rows.filter(r=>!r.purchased).length):'Wird geladen …','aufgaben']];const summary=node('div',null,root,'dashboard-intro');const title=node('div',null,summary);node('strong','Dein Bauprojekt',title);node('small','Aktueller Stand aus den Projektdaten',title);node('span',fmtDate(todayLocal()),summary,'dashboard-today');const m=node('div',null,root,'workspace-metrics dashboard-metrics');for(const [label,value,page] of cards){const b=node('button',null,m);b.type='button';node('strong',value,b);node('small',label,b);b.onclick=()=>window.panageiOpenPage?.(page)}const progress=node('progress',null,root);progress.max=100;progress.value=done;node('p','Fortschritt nach erledigten Aufgaben, nicht nach tatsächlicher Bauleistung.',root,'dashboard-footnote');const shortcuts=node('div',null,root,'dashboard-shortcuts');for(const [label,page] of [['Bauhistorie','historie'],['Hausmodell','modell'],['Bautagebuch','tagebuch'],['Dokumente','infos']]){const b=node('button',label,shortcuts);b.type='button';b.onclick=()=>window.panageiOpenPage?.(page)}node('h3','Nächste Termine',root);const addAppointment=node('button','＋ Termin anlegen / Kalender öffnen',root,'workspace-primary');addAppointment.onclick=()=>window.panageiOpenPage?.('calendar');const appointment=get('umbau_appointments');const upcoming=[...(appointment?.pid===cloud.project?appointment.rows.filter(r=>r.event_date>=todayLocal()).map(r=>({title:r.title,date:r.event_date,time:r.event_time?.slice(0,5),room:r.category,page:'calendar'})):[]),...tasks.filter(t=>!t.done&&t.due_date).map(t=>({title:t.text,date:t.due_date,room:t.room,page:'aufgaben'})),...(archive?.pid===cloud.project?archive.rows.filter(r=>r.category==='Wartung'&&r.next_due).map(r=>({title:r.title,date:r.next_due,room:roomName(r.room_id),page:'archiv'})):[])].sort((a,b)=>a.date.localeCompare(b.date)).slice(0,8);if(!upcoming.length)node('p','Keine Termine eingetragen.',root,'workspace-empty');for(const t of upcoming){const b=node('button',null,root,'dashboard-date');b.type='button';node('strong',t.title,b);node('small',fmtDate(t.date)+(t.time?' · '+t.time+' Uhr':'')+' · '+t.room+(t.date<todayLocal()?' · Überfällig':''),b);b.onclick=()=>window.panageiOpenPage?.(t.page)}}
+function renderExport(){const root=$('panageiExport');if(!root)return;if(!activityContext()){root.replaceChildren();return}if(root.querySelector('select')===document.activeElement)return;root.replaceChildren();node('p','Projektinformationen als Excel-kompatible CSV-Dateien oder gemeinsame JSON-Datensicherung herunterladen.',root);const label=node('label','Projektbereich',root),sel=node('select',null,label);optionList(sel,Object.entries(exportTables));sel.value=exportChoice;sel.disabled=exportBusy;sel.onchange=()=>{exportChoice=sel.value};const csv=node('button','CSV herunterladen',root),json=node('button','Projekt als JSON sichern',root);csv.type=json.type='button';csv.disabled=json.disabled=exportBusy;csv.onclick=()=>void exportProject('csv');json.onclick=()=>void exportProject('json');node('small','JSON enthält Projektdaten und Dateiverweise, keine PDF- oder Bilddateien, Konten oder Zugangsdaten. Kein automatischer Wiederimport. Dateien separat sichern. Exporte vertraulich aufbewahren.',root);const status=node('p',exportStatus,root);status.setAttribute('role','status');}
+function renderDashboard(){
+ renderExport();
+ renderActivity();
+ renderRoomCenter();
+ renderGlobalSearch();
+ renderQuickActions();
+ const root=$('dashboardWorkspace');
+ if(!root)return;
+ root.replaceChildren();
+ if(!cloud.role)return;
+ const today=todayLocal();
+ const time=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date());
+ const tasks=allRooms().flatMap(r=>r.tasks||[]);
+ const complete=tasks.filter(t=>t.done).length;
+ const done=tasks.length?Math.round(complete/tasks.length*100):0;
+ const get=table=>workspaces.find(w=>w.table===table&&w.pid===cloud.project);
+ const cost=get('umbau_costs'),material=get('umbau_materials');
+ const totals=costTotals(cost?.rows||[],projectBudgetRows());
+ const cards=[
+   ['Aufgaben erledigt',done+' %','aufgaben'],
+   ['Offene Aufgaben',String(tasks.length-complete),'aufgaben'],
+   ['Restbudget',cost&&totals.budget!==null?money(totals.budget-totals.actual):budgetState.error?'Nicht verfügbar':'—','kosten'],
+   ['Materialbedarf offen',material?String(material.rows.filter(r=>!r.purchased).length):'Wird geladen …','aufgaben','materialWorkspace']
+ ];
+ const summary=node('div',null,root,'dashboard-intro');
+ node('strong','Dein Bauprojekt',summary);
+ node('span',fmtDate(today),summary,'dashboard-today');
+ const metrics=node('div',null,root,'workspace-metrics dashboard-metrics');
+ for(const [label,value,page,target] of cards){
+   const button=node('button',null,metrics);
+   button.type='button';
+   node('strong',value,button);
+   node('small',label,button);
+   button.onclick=()=>{
+     window.panageiOpenPage?.(page);
+     if(target)$(target)?.scrollIntoView({block:'start'});
+   };
+ }
+ const progress=node('progress',null,root);
+ progress.max=100;progress.value=done;
+ progress.setAttribute('aria-label','Aufgabenfortschritt');
+ node('h3','Nächste Termine',root);
+ const appointments=get('umbau_appointments');
+ const upcoming=appointments?.rows.filter(row=>row.event_date>today||
+   (row.event_date===today&&(!row.event_time||row.event_time.slice(0,5)>=time)))
+   .sort((a,b)=>(a.event_date+(a.event_time||'')).localeCompare(b.event_date+(b.event_time||'')))[0];
+ if(!upcoming){
+   node('p',appointments?'Keine anstehenden Termine.':'Termine werden geladen …',root,'workspace-empty');
+   return;
+ }
+ const item=node('div',null,root,'workspace-row');
+ node('strong',upcoming.title,item);
+ node('small',[fmtDate(upcoming.event_date),upcoming.event_time?upcoming.event_time.slice(0,5)+' Uhr':'',upcoming.category].filter(Boolean).join(' · '),item);
+}
 function renderRenovation(){renderDashboard();
  const root=$('renovationOverview');if(!root)return;root.replaceChildren();if(!cloud.role)return;
  const entries=allRooms().flatMap(r=>(r.tasks||[]).map(t=>({...t,room:r.label,room_id:r.id})));
@@ -510,11 +595,23 @@ function renderRenovation(){renderDashboard();
  for(const [k,values] of Object.entries(opts)){const sel=node('select',null,filters);optionList(sel,values);sel.value=taskFilters[k];if(sel.selectedIndex<0){sel.selectedIndex=0;taskFilters[k]=sel.value}sel.setAttribute('aria-label',k);sel.onchange=()=>{taskFilters[k]=sel.value;renderRenovation()}}
  const filtered=entries.filter(t=>(!taskFilters.room||t.room_id===taskFilters.room)&&(!taskFilters.trade||t.trade===taskFilters.trade)&&(!taskFilters.priority||t.priority===taskFilters.priority)&&(taskFilters.status==='all'||t.done===(taskFilters.status==='done'))).sort((a,b)=>{const x={urgent:0,high:1,normal:2,low:3};return (x[a.priority||'normal']-x[b.priority||'normal'])||String(a.due_date||'9999').localeCompare(String(b.due_date||'9999'))});
  if(!filtered.length)node('p','Keine passenden Aufgaben.',root);
- for(const t of filtered){const row=node('div',null,root,'workspace-row');node('strong',t.text,row);node('small',[t.room,t.trade||'Ohne Gewerk',priorityOptions.find(x=>x[0]===t.priority)?.[1]||'Normal',t.due_date?'Frist '+fmtDate(t.due_date):'Ohne Frist',t.done?'Erledigt':'Offen'].join(' · '),row)}
+ for(const t of filtered){
+   const row=node('div',null,root,'workspace-row task-overview-row');
+   const controls=node('div',null,row,'task-overview-controls');
+   const check=node('input',null,controls);check.type='checkbox';check.checked=t.done;check.disabled=!writableWorkspace();
+   check.setAttribute('aria-label',t.text+' als erledigt markieren');
+   check.onchange=()=>{
+     const task=allRooms().find(r=>r.id===t.room_id)?.tasks?.find(item=>item.id===t.id);
+     if(!task||!writableWorkspace()){check.checked=t.done;return;}
+     task.done=check.checked;
+     updatePanel();
+     saveProject();
+   };
+   const jump=node('button',t.text,controls);jump.type='button';jump.onclick=()=>openRoomSearch(t.room_id,t.id);node('small',[t.room,t.trade||'Ohne Gewerk',priorityOptions.find(x=>x[0]===t.priority)?.[1]||'Normal',t.due_date?'Frist '+fmtDate(t.due_date):'Ohne Frist',t.done?'Erledigt':'Offen'].join(' · '),row)}
 }
-function clearWorkspaces(){Object.assign(calendarFilters,{room:'',trade:'',kind:'',period:'open'});Object.keys(archiveFilters).forEach(k=>archiveFilters[k]='');historicState={pid:null,phase:null,phases:[],models:[],rot:-0.72,floor:'all'};$('historicWorkspace')?.replaceChildren();workspaceEpoch++;for(const w of workspaces){w.rows=[];w.pid=null;w.edit=null;w.busy=false;$(w.root)?.replaceChildren()}}
-async function loadWorkspaces(){const pid=cloud.project,epoch=workspaceEpoch;if(!pid||!cloud.role)return;for(const w of workspaces){if(w.busy||($(w.root)?.querySelector('form[data-dirty="true"]')&&w.pid===pid))continue;try{const rows=await api(w.table,'?project_id=eq.'+encodeURIComponent(pid)+'&select=*&order=created_at.desc');if(epoch!==workspaceEpoch||pid!==cloud.project||!cloud.role)return;w.rows=rows||[];w.pid=pid;renderWorkspace(w)}catch(e){if(epoch===workspaceEpoch&&pid===cloud.project){const root=$(w.root);root.replaceChildren();node('h2',w.title,root);node('p','Laden fehlgeschlagen: '+e.message,root);const retry=node('button','Erneut laden',root);retry.onclick=()=>loadWorkspaces()}}}}
-function wsField(form,f,value){const label=node('label',f.label,form);label.classList.add('workspace-field');label.dataset.fieldType=f.type||'text';let input;if(f.type==='reminders'){const box=node('div',null,label);box.className='reminder-options';for(const [minutes,title] of reminderOptions){const l=node('label',null,box),c=node('input',null,l);c.type='checkbox';c.name=f.key+'_'+minutes;c.checked=(value||[]).includes(minutes);node('span',title,l)}return box}else if(f.type==='select'||f.type==='room'||f.type==='task'){input=node('select',null,label);optionList(input,f.type==='room'?[['','Projekt gesamt'],...allRooms().map(r=>[r.id,r.label])]:f.type==='task'?[['','Keine Aufgabe']]:f.options)}else if(f.type==='textarea'){input=node('textarea',null,label);input.rows=2}else{input=node('input',null,label);input.type=f.type||'text';if(f.step)input.step=f.step;if(f.min!=null)input.min=f.min;if(f.max!=null)input.max=f.max;if(f.type==='text')input.maxLength=300}input.name=f.key;input.required=!!f.required;if(f.type==='checkbox')input.checked=!!value;else if(f.type!=='file')input.value=value??f.default??'';return input}
+function clearWorkspaces(){budgetState={pid:null,rows:[],error:false};historicObserver?.disconnect();highlightedTaskRoom='';taskPlanTransform=null;calendarDay='';Object.assign(calendarFilters,{room:'',trade:'',kind:'',period:'open'});Object.keys(archiveFilters).forEach(k=>archiveFilters[k]='');historicState={pid:null,phase:null,phases:[],models:[],rot:-0.72,floor:'all'};$('historicWorkspace')?.replaceChildren();workspaceEpoch++;for(const w of workspaces){w.rows=[];w.pid=null;w.edit=null;w.busy=false;$(w.root)?.replaceChildren()}}
+async function loadWorkspaces(){const pid=cloud.project,epoch=workspaceEpoch;if(!pid||!cloud.role)return;try{const budgets=await api('umbau_budgets','?select=trade,amount&project_id=eq.'+encodeURIComponent(pid));if(epoch!==workspaceEpoch||pid!==cloud.project||!cloud.role)return;budgetState={pid,rows:budgets,error:false}}catch(e){if(epoch!==workspaceEpoch||pid!==cloud.project)return;budgetState={pid,rows:[],error:true}}renderDashboard();for(const w of workspaces){if(w.busy||($(w.root)?.querySelector('form[data-dirty="true"]')&&w.pid===pid))continue;try{const rows=await api(w.table,'?project_id=eq.'+encodeURIComponent(pid)+'&select=*&order=created_at.desc');if(epoch!==workspaceEpoch||pid!==cloud.project||!cloud.role)return;w.rows=rows||[];w.pid=pid;renderWorkspace(w)}catch(e){if(epoch===workspaceEpoch&&pid===cloud.project){const root=$(w.root);root.replaceChildren();node('h2',w.title,root);node('p','Laden fehlgeschlagen: '+e.message,root);const retry=node('button','Erneut laden',root);retry.onclick=()=>loadWorkspaces()}}}}
+function wsField(form,f,value){const label=node('label',f.label,form);label.classList.add('workspace-field');label.dataset.fieldType=f.type||'text';let input;if(f.type==='reminders'){const box=node('div',null,label);box.className='reminder-options';for(const [minutes,title] of reminderOptions){const l=node('label',null,box),c=node('input',null,l);c.type='checkbox';c.name=f.key+'_'+minutes;c.checked=(value||[]).includes(minutes);node('span',title,l)}return box}else if(f.type==='select'||f.type==='room'||f.type==='task'){input=node('select',null,label);optionList(input,f.type==='room'?(f.options?.()??[['','Projekt gesamt'],...allRooms().map(r=>[r.id,r.label])]):f.type==='task'?[['','Keine Aufgabe']]:typeof f.options==='function'?f.options(value):f.options)}else if(f.type==='textarea'){input=node('textarea',null,label);input.rows=2}else{input=node('input',null,label);input.type=f.type||'text';if(f.step)input.step=f.step;if(f.min!=null)input.min=f.min;if(f.max!=null)input.max=f.max;if(f.type==='text')input.maxLength=300}input.name=f.key;input.required=!!f.required;if(f.type==='checkbox')input.checked=!!value;else if(f.type!=='file')input.value=value??f.default??'';return input}
 function pathEncoded(path){return path.split('/').map(encodeURIComponent).join('/')}
 async function workspaceUpload(file,pid,folder){if(!file)return null;const ext=file.name.split('.').pop().toLowerCase();if(!['pdf','jpg','jpeg','png','webp','heic'].includes(ext)||file.size>20*1024*1024)throw Error('Erlaubt: PDF oder Bild, maximal 20 MB.');const types={pdf:'application/pdf',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',heic:'image/heic'};const path=pid+'/'+folder+'/'+uid()+'.'+ext;await cloudFetch('/storage/v1/object/umbau26/'+pathEncoded(path),{method:'POST',headers:{'Content-Type':types[ext],'x-upsert':'false'},body:file});return path}
 async function openWorkspaceFile(path,status){const pid=cloud.project;if(!path||!pid||!path.startsWith(pid+'/'))return;try{const res=await cloudFetch('/storage/v1/object/sign/umbau26/'+pathEncoded(path),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expiresIn:120})});if(pid!==cloud.project||!cloud.role)return;const href=CLOUD_URL+'/storage/v1'+res.signedURL;const a=node('a','Datei öffnen (2 Min.)',status);a.href=href;a.target='_blank';a.rel='noopener noreferrer'}catch(e){status.textContent='Datei nicht verfügbar: '+e.message}}
@@ -525,31 +622,119 @@ function renderWorkspace(w){
  if(writableWorkspace()){
   const edited=w.rows.find(r=>r.id===w.edit),form=node('form',null,root,'workspace-form');const fields=node('div',null,form,'workspace-fields');
   for(const f of w.fields)wsField(fields,f,edited?.[f.key]??(typeof f.default==='function'?f.default():f.default));if(w.table==='umbau_appointments')bindAppointmentTask(form,edited?.task_id);
+  if(w.table==='umbau_costs')bindInvoiceScope(form,edited);
   if(w.folder){node('small','PDF oder Bild bis 20 MB. Beim Ersetzen oder Löschen eines Eintrags bleibt die alte Datei zur Sicherheit im Speicher erhalten.',form);const label=node('div',null,fields,'workspace-file-field');const id='file-'+w.root;const title=node('label',edited?.storage_path?'Neue Datei (optional)':'Datei (optional)',label);title.htmlFor=id;const input=node('input',null,label,'workspace-file-native');input.type='file';input.id=id;input.name='attachment';input.accept='.pdf,.jpg,.jpeg,.png,.webp,.heic';const pick=node('label','Datei auswählen',label,'workspace-file-pick');pick.htmlFor=id;const filename=node('span','Keine Datei ausgewählt',label,'workspace-file-name');filename.setAttribute('aria-live','polite');input.addEventListener('change',()=>{filename.textContent=input.files?.[0]?.name||'Keine Datei ausgewählt';form.dataset.dirty='true'})}
-  fields.before(node('h3',edited?'Eintrag bearbeiten':'Neuer Eintrag'));const submit=node('button',edited?'Änderungen speichern':'Hinzufügen',form,'workspace-primary');submit.type='submit';const cancel=node('button','Abbrechen',form);cancel.type='button';cancel.hidden=!edited;cancel.onclick=()=>{w.edit=null;renderWorkspace(w)};
+  fields.before(node('h3',edited?(w.editLabel||'Eintrag bearbeiten'):(w.newLabel||'Neuer Eintrag')));const submit=node('button',edited?'Änderungen speichern':(w.submitLabel||'Hinzufügen'),form,'workspace-primary');submit.type='submit';const cancel=node('button','Abbrechen',form);cancel.type='button';cancel.hidden=!edited;cancel.onclick=()=>{w.edit=null;renderWorkspace(w)};
   form.addEventListener('input',()=>{form.dataset.dirty='true'});
-  form.onsubmit=async e=>{e.preventDefault();if(w.busy||!writableWorkspace()||!form.reportValidity())return;const pid=cloud.project,epoch=workspaceEpoch,body={project_id:pid,updated_at:new Date().toISOString()};let uploaded=null;for(const f of w.fields){if(f.type==='reminders'){body[f.key]=reminderOptions.filter(([m])=>form.elements.namedItem(f.key+'_'+m)?.checked).map(([m])=>m);continue}const el=form.elements.namedItem(f.key);body[f.key]=f.type==='checkbox'?el.checked:f.type==='number'?(el.value===''?null:Number(el.value)):['date','room','task'].includes(f.type)?el.value||null:el.value.trim()}w.busy=true;submit.disabled=true;status.textContent='Speichere …';try{const file=form.elements.namedItem('attachment')?.files?.[0];if(file){uploaded=await workspaceUpload(file,pid,w.folder);body.storage_path=uploaded}if(pid!==cloud.project||epoch!==workspaceEpoch||!writableWorkspace())throw Error('Sitzung geändert');const result=await api(w.table,edited?'?id=eq.'+edited.id+'&project_id=eq.'+pid:'',{method:edited?'PATCH':'POST',headers:{Prefer:'return=representation'},body:JSON.stringify(body)});if(!Array.isArray(result)||result.length!==1)throw Error('Speichern nicht bestätigt');uploaded=null;if(epoch!==workspaceEpoch||pid!==cloud.project)return;w.edit=null;form.dataset.dirty='false';w.rows=edited?w.rows.map(row=>row.id===edited.id?result[0]:row):[result[0],...w.rows];renderWorkspace(w);void loadActivity()}catch(err){status.textContent='Speichern fehlgeschlagen: '+err.message;if(uploaded&&pid===cloud.project&&epoch===workspaceEpoch){try{await cloudFetch('/storage/v1/object/umbau26/'+pathEncoded(uploaded),{method:'DELETE'})}catch{}}}finally{w.busy=false;submit.disabled=false}};
+  form.onsubmit=async e=>{e.preventDefault();if(w.busy||!writableWorkspace()||!form.reportValidity())return;const pid=cloud.project,epoch=workspaceEpoch,body={project_id:pid,updated_at:new Date().toISOString()};let uploaded=null;for(const f of w.fields){if(f.type==='reminders'){body[f.key]=reminderOptions.filter(([m])=>form.elements.namedItem(f.key+'_'+m)?.checked).map(([m])=>m);continue}const el=form.elements.namedItem(f.key);body[f.key]=f.type==='checkbox'?el.checked:f.type==='number'?(el.value===''?null:Number(el.value)):['date','room','task'].includes(f.type)?(!el.disabled&&el.value)||null:el.value.trim()}w.busy=true;submit.disabled=true;status.textContent='Speichere …';try{const file=form.elements.namedItem('attachment')?.files?.[0];if(file){uploaded=await workspaceUpload(file,pid,w.folder);body.storage_path=uploaded}if(pid!==cloud.project||epoch!==workspaceEpoch||!writableWorkspace())throw Error('Sitzung geändert');const result=await api(w.table,edited?'?id=eq.'+edited.id+'&project_id=eq.'+pid:'',{method:edited?'PATCH':'POST',headers:{Prefer:'return=representation'},body:JSON.stringify(body)});if(!Array.isArray(result)||result.length!==1)throw Error('Speichern nicht bestätigt');uploaded=null;if(epoch!==workspaceEpoch||pid!==cloud.project)return;w.edit=null;form.dataset.dirty='false';w.rows=edited?w.rows.map(row=>row.id===edited.id?result[0]:row):[result[0],...w.rows];renderWorkspace(w);void loadActivity()}catch(err){status.textContent='Speichern fehlgeschlagen: '+err.message;if(uploaded&&pid===cloud.project&&epoch===workspaceEpoch){try{await cloudFetch('/storage/v1/object/umbau26/'+pathEncoded(uploaded),{method:'DELETE'})}catch{}}}finally{w.busy=false;submit.disabled=false}};
  }
- const rows=w.rows.filter(row=>!w.filter||w.filter(row));if(w.sort)rows.sort(w.sort);const listHead=node('div',null,root,'workspace-list-heading');node('h3','Einträge',listHead);node('span',String(rows.length),listHead,'workspace-count');if(!rows.length)node('p',w.rows.length?'Keine passenden Einträge.':'Noch keine Einträge vorhanden.',root,'workspace-empty');
- for(const row of rows){const item=node('div',null,root,'workspace-row');item.dataset.entryId=row.id;node('strong',row.title,item);node('small',[roomName(row.room_id),row.trade,...w.details(row)].filter(Boolean).join(' · '),item);if(row.notes)node('p',row.notes,item);const actions=node('div',null,item,'workspace-actions');if(row.storage_path){const b=node('button','Datei anzeigen',actions);b.onclick=()=>{const area=node('span','',actions);void openWorkspaceFile(row.storage_path,area)}}if(writableWorkspace()){if(w.extraActions)w.extraActions(row,actions,status,w);const edit=node('button','Bearbeiten',actions);edit.onclick=()=>{if(w.busy)return;if(root.querySelector('form[data-dirty="true"]')&&!confirm('Ungespeicherte Eingaben verwerfen?'))return;w.edit=row.id;renderWorkspace(w);root.querySelector('form')?.scrollIntoView({block:'nearest',behavior:'smooth'})};const del=node('button','Löschen',actions);del.onclick=async()=>{if(w.busy||!writableWorkspace()||!confirm('Eintrag löschen?'))return;const pid=cloud.project,epoch=workspaceEpoch;w.busy=true;try{const result=await api(w.table,'?id=eq.'+row.id+'&project_id=eq.'+pid,{method:'DELETE',headers:{Prefer:'return=representation'}});if(!Array.isArray(result)||result.length!==1)throw Error('Löschen nicht bestätigt');if(epoch!==workspaceEpoch||pid!==cloud.project)return;w.rows=w.rows.filter(r=>r.id!==row.id);w.edit=null;renderWorkspace(w);void loadActivity()}catch(e){status.textContent='Löschen fehlgeschlagen: '+e.message}finally{w.busy=false}}}}
+ const rows=w.rows.filter(row=>!w.filter||w.filter(row));if(w.sort)rows.sort(w.sort);
+ let listRoot=root;
+ if(w.listLabel){
+   listRoot=node('details',null,root,'invoice-list');
+   node('summary',w.listLabel+' · '+rows.length,listRoot);
+   root.insertBefore(listRoot,root.querySelector('.workspace-form'));
+   listRoot.open=!!w.listOpen||!!w.edit;
+   listRoot.ontoggle=()=>{if(listRoot.isConnected)w.listOpen=listRoot.open};
+ }else{
+   const listHead=node('div',null,root,'workspace-list-heading');node('h3','Einträge',listHead);node('span',String(rows.length),listHead,'workspace-count');
+ }
+ if(!rows.length)node('p',w.rows.length?'Keine passenden Einträge.':'Noch keine Einträge vorhanden.',listRoot,'workspace-empty');
+ for(const row of rows){const item=node('div',null,w.table==='umbau_appointments'?root.querySelector('.month-calendar-entries'):listRoot,'workspace-row');item.dataset.entryId=row.id;if(w.table==='umbau_appointments'){item.dataset.appointmentDate=row.event_date;item.hidden=row.event_date!==calendarDay}node('strong',row.title,item);node('small',[w.table==='umbau_costs'?invoiceScopeLabel(row):roomName(row.room_id),row.trade,...w.details(row)].filter(Boolean).join(' · '),item);if(row.notes)node('p',row.notes,item);const actions=node('div',null,item,'workspace-actions');if(row.storage_path){const b=node('button','Datei anzeigen',actions);b.onclick=()=>{const area=node('span','',actions);void openWorkspaceFile(row.storage_path,area)}}if(writableWorkspace()){if(w.extraActions)w.extraActions(row,actions,status,w);const edit=node('button','Bearbeiten',actions);edit.onclick=()=>{if(w.busy)return;if(root.querySelector('form[data-dirty="true"]')&&!confirm('Ungespeicherte Eingaben verwerfen?'))return;w.edit=row.id;renderWorkspace(w);root.querySelector('form')?.scrollIntoView({block:'nearest',behavior:'smooth'})};const del=node('button','Löschen',actions);del.onclick=async()=>{if(w.busy||!writableWorkspace()||!confirm('Eintrag löschen?'))return;const pid=cloud.project,epoch=workspaceEpoch;w.busy=true;try{const result=await api(w.table,'?id=eq.'+row.id+'&project_id=eq.'+pid,{method:'DELETE',headers:{Prefer:'return=representation'}});if(!Array.isArray(result)||result.length!==1)throw Error('Löschen nicht bestätigt');if(epoch!==workspaceEpoch||pid!==cloud.project)return;w.rows=w.rows.filter(r=>r.id!==row.id);w.edit=null;renderWorkspace(w);void loadActivity()}catch(e){status.textContent='Löschen fehlgeschlagen: '+e.message}finally{w.busy=false}}}}
 }
 const sharedFields=[{key:'title',label:'Bezeichnung',required:true},{key:'room_id',label:'Raum',type:'room'},{key:'trade',label:'Gewerk'},{key:'notes',label:'Notizen',type:'textarea'}];
 workspaces.push({root:'materialWorkspace',table:'umbau_materials',title:'Materialbedarf',description:'Materialliste je Raum und Gewerk. Mengen und Beschaffungsstatus werden in Supabase gespeichert.',fields:[...sharedFields,{key:'quantity',label:'Menge',type:'number',step:'any',min:.001,default:1,required:true},{key:'unit',label:'Einheit',default:'Stk.',required:true},{key:'purchased',label:'Beschafft',type:'checkbox'}],details:r=>[r.quantity+' '+r.unit,r.purchased?'Beschafft':'Offen'],rows:[],pid:null,edit:null,busy:false});
 
 
+let budgetState={pid:null,rows:[],error:false};
+function projectBudgetRows(){return budgetState.pid===cloud.project?budgetState.rows:[]}
+function isInvoice(row){return typeof row.paid==='boolean'}
+function costTotals(rows,budgets){
+ const invoices=rows.filter(isInvoice);
+ const sum=items=>items.reduce((total,row)=>total+Math.round(Number(row.actual||0)*100),0)/100;
+ const actual=sum(invoices),open=sum(invoices.filter(row=>!row.paid));
+ const total=budgets.find(row=>row.trade==='');
+ return {budget:total?Number(total.amount):null,actual,open};
+}
+function costTradeOptions(value){
+ const budgets=projectBudgetRows().map(row=>row.trade).filter(Boolean);
+ const w=workspaces.find(w=>w.table==='umbau_costs'&&w.pid===cloud.project);
+ const names=new Set([...budgets,...(w?.rows||[]).map(row=>row.trade).filter(Boolean),value].filter(Boolean));
+ names.delete('Sonstiges');
+ return [['','Gewerk auswählen'],...[...names].sort((a,b)=>a.localeCompare(b,'de')).map(name=>[name,name]),['Sonstiges','Sonstiges']];
+}
+const costScopes=[['project','Projekt gesamt'],['eg','Erdgeschoss · Umbau 2026'],['og','Obergeschoss'],['kg','Keller']];
+function invoiceScope(row){
+ if(row?.cost_scope)return row.cost_scope;
+ const floor=Number(allRooms().find(room=>room.id===row?.room_id)?.floor);
+ return ({0:'kg',1:'eg',2:'og'})[floor]||'project';
+}
+function groundFloorInvoiceRooms(){
+ return [['','Gesamtes Erdgeschoss'],...allRooms().filter(room=>Number(room.floor)===1).map(room=>[room.id,room.name])];
+}
+function invoiceScopeLabel(row){
+ const scope=invoiceScope(row);
+ const label=costScopes.find(([key])=>key===scope)?.[1];
+ const room=scope==='eg'&&allRooms().find(room=>room.id===row.room_id);
+ return room?label+' · '+room.name:label;
+}
+function bindInvoiceScope(form,edited){
+ const scope=form.elements.namedItem('cost_scope'),room=form.elements.namedItem('room_id');
+ scope.value=invoiceScope(edited);
+ const refresh=()=>{
+   room.disabled=scope.value!=='eg';
+   room.closest('label').style.display=room.disabled?'none':'';
+ };
+ scope.addEventListener('change',refresh);
+ refresh();
+}
 function costSummary(root,rows){
- const sum=(key)=>rows.reduce((a,r)=>a+Number(r[key]||0),0),planned=sum('planned'),actual=sum('actual'),balance=planned-actual;
- const m=node('div',null,root,'workspace-metrics');for(const [title,value] of [['Budget',money(planned)],['Ist-Kosten',money(actual)],['Restbudget',money(balance)],['Budgetnutzung',planned>0?Math.round(actual/planned*100)+' %':'—']]){const card=node('div',null,m);node('strong',value,card);node('small',title,card)}
- const p=node('progress',null,root);p.max=100;p.value=planned>0?Math.min(100,actual/planned*100):0;p.setAttribute('aria-label','Budgetnutzung');
- if(balance<0)node('p','Budget überschritten: '+money(-balance),root,'workspace-status');
- for(const [label,get] of [['Nach Gewerk',r=>r.trade||'Ohne Gewerk'],['Nach Raum',r=>roomName(r.room_id)]]){
- const d=node('details',null,root);node('summary',label,d);const groups=new Map();for(const r of rows){const key=get(r),v=groups.get(key)||{planned:0,actual:0};v.planned+=Number(r.planned||0);v.actual+=Number(r.actual||0);groups.set(key,v)}
- const table=node('table',null,d,'cost-breakdown');const head=node('tr',null,table);for(const t of ['Bereich','Soll','Ist','Rest'])node('th',t,head);
- for(const [key,v] of [...groups].sort((a,b)=>b[1].actual-a[1].actual)){const tr=node('tr',null,table);for(const t of [key,money(v.planned),money(v.actual),money(v.planned-v.actual)])node('td',t,tr)}
+ const budgets=projectBudgetRows();
+ const {budget,actual,open}=costTotals(rows,budgets);
+ const balance=budget===null?null:budget-actual,percent=budget>0?Math.round(actual/budget*100):null;
+ const metrics=node('div',null,root,'workspace-metrics');
+ for(const [title,value] of [['Gesamtbudget',budget===null?'—':money(budget)],['Ist-Kosten',money(actual)],['Restbudget',balance===null?'—':money(balance)],['Budgetnutzung',percent===null?'—':percent+' %'],['Offene Rechnungen',money(open)]]){
+   const card=node('div',null,metrics);node('strong',value,card);node('small',title,card);
+ }
+ if(budgetState.pid===cloud.project&&budgetState.error)node('p','Das Budget konnte nicht geladen werden.',root,'workspace-status');
+ const details=node('details',null,root,'budget-breakdown');
+ node('summary','Budgetübersicht nach Gewerken',details);
+ const groups=new Map();
+ for(const row of budgets)if(row.trade)groups.set(row.trade,{budget:Number(row.amount),actual:0});
+ for(const row of rows.filter(isInvoice)){
+   const trade=row.trade||'Sonstiges',entry=groups.get(trade)||{budget:null,actual:0};
+   entry.actual+=Math.round(Number(row.actual||0)*100);
+   groups.set(trade,entry);
+ }
+ if(!groups.size)node('p','Die Einzelbudgets werden ergänzt, sobald sie feststehen.',details,'workspace-empty');
+ else{
+   const table=node('table',null,details,'cost-breakdown'),head=node('tr',null,table);
+   for(const label of ['Gewerk','Budget','Ist-Kosten','Restbudget'])node('th',label,head);
+   for(const [name,value] of [...groups].sort(([a],[b])=>a.localeCompare(b,'de'))){
+     const row=node('tr',null,table);
+     for(const part of [name,value.budget===null?'—':money(value.budget),money(value.actual/100),value.budget===null?'—':money(value.budget-value.actual/100)])node('td',part,row);
+   }
  }
 }
-workspaces.push({root:'costWorkspace',table:'umbau_costs',title:'Kostenpositionen',description:'Geplante und tatsächliche Beträge in EUR. Belege bleiben im privaten Supabase-Speicher.',fields:[...sharedFields,{key:'planned',label:'Budget (€)',type:'number',min:0,step:'.01',default:0,required:true},{key:'actual',label:'Ist-Kosten (€)',type:'number',min:0,step:'.01',default:0,required:true},{key:'invoice_date',label:'Rechnungsdatum',type:'date'}],folder:'Belege',summary:costSummary,details:r=>['Soll '+money(r.planned),'Ist '+money(r.actual),'Rest '+money(Number(r.planned)-Number(r.actual)),r.invoice_date?'Rechnung '+fmtDate(r.invoice_date):''],rows:[],pid:null,edit:null,busy:false});
-
+workspaces.push({
+ root:'costWorkspace',table:'umbau_costs',title:'Kostenpositionen',
+ description:'Geplante und tatsächliche Beträge in EUR. Belege bleiben im privaten Supabase-Speicher.',
+ fields:[
+   {key:'title',label:'Bezeichnung',required:true},
+   {key:'trade',label:'Gewerk',type:'select',options:costTradeOptions,required:true},
+   {key:'cost_scope',label:'Zuordnung',type:'select',options:costScopes,default:'project',required:true},
+   {key:'room_id',label:'Raum im Erdgeschoss',type:'room',options:groundFloorInvoiceRooms},
+   {key:'actual',label:'Rechnungsbetrag (€)',type:'number',min:.01,step:'.01',required:true},
+   {key:'invoice_date',label:'Rechnungsdatum',type:'date',default:todayLocal,required:true},
+   {key:'paid',label:'Bezahlt',type:'checkbox',default:false},
+   {key:'notes',label:'Notizen',type:'textarea'}
+ ],
+ folder:'Belege',summary:costSummary,filter:isInvoice,listLabel:'Rechnungen',
+ editLabel:'Rechnung bearbeiten',newLabel:'Neue Rechnung',submitLabel:'Rechnung hinzufügen',
+ sort:(a,b)=>String(b.invoice_date||'').localeCompare(String(a.invoice_date||'')),
+ details:r=>[money(r.actual),r.paid?'Bezahlt':'Offen',r.invoice_date?fmtDate(r.invoice_date):''],
+ rows:[],pid:null,edit:null,busy:false
+});
 
 const archiveFilters={category:'',search:'',room:'',trade:'',file:''};
 
@@ -581,13 +766,11 @@ function archiveMaintenanceAction(row,actions,status,w){
  if(row.category!=='Wartung')return;const button=node('button','Wartung erledigt',actions);
  button.onclick=async()=>{if(w.busy||!writableWorkspace()||!confirm('Wartung als heute erledigt markieren?'))return;const pid=cloud.project,epoch=workspaceEpoch,date=todayLocal(),due=row.interval_months?plusMonthsISO(date,Number(row.interval_months)):null;w.busy=true;button.disabled=true;try{const result=await api(w.table,'?id=eq.'+row.id+'&project_id=eq.'+pid,{method:'PATCH',headers:{Prefer:'return=representation'},body:JSON.stringify({document_date:date,next_due:due,updated_at:new Date().toISOString()})});if(!Array.isArray(result)||result.length!==1)throw Error('Speichern nicht bestätigt');if(epoch!==workspaceEpoch||pid!==cloud.project)return;w.rows=w.rows.map(r=>r.id===row.id?result[0]:r);renderWorkspace(w)}catch(e){status.textContent='Speichern fehlgeschlagen: '+e.message}finally{w.busy=false;button.disabled=false}};
 }
-workspaces.push({root:'archiveWorkspace',table:'umbau_archive',title:'Archiv & Wartungsplan',description:'Private Dokumente, Fotos, Baupläne und technische Nachweise. Bei Wartungen bezeichnet das Dokumentdatum die letzte Durchführung. Termine werden in der App angezeigt; keine externen Benachrichtigungen.',fields:[...sharedFields,{key:'category',label:'Kategorie',type:'select',options:archiveCategories.map(x=>[x,x]),default:'Dokument',required:true},{key:'document_date',label:'Dokumentdatum / letzte Wartung',type:'date'},{key:'next_due',label:'Nächste Wartung',type:'date'},{key:'interval_months',label:'Wartungsintervall (Monate)',type:'number',min:1,max:600,step:1}],folder:'Gebaeudearchiv',summary:archiveSummary,filterUI:archiveFilterUI,filter:r=>archiveMatches(r,archiveFilters,roomName(r.room_id)),details:r=>[r.category,r.document_date?'Datum '+fmtDate(r.document_date):'',r.next_due?'Fällig '+fmtDate(r.next_due):'',r.interval_months?'Alle '+r.interval_months+' Monate':''],extraActions:archiveMaintenanceAction,rows:[],pid:null,edit:null,busy:false});
 
 window.panageiRenderDashboard=renderDashboard;
 
 const diaryFilters={from:'',to:'',search:''};
 function diaryFilterUI(root,w){const bar=node('div',null,root,'workspace-fields');for(const [key,label,type] of [['from','Von','date'],['to','Bis','date'],['search','Suche','search']]){const lab=node('label',label,bar),input=node('input',null,lab);input.type=type;input.value=diaryFilters[key];input.onchange=()=>{if(root.querySelector('form[data-dirty="true"]')&&!confirm('Ungespeicherte Eingaben verwerfen?')){input.value=diaryFilters[key];return}diaryFilters[key]=input.value;renderWorkspace(w)}}}
-workspaces.push({root:'diaryWorkspace',table:'umbau_diary',title:'Tagesberichte',description:'Ein Bericht pro Arbeitsschritt oder Ereignis; bei Bedarf ein Foto oder PDF anhängen.',fields:[...sharedFields,{key:'entry_date',label:'Datum',type:'date',required:true,default:todayLocal}],folder:'Bautagebuch',filterUI:diaryFilterUI,filter:r=>(!diaryFilters.from||r.entry_date>=diaryFilters.from)&&(!diaryFilters.to||r.entry_date<=diaryFilters.to)&&(!diaryFilters.search||[r.title,r.notes,r.trade,roomName(r.room_id)].join(' ').toLocaleLowerCase('de-DE').includes(diaryFilters.search.toLocaleLowerCase('de-DE'))),sort:(a,b)=>b.entry_date.localeCompare(a.entry_date),details:r=>[fmtDate(r.entry_date)],rows:[],pid:null,edit:null,busy:false});
 
 
 const installKinds=['Steckdose','Schalter','Leuchte','Netzwerk','Heizung','Wasser','Leitungsverlauf','Sonstiges'];
@@ -612,7 +795,6 @@ function installationMap(root,rows){
  const hint=node('p','Auf die Skizze tippen, dann Bezeichnung und Kategorie eintragen und speichern. Leitungsverläufe sind nur dokumentierte Skizzen.',root);
  svg.onclick=e=>{const form=root.querySelector('form');if(!form)return;const rect=svg.getBoundingClientRect();const x=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width)),y=Math.max(0,Math.min(1,(e.clientY-rect.top)/rect.height));const key=pick.value==='end'?'end_':'';form.elements.namedItem(key+'x').value=x.toFixed(5);form.elements.namedItem(key+'y').value=y.toFixed(5);form.elements.namedItem('floor').value=installFloor;form.dataset.dirty='true';hint.textContent=(key?'Endpunkt':'Startpunkt')+' übernommen – Eintrag speichern.'};
 }
-workspaces.push({root:'installWorkspace',table:'umbau_installation_markers',title:'Installationsdokumentation',description:'Erfasste Positionen nach Etage, relativ zum vorhandenen Grundriss.',fields:[{key:'title',label:'Bezeichnung',required:true},{key:'category',label:'Kategorie',type:'select',options:installKinds.map(x=>[x,x]),required:true},{key:'floor',label:'Etagenindex (aus der Skizze)',type:'number',min:0,step:1,required:true,default:()=>installFloor},{key:'x',label:'Start X (0–1)',type:'number',min:0,max:1,step:'any',required:true},{key:'y',label:'Start Y (0–1)',type:'number',min:0,max:1,step:'any',required:true},{key:'end_x',label:'Ende X (optional)',type:'number',min:0,max:1,step:'any'},{key:'end_y',label:'Ende Y (optional)',type:'number',min:0,max:1,step:'any'},{key:'notes',label:'Notizen',type:'textarea'}],summary:installationMap,filter:r=>Number(r.floor)===installFloor,details:r=>[r.category,D?.levels[Number(r.floor)]?.name||'Etage '+r.floor,r.end_x!=null?'Linie':'Punkt'],rows:[],pid:null,edit:null,busy:false});
 
 
 let historicState={pid:null,phase:null,phases:[],models:[],rot:-0.72,floor:'all',loading:false,error:''};
@@ -622,18 +804,183 @@ async function loadHistoricModels(){
  historicState.loading=true;historicState.error='';const state=historicState;
  try{const qs='?project_id=eq.'+encodeURIComponent(pid);const [phases,models]=await Promise.all([api('umbau_bauabschnitte',qs+'&select=*&order=jahr_von.asc'),api('umbau_model_versions',qs+'&select=*')]);
  if(epoch!==workspaceEpoch||cloud.project!==pid||state!==historicState)return;
- state.phases=phases;state.models=models;if(!phases.some(p=>p.id===state.phase))state.phase=phases.at(-1)?.id||null;
+ state.phases=phases;state.models=models;requestRender();if(!phases.some(p=>p.id===state.phase))state.phase=phases.at(-1)?.id||null;
  }catch(e){if(state===historicState)state.error=e.message}finally{state.loading=false;if(state===historicState&&cloud.project===pid)renderHistoric()}
 }
+function renderImportedWallModel(root, bar, state, wallModel){
+ const levels=['Keller','Erdgeschoss','Obergeschoss','Dachgeschoss','Dachboden'];
+ const type=node('label','Ansicht',bar), floor=node('select',null,type);
+ optionList(floor,[['all','Gesamthaus'],...levels.map((name,i)=>[String(i),name])]);
+ floor.value=state.floor;
+ node('h3','Wandmodell V'+wallModel.version,root);
+ const actions=node('div',null,root,'workspace-actions');
+ const canvas=node('canvas',null,root);
+ canvas.setAttribute('aria-label','Drehbares 3D-Hausmodell');
+ canvas.style.cssText='width:100%;height:clamp(260px,55vh,620px);display:block;background:#e7efe9;border-radius:12px;touch-action:none;cursor:grab';
+ const ctx=canvas.getContext('2d');
+ let selected=0,activeWall=null,roof=true;
+ // Orthographic triangles share a per-pixel depth buffer, including wall tops,
+// jambs and glazing. Their draw order is independent of the camera angle.
+let depthFrame;
+const rgbByColor=new Map();
+function renderSurfaces(surfaces,w,h,project){
+ const sample=Math.min(devicePixelRatio||1,1.5,1280/Math.max(w,h));
+ const width=Math.max(1,Math.round(w*sample));
+ const height=Math.max(1,Math.round(h*sample));
+ if(!depthFrame || depthFrame.width!==width || depthFrame.height!==height){
+   const layer=document.createElement('canvas');
+   layer.width=width;layer.height=height;
+   const brush=layer.getContext('2d');
+   depthFrame={width,height,layer,brush,image:brush.createImageData(width,height),depth:new Float32Array(width*height)};
+ }
+ const {image,depth,brush,layer}=depthFrame;
+ image.data.fill(0);
+ depth.fill(-Infinity);
+ function triangle(a,b,c,rgb){
+   const [ax,ay,az]=a,[bx,by,bz]=b,[cx,cy,cz]=c;
+   const ux=bx-ax,uy=by-ay,vx=cx-ax,vy=cy-ay;
+   const determinant=ux*vy-uy*vx;
+   if(Math.abs(determinant)<1e-7)return;
+   const minX=Math.max(0,Math.ceil(Math.min(ax,bx,cx)-.5));
+   const maxX=Math.min(width-1,Math.floor(Math.max(ax,bx,cx)-.5));
+   const minY=Math.max(0,Math.ceil(Math.min(ay,by,cy)-.5));
+   const maxY=Math.min(height-1,Math.floor(Math.max(ay,by,cy)-.5));
+   for(let y=minY;y<=maxY;y++){
+     for(let x=minX;x<=maxX;x++){
+       const px=x+.5-ax,py=y+.5-ay;
+       const u=(px*vy-py*vx)/determinant,v=(ux*py-uy*px)/determinant;
+       if(u<-.000001||v<-.000001||u+v>1.000001)continue;
+       const z=az+u*(bz-az)+v*(cz-az), index=y*width+x;
+       if(z<=depth[index]+.000001)continue;
+       depth[index]=z;
+       image.data.set(rgb,index*4);
+     }
+   }
+ }
+ for(const [level,material,vertices,id] of surfaces){
+   if(selected && level!==selected-1)continue;
+   if(!selected && level===4 && !roof)continue;
+   const color=id && id===activeWall?'#aa552d':material;
+   if(!rgbByColor.has(color)){
+     const n=parseInt(color.slice(1),16);
+     rgbByColor.set(color,[n>>16,(n>>8)&255,n&255,255]);
+   }
+   const points=vertices.map(point=>{
+     const [x,y,z]=project(point);
+     return [x*sample,y*sample,z];
+   });
+   for(let i=1;i<points.length-1;i++)triangle(points[0],points[i],points[i+1],rgbByColor.get(color));
+ }
+ brush.putImageData(image,0,0);
+ ctx.drawImage(layer,0,0,w,h);
+}
+
+ let pitch=.55,zoom=1,panX=0,panY=0,topDown=false,roomFocus=null,framePending=false;
+ const availableRooms=levels.flatMap((name,index)=>wallModelRooms(index,wallModel).map(region=>({...region,floor:index,levelName:name})));
+ const roomLabel=node('label','Zimmer',actions);
+ const roomMenu=node('select',null,roomLabel);
+ optionList(roomMenu,[['','Kein Zimmer ausgewählt'],...availableRooms.map((room,index)=>[String(index),room.levelName+' · '+room.name])]);
+ const pointers=new Map();
+ const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
+ function schedule(){
+   if(framePending)return;
+   framePending=true;
+   requestAnimationFrame(()=>{framePending=false;draw()});
+ }
+ function resetCamera(){zoom=1;panX=0;panY=0;}
+ function draw(){
+   const {width:w,height:h}=canvas.getBoundingClientRect();
+   if(!w||!h)return;
+   const ratio=Math.min(devicePixelRatio||1,1.5);
+   canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio);
+   ctx.setTransform(ratio,0,0,ratio,0,0);
+   selected=state.floor==='all'?0:Number(state.floor)+1;
+   const extent=roomFocus?.bounds;
+   const ox=extent?(extent[0]+extent[2])/2:8.2,oy=extent?(extent[1]+extent[3])/2:5.9;
+   const span=extent?Math.max(extent[2]-extent[0],extent[3]-extent[1])+1.1:null;
+   const scale=(span?Math.min(w/span,h/(span+1)):Math.min(w/35,h/(selected===0?24:19)))*zoom;
+   if(topDown&&selected){
+     const items=wallModelPlanItems(wallModel,selected-1);
+     if(!items.length){ctx.fillStyle='#153e34';ctx.font='14px system-ui';ctx.fillText('Für dieses Geschoss ist keine Draufsicht hinterlegt.',14,28);return;}
+     const rooms=availableRooms.filter(room=>room.floor===selected-1);
+     paintWallPlan(ctx,items,rooms,(x,y)=>[w/2+panX+(x-ox)*scale,h/2+panY+(y-oy)*scale],roomFocus);
+     return;
+   }
+   const cy=Math.cos(state.rot),sy=Math.sin(state.rot);
+   const cp=Math.cos(pitch),sp=Math.sin(pitch);
+   const center=[6.3,1.15,3.75,6.5,8.1,11.5][selected];
+   renderSurfaces(wallModel.geometry,w,h,([x,y,z])=>{
+     x-=ox;y-=oy;z-=center;
+     const a=x*cy-y*sy,b=x*sy+y*cy;
+     return [w/2+panX+a*scale,h/2+panY+(b*sp-z*cp)*scale,b*cp+z*sp];
+   });
+ }
+ floor.onchange=()=>{state.floor=floor.value;roomMenu.value='';roomFocus=null;if(state.floor==='all'){topDown=false;topButton.setAttribute('aria-pressed','false')}resetCamera();schedule()};
+ roomMenu.onchange=()=>{
+   roomFocus=roomMenu.value===''?null:availableRooms[Number(roomMenu.value)]||null;
+   if(roomFocus){state.floor=String(roomFocus.floor);floor.value=state.floor;}
+   resetCamera();schedule();
+ };
+ const topButton=node('button','Draufsicht',actions);topButton.type='button';
+ topButton.setAttribute('aria-pressed','false');
+ topButton.onclick=()=>{
+   topDown=!topDown;
+   if(topDown&&state.floor==='all'){state.floor='1';floor.value='1'}
+   topButton.setAttribute('aria-pressed',String(topDown));resetCamera();schedule();
+ };
+ const roofButton=node('button','Dach',actions);roofButton.type='button';
+ roofButton.setAttribute('aria-pressed','true');
+ roofButton.onclick=()=>{roof=!roof;roofButton.setAttribute('aria-pressed',String(roof));schedule()};
+ for(const [label,factor] of [['−',.8],['＋',1.25]]){
+   const button=node('button',label,actions);button.type='button';button.setAttribute('aria-label',factor<1?'Verkleinern':'Vergrößern');
+   button.onclick=()=>{zoom=clamp(zoom*factor,.4,5);schedule()};
+ }
+ canvas.onpointerdown=e=>{
+   if(e.pointerType==='mouse'&&e.button!==0)return;
+   canvas.setPointerCapture(e.pointerId);
+   pointers.set(e.pointerId,[e.clientX,e.clientY]);
+   canvas.style.cursor='grabbing';
+ };
+ canvas.onpointermove=e=>{
+   const old=pointers.get(e.pointerId);
+   if(!old)return;
+   const before=[...pointers.values()];
+   pointers.set(e.pointerId,[e.clientX,e.clientY]);
+   const after=[...pointers.values()];
+   if(after.length>=2){
+     const delta=points=>[points[1][0]-points[0][0],points[1][1]-points[0][1]];
+     const [ax,ay]=delta(before),[bx,by]=delta(after),distance=Math.hypot(ax,ay);
+     if(distance>3)zoom=clamp(zoom*Math.hypot(bx,by)/distance,.4,5);
+     if(!topDown)state.rot+=Math.atan2(ax*by-ay*bx,ax*bx+ay*by);
+     panX+=(after[0][0]+after[1][0]-before[0][0]-before[1][0])/2;
+     panY+=(after[0][1]+after[1][1]-before[0][1]-before[1][1])/2;
+   }else if(topDown||e.shiftKey){
+     panX+=e.clientX-old[0];panY+=e.clientY-old[1];
+   }else{
+     state.rot+=(e.clientX-old[0])*.008;
+     pitch=clamp(pitch+(e.clientY-old[1])*.007,.06,1.52);
+   }
+   schedule();
+ };
+ const end=e=>{pointers.delete(e.pointerId);if(!pointers.size)canvas.style.cursor='grab'};
+ canvas.onpointerup=canvas.onpointercancel=canvas.onlostpointercapture=end;
+ canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=clamp(zoom*Math.exp(-e.deltaY*.002),.4,5);schedule()},{passive:false});
+ historicObserver=new ResizeObserver(schedule);historicObserver.observe(canvas);
+ schedule();
+}
+let historicObserver;
+
 function renderHistoric(){
- const root=$('historicWorkspace');if(!root)return;root.replaceChildren();if(!cloud.role||!cloud.project)return;
+ const root=$('historicWorkspace');if(!root)return;historicObserver?.disconnect();root.replaceChildren();if(!cloud.role||!cloud.project)return;
  const state=historicState;if(state.pid!==cloud.project||(!state.phases.length&&state.loading)){node('p','Modellstände werden geladen …',root);return}
  if(state.error){node('p','Modellstände konnten nicht geladen werden: '+state.error,root);const b=node('button','Erneut laden',root);b.onclick=loadHistoricModels;return}
  if(!state.phases.length){node('p','Keine Bauabschnitte hinterlegt.',root);return}
- const bar=node('div',null,root,'workspace-fields'),label=node('label','Bauabschnitt',bar),sel=node('select',null,label);
- optionList(sel,state.phases.map(p=>[p.id,(p.jahr_von===p.jahr_bis?p.jahr_von:p.jahr_von+'–'+p.jahr_bis)+' · '+p.bezeichnung+(state.models.some(m=>m.phase_id===p.id)?'':' (ohne 3D-Modell)')]));sel.value=state.phase;
- sel.onchange=()=>{state.phase=sel.value;state.floor='all';renderHistoric()};
- const version=state.models.find(m=>m.phase_id===state.phase),p=version?.payload,mdl=p?.model;
+ const bar=node('div',null,root,'workspace-fields');
+ const version=state.models.find(m=>m.payload?.wallModel?.format==='panagei-wall-model')||state.models.find(m=>m.phase_id===state.phase),p=version?.payload,mdl=p?.model;
+ const wallModel=p?.wallModel;
+ if(wallModel?.format==='panagei-wall-model'&&Array.isArray(wallModel.geometry)&&wallModel.geometry.length){
+   renderImportedWallModel(root,bar,state,wallModel);return;
+ }
  if(!mdl?.elements?.length||!mdl.levels?.length||!p.dimensions){node('h3','Noch kein 3D-Modell vorhanden',root);node('p','Für diesen Bauabschnitt fehlen belegte Modelldaten. Die vorhandenen Originalunterlagen sind in der Bauhistorie zugänglich.',root);const b=node('button','Zur Bauhistorie',root);b.onclick=()=>window.panageiOpenPage?.('historie');return}
  node('h3',version.label,root);node('p',version.source||'Hinterlegter Modellstand',root);
  const fl=node('label','Ansicht',bar),floor=node('select',null,fl);optionList(floor,[['all','Gesamthaus'],...mdl.levels.map((l,i)=>[String(i),l.name])]);floor.value=state.floor;floor.onchange=()=>{state.floor=floor.value;renderHistoric()};
@@ -669,16 +1016,57 @@ function calendarEntries(appointments,rooms,archive){
  return [...appointments.map(r=>({title:r.title,date:r.event_date,time:r.event_time?.slice(0,5),kind:'Termin',category:r.category,room:r.room_id||'',trade:r.trade||'',id:r.id,workspace:'umbau_appointments',page:'calendar'})),...rooms.flatMap(r=>(r.tasks||[]).filter(t=>!t.done&&t.due_date).map(t=>({title:t.text,date:t.due_date,kind:'Aufgabenfrist',room:r.id,trade:t.trade||'',task:t.id,page:'aufgaben'}))),...archive.filter(r=>r.category==='Wartung'&&r.next_due).map(r=>({title:r.title,date:r.next_due,kind:'Wartung',room:r.room_id||'',trade:r.trade||'',id:r.id,workspace:'umbau_archive',page:'archiv'}))].filter(e=>e.date).sort((a,b)=>(a.date+(a.time||'08:00')).localeCompare(b.date+(b.time||'08:00')));
 }
 function calendarMatch(e,f,today){return (!f.room||e.room===f.room)&&(!f.trade||e.trade===f.trade)&&(!f.kind||e.kind===f.kind)&&(f.period==='all'||(f.period==='future'?e.date>=today:f.period==='past'?e.date<today:(e.date>=today||e.kind!=='Termin')))}
-function renderCalendarSummary(root,rows){
- const archive=workspaces.find(w=>w.table==='umbau_archive'&&w.pid===cloud.project)?.rows||[],rooms=allRooms(),entries=calendarEntries(rows,rooms,archive);
- node('h3','Bauzeitplan',root);node('p','Termine, offene Aufgabenfristen und Wartungen in einer gemeinsamen Übersicht.',root);
- const panel=node('div',null,root,'workspace-fields calendar-filters'),list=node('div',null,root,'calendar-timeline');
- const trades=[...new Set(entries.map(e=>e.trade).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'de'));
- const draw=()=>{list.replaceChildren();const today=todayLocal(),filtered=entries.filter(e=>calendarMatch(e,calendarFilters,today));if(!filtered.length)node('p','Keine passenden Termine.',list,'workspace-empty');let day='';for(const e of filtered){if(day!==e.date){day=e.date;node('h4',fmtDate(day)+(day===today?' · Heute':''),list,'calendar-day')}const b=node('button',null,list,'dashboard-date');b.type='button';node('strong',e.title,b);node('small',[e.kind,e.time?e.time+' Uhr':'',e.category,e.room?roomName(e.room):'Projekt gesamt',e.trade,e.date<today&&e.kind!=='Termin'?'Überfällig':''].filter(Boolean).join(' · '),b);b.onclick=()=>e.workspace?openSearchEntry({workspace:e.workspace,id:e.id,page:e.page}):openRoomSearch(e.room,e.task)}};
- for(const [key,label,options] of [['room','Raum',[['','Alle Räume'],...rooms.map(r=>[r.id,r.label])]],['trade','Gewerk',[['','Alle Gewerke'],...trades.map(t=>[t,t])]],['kind','Art',[['','Alle Arten'],...['Termin','Aufgabenfrist','Wartung'].map(t=>[t,t])]],['period','Zeitraum',[['open','Anstehend & überfällig'],['future','Ab heute'],['past','Vergangenheit'],['all','Alle']]]]){const l=node('label',label,panel),sel=node('select',null,l);optionList(sel,options);sel.value=calendarFilters[key];if(sel.selectedIndex<0){sel.selectedIndex=0;calendarFilters[key]=sel.value}sel.onchange=()=>{calendarFilters[key]=sel.value;draw()}}
+let calendarDay='';
+function renderCalendarSummary(root, rows){
+ const today=todayLocal();
+ if(!calendarDay)calendarDay=today;
+ const widget=node('div',null,root,'month-calendar');
+ const bar=node('div',null,widget,'month-calendar-bar');
+ const prev=node('button','‹',bar),title=node('h3','',bar),next=node('button','›',bar);
+ prev.setAttribute('aria-label','Vorheriger Monat');
+ next.setAttribute('aria-label','Nächster Monat');
+ const grid=node('div',null,widget,'month-calendar-grid');
+ const dayHeading=node('h3','',widget);
+ dayHeading.setAttribute('aria-live','polite');
+ const empty=node('p','Keine Termine an diesem Tag.',widget,'workspace-empty');
+ node('div',null,widget,'month-calendar-entries');
+ const iso=(y,m,d)=>String(y)+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+ const dates=new Map();
+ for(const row of rows)if(row.event_date)dates.set(row.event_date,(dates.get(row.event_date)||0)+1);
+ function draw(){
+   const [y,m]=calendarDay.split('-').map(Number);
+   title.textContent=new Intl.DateTimeFormat('de-DE',{month:'long',year:'numeric'}).format(new Date(y,m-1,1));
+   grid.replaceChildren();
+   for(const weekday of ['Mo','Di','Mi','Do','Fr','Sa','So'])node('span',weekday,grid,'month-weekday');
+   const first=new Date(y,m-1,1),count=new Date(y,m,0).getDate();
+   for(let i=0;i<(first.getDay()+6)%7;i++)node('span',null,grid);
+   for(let d=1;d<=count;d++){
+     const date=iso(y,m,d),countForDay=dates.get(date)||0;
+     const button=node('button',String(d),grid,countForDay?'has-date':'');
+     button.type='button';
+     button.dataset.calendarDay=date;
+     button.setAttribute('aria-label',fmtDate(date)+(countForDay?' · '+countForDay+' Termine':''));
+     button.setAttribute('aria-pressed',String(date===calendarDay));
+     if(date===today)button.setAttribute('aria-current','date');
+     button.onclick=()=>{calendarDay=date;draw();grid.querySelector('[aria-pressed="true"]')?.focus()};
+   }
+   dayHeading.textContent='Termine am '+fmtDate(calendarDay);
+   empty.hidden=dates.has(calendarDay);
+   for(const item of root.querySelectorAll('[data-appointment-date]'))item.hidden=item.dataset.appointmentDate!==calendarDay;
+   const dateField=root.querySelector('input[name="event_date"]');
+   if(dateField&&!root.querySelector('form[data-dirty="true"]')&&!calendarWorkspace.edit)dateField.value=calendarDay;
+ }
+ function shift(delta){
+   const [y,m]=calendarDay.split('-').map(Number);
+   const date=new Date(y,m-1+delta,1);
+   calendarDay=iso(date.getFullYear(),date.getMonth()+1,1);
+   draw();
+ }
+ prev.onclick=()=>shift(-1);
+ next.onclick=()=>shift(1);
  draw();
 }
-const calendarWorkspace={root:'calendarWorkspace',table:'umbau_appointments',title:'Eigene Termine',description:'Termine mit optionalem Raum, Gewerk und Aufgabe. Erinnerungen werden serverseitig geprüft. Push auf diesem Gerät aktivieren und Terminerinnerungen auswählen.',fields:[{key:'title',label:'Bezeichnung',required:true},{key:'category',label:'Kategorie',type:'select',options:['Handwerker','Lieferung','Besprechung','Wartung','Sonstiges'].map(x=>[x,x]),required:true},{key:'room_id',label:'Raum',type:'room'},{key:'trade',label:'Gewerk'},{key:'task_id',label:'Verknüpfte Aufgabe',type:'task'},{key:'event_date',label:'Datum',type:'date',default:()=>todayLocal(),required:true},{key:'event_time',label:'Uhrzeit',type:'time',default:'09:00',required:true},{key:'notes',label:'Notizen',type:'textarea'},{key:'reminders',label:'Erinnerungen',type:'reminders',default:()=>[1440,60]}],sort:(a,b)=>(a.event_date+a.event_time).localeCompare(b.event_date+b.event_time),details:r=>[fmtDate(r.event_date),r.event_time?.slice(0,5)+' Uhr',r.category,r.task_id?'Aufgabe: '+(allRooms().find(x=>x.id===r.room_id)?.tasks||[]).find(t=>t.id===r.task_id)?.text:'',(r.reminders||[]).map(m=>reminderOptions.find(x=>x[0]===m)?.[1]).filter(Boolean).join(', ')||'Keine Erinnerung'],rows:[],pid:null,edit:null,busy:false,summary:renderCalendarSummary};
+const calendarWorkspace={root:'calendarWorkspace',table:'umbau_appointments',title:'Eigene Termine',description:'Termine mit optionalem Raum, Gewerk und Aufgabe. Erinnerungen werden serverseitig geprüft. Push auf diesem Gerät aktivieren und Terminerinnerungen auswählen.',fields:[{key:'title',label:'Bezeichnung',required:true},{key:'category',label:'Kategorie',type:'select',options:['Handwerker','Lieferung','Besprechung','Wartung','Sonstiges'].map(x=>[x,x]),required:true},{key:'room_id',label:'Raum',type:'room'},{key:'trade',label:'Gewerk'},{key:'task_id',label:'Verknüpfte Aufgabe',type:'task'},{key:'event_date',label:'Datum',type:'date',default:()=>calendarDay||todayLocal(),required:true},{key:'event_time',label:'Uhrzeit',type:'time',default:'09:00',required:true},{key:'notes',label:'Notizen',type:'textarea'},{key:'reminders',label:'Erinnerungen',type:'reminders',default:()=>[1440,60]}],sort:(a,b)=>(a.event_date+a.event_time).localeCompare(b.event_date+b.event_time),details:r=>[fmtDate(r.event_date),r.event_time?.slice(0,5)+' Uhr',r.category,r.task_id?'Aufgabe: '+(allRooms().find(x=>x.id===r.room_id)?.tasks||[]).find(t=>t.id===r.task_id)?.text:'',(r.reminders||[]).map(m=>reminderOptions.find(x=>x[0]===m)?.[1]).filter(Boolean).join(', ')||'Keine Erinnerung'],rows:[],pid:null,edit:null,busy:false,summary:renderCalendarSummary};
 workspaces.push(calendarWorkspace);window.panageiRenderCalendar=()=>{if(calendarWorkspace.pid===cloud.project&&!calendarWorkspace.busy&&!$('calendarWorkspace')?.querySelector('form[data-dirty="true"]'))renderWorkspace(calendarWorkspace)};
 function requestRender(){if(renderQueued)return;renderQueued=true;requestAnimationFrame(()=>{renderQueued=false;render()})}
 function distance(){const p=[...touches.values()];return p.length<2?null:Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1])}
@@ -691,7 +1079,68 @@ function insidePolygon(x,y,p){let hit=false;for(let i=0,j=p.length-1;i<p.length;
 function drawOG(){ctx.clearRect(0,0,c.width,c.height);ctx.lineJoin="round";for(const [index,r] of ogRegions.entries()){const pts=r[1].map(([x,y])=>project([x,y,0]));ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=["Treppenhaus","Podest"].includes(r[0])?"#d3dad5":r[0]==="Flur"?"#c6dcd2":index%2?"#e0ebe5":"#edf3ef";ctx.fill();const x=pts.reduce((a,p)=>a+p[0],0)/pts.length,y=pts.reduce((a,p)=>a+p[1],0)/pts.length;ctx.font=`600 ${Math.max(9,S*.4)}px system-ui`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillStyle="#153e34";ctx.fillText(r[0]==="Hauswirtschaftsraum"?"HWR":r[0],x,y);}
 for(const b of D.elements.filter(b=>b.level===2&&b.kind==='wall'&&Math.abs(b.z-D.levels[2].z)<.05)){const p=project([b.x,b.y,0]),q=project([b.x+b.w,b.y+b.d,0]);ctx.fillStyle="#344d43";ctx.fillRect(p[0],p[1],q[0]-p[0],q[1]-p[1]);}}
 function drawOtherPlan(l){ctx.clearRect(0,0,c.width,c.height);const rect=(x,y,w,d,color)=>{const p=project([x,y,0]),q=project([x+w,y+d,0]);ctx.fillStyle=color;ctx.fillRect(p[0],p[1],q[0]-p[0],q[1]-p[1]);};for(const b of D.elements.filter(b=>b.level===l&&b.kind==='slab'))rect(b.x,b.y,b.w,b.d,'#edf3ef');if(l===1)for(const [i,r] of taskRegions.entries())rect(r[1],r[2],r[3]-r[1],r[4]-r[2],r[0]==='Flur'?'#c6dcd2':i%2?'#e0ebe5':'#edf3ef');for(const b of D.elements.filter(b=>b.level===l)){if(b.kind==='wall'&&Math.abs(b.z-D.levels[l].z)<.05)rect(b.x,b.y,b.w,b.d,'#344d43');if(['step','landing'].includes(b.kind))rect(b.x,b.y,b.w,b.d,'#c2ccc6');}if(l===1){ctx.font=`600 ${Math.max(9,S*.4)}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#153e34';for(const r of taskRegions){const p=project([(r[1]+r[3])/2,(r[2]+r[4])/2,0]);ctx.fillText(r[0],p[0],p[1]);}}}
+let highlightedTaskRoom='';
+let taskPlanTransform=null;
+function importedWallModel(){
+ return historicState.pid===cloud.project&&cloud.role&&cloud.token?
+   historicState.models.map(row=>row.payload?.wallModel).find(model=>model?.format==='panagei-wall-model'):null;
+}
+function wallModelRooms(floor,model){
+ const stored=model?.roomRegions?.filter(r=>r.floor===floor)||[];
+ const fallback=floor===1?taskRegions.map(([name,x0,y0,x1,y1,aliases])=>({name,bounds:[x0,y0,x1,y1],aliases})):[];
+ return (stored.length?stored:fallback).map(region=>({...region,roomId:allRooms().find(room=>Number(room.floor)===floor&&[region.name,...(region.aliases||[])].some(name=>normalizeRoom(name)===normalizeRoom(room.name)))?.id}));
+}
+function wallModelPlanItems(model,floor){
+ const items=model?.floorPlans?.filter(row=>row[0]===floor)||[];
+ if(items.length||floor!==4)return items;
+ return (model?.geometry||[]).filter(([level,color,vertices])=>level===4&&vertices.length>=3&&vertices.every(point=>Math.abs(point[2]-10.8)<.0001))
+   .map(([level,color,vertices])=>[level,null,vertices.map(([x,y])=>[x,y]),'#c8c8d5']);
+}
+function paintWallPlan(ctx,items,rooms,convert,selectedRoom){
+ const chosen=rooms.find(room=>selectedRoom&&(room.roomId===selectedRoom||room===selectedRoom));
+ if(chosen){
+   const [x0,y0,x1,y1]=chosen.bounds,p=convert(x0,y0),q=convert(x1,y1);
+   ctx.fillStyle='#c4e4d0';ctx.fillRect(p[0],p[1],q[0]-p[0],q[1]-p[1]);
+ }
+ const paths=new Map();
+ for(const [,id,vertices,material] of items){
+   const color=material||(id?'#344d43':'#aab5af');
+   if(!paths.has(color))paths.set(color,new Path2D());
+   const path=paths.get(color);
+   vertices.forEach(([x,y],i)=>path[i?'lineTo':'moveTo'](...convert(x,y)));
+   path.closePath();
+ }
+ for(const [color,path] of paths){ctx.fillStyle=color;ctx.fill(path)}
+ ctx.fillStyle='#153e34';ctx.font='600 '+Math.max(9,Math.min(13,Math.abs(convert(1,0)[0]-convert(0,0)[0])*.34))+'px system-ui';
+ ctx.textAlign='center';ctx.textBaseline='middle';
+ for(const r of rooms){
+   const [x0,y0,x1,y1]=r.bounds;
+   ctx.fillText(r.name,...convert((x0+x1)/2,(y0+y1)/2));
+ }
+}
+function drawImportedTaskPlan(floor){
+ taskPlanTransform=null;
+ const model=importedWallModel(),items=wallModelPlanItems(model,floor);
+ if(!items?.length)return false;
+ const points=items.flatMap(row=>row[2]),xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);
+ const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+ const scale=Math.min((c.width-18)/(x1-x0),(c.height-18)/(y1-y0));
+ const ox=c.width/2-(x0+x1)/2*scale,oy=c.height/2-(y0+y1)/2*scale;
+ const rooms=wallModelRooms(floor,model);
+ taskPlanTransform={floor,ox,oy,scale,rooms};
+ ctx.clearRect(0,0,c.width,c.height);
+ paintWallPlan(ctx,items,rooms,(x,y)=>[ox+x*scale,oy+y*scale],highlightedTaskRoom);
+ return true;
+}
 function activatePlanRoom(e){
+ if(taskPlanTransform?.floor===Number(selected)){
+   const {ox,oy,scale,rooms}=taskPlanTransform,rect=c.getBoundingClientRect();
+   const x=((e.clientX-rect.left)*c.width/rect.width-ox)/scale,y=((e.clientY-rect.top)*c.height/rect.height-oy)/scale;
+   const region=rooms.find(({bounds:[a,b,d,f]})=>x>=a&&x<=d&&y>=b&&y<=f);
+   if(region?.roomId)openRoomSearch(region.roomId);
+   else if(region)$('panageiPlanNotice').textContent='Für '+region.name+' ist noch keine Raumkarte angelegt.';
+   return;
+ }
  if(!D||selected==='all')return;
  const rect=c.getBoundingClientRect();if(!rect.width||!rect.height||!S)return;
  const px=(e.clientX-rect.left)*c.width/rect.width,py=(e.clientY-rect.top)*c.height/rect.height;
@@ -719,7 +1168,7 @@ $('obj').onclick=()=>{if(!D)return;let lines=['# Gesamthaus 2026; meters; Z up; 
 'use strict';
 const app=document.getElementById('panageiApp');
 const model=document.getElementById('panageiModelPage');
-const pages={calendar:document.getElementById('panageiCalendarPage'),settings:document.getElementById('panageiSettingsPage'),zeitreise:document.getElementById('panageiHistoricPage'),installation:document.getElementById('panageiInstallPage'),tagebuch:document.getElementById('panageiDiaryPage'),dashboard:document.getElementById('panageiDashboardPage'),modell:model,infos:document.getElementById('panageiInfoPage'),historie:document.getElementById('panageiHistoryPage'),bauteile:document.getElementById('panageiComponentsPage'),technik:document.getElementById('panageiTechPage'),aufgaben:document.getElementById('panageiTasksPage'),kosten:document.getElementById('panageiCostPage'),archiv:document.getElementById('panageiArchivePage'),admin:document.getElementById('panageiAdminPage')};
+const pages={calendar:document.getElementById('panageiCalendarPage'),settings:document.getElementById('panageiSettingsPage'),dashboard:document.getElementById('panageiDashboardPage'),modell:model,infos:document.getElementById('panageiInfoPage'),historie:document.getElementById('panageiHistoryPage'),bauteile:document.getElementById('panageiComponentsPage'),aufgaben:document.getElementById('panageiTasksPage'),kosten:document.getElementById('panageiCostPage'),admin:document.getElementById('panageiAdminPage')};
 const nav=model.querySelector('nav');
 const originalSection=model.querySelector('section');
 const panel=document.getElementById('projectPanel');
@@ -728,6 +1177,13 @@ const fallback=document.getElementById('modelFallback');
 const modelHome=document.createElement('div');
 modelHome.id='panageiModelHome';
 originalSection.insertBefore(modelHome,fallback);modelHome.append(fallback,modelCanvas);
+const importedModel=document.createElement('div');
+importedModel.id='historicWorkspace';
+importedModel.className='panagei-panel';
+originalSection.insertBefore(importedModel,modelHome);
+modelHome.style.display='none';
+const inspector=document.getElementById('modelInspector');if(inspector)inspector.style.display='none';
+nav.style.display='none';
 // Historische Zeichnungen und Erläuterungen aus der Modell-Startansicht in Infos verschieben.
 // Raumverwaltung dauerhaft im Reiter Aufgaben halten, auch wenn das Modell angezeigt wird.
 document.getElementById('panageiTaskRooms').appendChild(panel);
@@ -775,7 +1231,7 @@ function show(name){
   const tasks=name==='aufgaben';
   const previous=current;
   current=name;
-  for(const [key,page] of Object.entries(pages))page.hidden=key!==name;if(name==='dashboard')window.panageiRenderDashboard?.();if(name==='bauteile')window.panageiRenderRoomCenter?.();if(name==='settings')window.panageiRenderSettings?.();if(name==='calendar')window.panageiRenderCalendar?.();if(name==='zeitreise')window.panageiRenderHistoric?.();
+  for(const [key,page] of Object.entries(pages))page.hidden=key!==name;if(name==='dashboard')window.panageiRenderDashboard?.();if(name==='bauteile')window.panageiRenderRoomCenter?.();if(name==='settings')window.panageiRenderSettings?.();if(name==='calendar')window.panageiRenderCalendar?.();if(name==='modell')window.panageiRenderHistoric?.();
   if(tasks&&previous!=='aufgaben'){moveCanvas(true)}
   else if(!tasks&&previous==='aufgaben'){moveCanvas(false)}
   document.querySelectorAll('[data-panagei-tab]').forEach(button=>{
@@ -881,7 +1337,7 @@ body{background:#132e27}
 @media(max-width:760px){#panageiApp .panagei-page:not(#panageiHistoryPage){width:calc(100% - 20px);padding:12px}.dashboard-shortcuts{grid-template-columns:repeat(2,minmax(0,1fr))}.workspace-fields label>*:not([type=checkbox]){min-height:46px;font-size:16px!important}.workspace-fields{gap:10px}.workspace-form{padding:10px}.workspace-actions button,#panageiApp .workspace-primary{min-height:44px}.dashboard-intro{flex-wrap:wrap}.workspace-row{overflow-wrap:anywhere}.dashboard-metrics>button{min-width:0}}
 @media(max-width:360px){.workspace-fields{grid-template-columns:1fr}.dashboard-metrics{gap:7px}}
 </style><style>#panageiUpdate{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:12px 0}#panageiUpdate button{min-height:44px}#panageiUpdateStatus{font-size:12px}#panageiUpdateBanner{position:fixed;z-index:50;bottom:max(14px,env(safe-area-inset-bottom));right:12px;max-width:calc(100% - 24px);background:#f1e9db;color:#193b31;border:1px solid #92bd9f;border-radius:12px;padding:12px;box-shadow:0 8px 32px #0005}#panageiUpdateBanner button{margin-left:8px}#panageiUpdateBanner[hidden]{display:none!important}</style><script>
-(()=>{const current=document.title.match(/v(\d+(?:\.\d+)*)$/)?.[1];let latest=null,checking=false;const newer=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0}return false};const dashboard=document.getElementById('panageiDashboardPage');const box=document.createElement('div');box.id='panageiUpdate';const check=document.createElement('button');check.type='button';check.textContent='Nach Updates suchen';const status=document.createElement('span');status.id='panageiUpdateStatus';status.setAttribute('role','status');const refresh=document.createElement('button');refresh.type='button';refresh.textContent='App neu laden';box.append(check,refresh,status);dashboard.append(box);const banner=document.createElement('div');banner.id='panageiUpdateBanner';banner.hidden=true;const message=document.createElement('span');const reload=document.createElement('button');reload.type='button';reload.textContent='Aktualisieren';banner.append(message,reload);document.getElementById('panageiApp').append(banner);async function verify(manual=false){if(checking||document.hidden||(!manual&&window.panageiPreferences?.autoUpdate===false))return;checking=true;if(manual)status.textContent='Prüfe …';try{const url=new URL('./index.html',location.href);url.searchParams.set('_versioncheck',Date.now());const res=await fetch(url,{cache:'no-store',credentials:'omit'});if(!res.ok)throw Error('HTTP '+res.status);const html=await res.text();const found=html.match(/<title>[^<]* v(\d+(?:\.\d+)*)<\/title>/i)?.[1];if(!found||!current)throw Error('Version nicht erkannt');latest=newer(found,current)?found:null;banner.hidden=!latest;message.textContent=latest?'Update v'+latest+' verfügbar':'';status.textContent=latest?'Neue Version v'+latest:'v'+current+' ist aktuell.';}catch{if(manual)status.textContent='Keine Verbindung zur Versionsprüfung.'}finally{checking=false}}function reloadApp(){if(!window.panageiCanReload?.()){status.textContent='Bitte zuerst Eingaben speichern und laufende Vorgänge abschließen.';message.textContent='Zuerst Änderungen speichern.';return}const url=new URL(location.href);url.searchParams.set('_v',latest||current);url.searchParams.set('_reload',Date.now());location.replace(url.href)}check.onclick=()=>verify(true);refresh.onclick=reloadApp;reload.onclick=reloadApp;document.addEventListener('visibilitychange',()=>{if(!document.hidden)void verify()});window.addEventListener('pageshow',()=>void verify());setInterval(()=>void verify(),300000);void verify()})();
+(()=>{const current=document.title.match(/v(\d+(?:\.\d+)*)$/)?.[1];let latest=null,checking=false;const newer=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0}return false};const settings=document.getElementById('settingsWorkspace');const box=document.createElement('div');box.id='panageiUpdate';const check=document.createElement('button');check.type='button';check.textContent='Nach Updates suchen';const status=document.createElement('span');status.id='panageiUpdateStatus';status.setAttribute('role','status');const refresh=document.createElement('button');refresh.type='button';refresh.textContent='App neu laden';box.append(check,refresh,status);settings.append(box);const banner=document.createElement('div');banner.id='panageiUpdateBanner';banner.hidden=true;const message=document.createElement('span');const reload=document.createElement('button');reload.type='button';reload.textContent='Aktualisieren';banner.append(message,reload);document.getElementById('panageiApp').append(banner);async function verify(manual=false){if(checking||document.hidden||(!manual&&window.panageiPreferences?.autoUpdate===false))return;checking=true;if(manual)status.textContent='Prüfe …';try{const url=new URL('./index.html',location.href);url.searchParams.set('_versioncheck',Date.now());const res=await fetch(url,{cache:'no-store',credentials:'omit'});if(!res.ok)throw Error('HTTP '+res.status);const html=await res.text();const found=html.match(/<title>[^<]* v(\d+(?:\.\d+)*)<\/title>/i)?.[1];if(!found||!current)throw Error('Version nicht erkannt');latest=newer(found,current)?found:null;banner.hidden=!latest;message.textContent=latest?'Update v'+latest+' verfügbar':'';status.textContent=latest?'Neue Version v'+latest:'v'+current+' ist aktuell.';}catch{if(manual)status.textContent='Keine Verbindung zur Versionsprüfung.'}finally{checking=false}}function reloadApp(){if(!window.panageiCanReload?.()){status.textContent='Bitte zuerst Eingaben speichern und laufende Vorgänge abschließen.';message.textContent='Zuerst Änderungen speichern.';return}const url=new URL(location.href);url.searchParams.set('_v',latest||current);url.searchParams.set('_reload',Date.now());location.replace(url.href)}check.onclick=()=>verify(true);refresh.onclick=reloadApp;reload.onclick=reloadApp;document.addEventListener('visibilitychange',()=>{if(!document.hidden)void verify()});window.addEventListener('pageshow',()=>void verify());setInterval(()=>void verify(),300000);void verify()})();
 </script><style id="panagei-settings-v62">
 #settingsWorkspace details{padding:0;border:1px solid var(--border);border-radius:12px;margin:0 0 12px;background:var(--panel)}#settingsWorkspace summary{font-size:15px;padding:14px;cursor:pointer}#settingsWorkspace .settings-inner{padding:0 14px 14px}#settingsWorkspace .settings-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}#settingsWorkspace .settings-line:last-child{border:0}#settingsWorkspace input[type=checkbox]{width:22px;height:22px;accent-color:#34815d;flex:none}#settingsWorkspace select{max-width:155px;font-size:16px}#settingsWorkspace small{display:block;line-height:1.5;color:var(--muted)}#settingsWorkspace .settings-info{font-size:13px;text-align:right;overflow-wrap:anywhere}#settingsWorkspace #panageiUpdate{margin:8px 0}#panageiVersion[hidden]{display:none!important}
 html[data-theme=dark] #panageiApp{--surface:#1c3931;--panel:#24473b;--ink:#eaf4ed;--muted:#b9d1c3;--border:#547263;--green:#387c60;--green-dark:#276147;--warm-card:#294b3d;--warm-panel:#24473b;--warm-inset:#203b32;--warm-border:#547263;color-scheme:dark}
@@ -891,11 +1347,19 @@ html[data-theme=dark] #dashboardWorkspace .dashboard-metrics>button{background:#
 html[data-theme=dark] #panageiApp .roomBody,html[data-theme=dark] #panageiApp .taskRow,html[data-theme=dark] #panageiApp .roomCard[open]>summary,html[data-theme=dark] #panageiApp .history-card[open]>summary{background:#294b3d!important;color:#eff8ef}
 html[data-theme=light] body{background:#e0ebe3}html[data-theme=light] #panageiApp{--surface:#f4f7f2;--panel:#fff;--border:#bfcec1;--ink:#193b31;--muted:#506359;--warm-card:#f4f7f2;--warm-inset:#e9efe8;--warm-border:#bfcec1}html[data-theme=light] #panageiApp>header,html[data-theme=light] #panageiApp #panageiTabs{background:#d9e8de;color:#173a2d}html[data-theme=light] #panageiTabs button{color:#193b31}html[data-theme=light] #panageiTabs button[aria-selected=true]{background:#bcd9c3;color:#15382d}html[data-theme=light] #panageiApp #panageiHistoryPage{background:#eef4ec;border-radius:14px;color:#193b31}html[data-theme=light] .history-heading h2,html[data-theme=light] .history-heading .panagei-lead{color:#193b31}
 </style><script>
-(()=>{const defaults={theme:'system',start:'dashboard',autoUpdate:true,push:{}};let prefs={...defaults,push:{}};try{const stored=JSON.parse(localStorage.getItem('panagei-live-preferences-v1')||'{}');prefs={...defaults,...stored,push:{...stored.push}}}catch{};if(!['light','dark','system'].includes(prefs.theme))prefs.theme='system';if(!['dashboard','aufgaben','modell','historie','tagebuch'].includes(prefs.start))prefs.start='dashboard';window.panageiPreferences=prefs;const media=matchMedia('(prefers-color-scheme: dark)');function apply(){document.documentElement.dataset.theme=prefs.theme==='system'?(media.matches?'dark':'light'):prefs.theme}function save(){try{localStorage.setItem('panagei-live-preferences-v1',JSON.stringify(prefs))}catch{}apply()}apply();media.addEventListener?.('change',apply);
+(()=>{const defaults={theme:'system',start:'dashboard',autoUpdate:true,push:{}};let prefs={...defaults,push:{}};try{const stored=JSON.parse(localStorage.getItem('panagei-preview-preferences-v1')||'{}');prefs={...defaults,...stored,push:{...stored.push}}}catch{};if(!['light','dark','system'].includes(prefs.theme))prefs.theme='system';if(!['dashboard','aufgaben','modell','historie','tagebuch'].includes(prefs.start))prefs.start='dashboard';window.panageiPreferences=prefs;const media=matchMedia('(prefers-color-scheme: dark)');function apply(){document.documentElement.dataset.theme=prefs.theme==='system'?(media.matches?'dark':'light'):prefs.theme}function save(){try{localStorage.setItem('panagei-preview-preferences-v1',JSON.stringify(prefs))}catch{}apply()}apply();media.addEventListener?.('change',apply);
 const categories=[['updates','App-Updates'],['documents','Neue Dokumente'],['photos','Neue Fotos'],['tasks','Neue Aufgaben'],['overdue','Fällige / überfällige Aufgaben'],['diary','Neue Bautagebucheinträge'],['maintenance','Wartungstermine'],['receipts','Kosten und Belege'],['appointments','Terminerinnerungen']];const root=document.getElementById('settingsWorkspace');function el(tag,text,parent){const n=document.createElement(tag);if(text!=null)n.textContent=text;if(parent)parent.append(n);return n}function section(title){const d=el('details',null,root);el('summary',title,d);const inner=el('div',null,d);inner.className='settings-inner';return {d,inner}}function row(parent,label){const r=el('label',null,parent);r.className='settings-line';el('span',label,r);return r}function select(parent,label,opts,key){const r=row(parent,label),s=el('select',null,r);for(const [v,t] of opts){const o=el('option',t,s);o.value=v}s.value=prefs[key];s.onchange=()=>{prefs[key]=s.value;save()}}function toggle(parent,label,checked,change){const r=row(parent,label),i=el('input',null,r);i.type='checkbox';i.checked=!!checked;i.onchange=()=>change(i.checked);return i}function info(parent,label,value){const r=row(parent,label),v=el('span',value,r);v.className='settings-info'}
-window.panageiRenderSettings=()=>{const update=document.getElementById('panageiUpdate');if(update)update.remove();root.replaceChildren();let {d,inner}=section('Darstellung');d.open=true;select(inner,'Farbschema',[['system','System'],['light','Hell'],['dark','Dunkel']],'theme');({d,inner}=section('Benachrichtigungen'));el('small','Nur freigeschaltete Projektmitglieder. Automatische Nachrichten sind für registrierte Testgeräte aktiviert. Der Server prüft fällige Ereignisse jede Minute. Eigene neue Einträge lösen keine Nachricht aus.',inner);const pushControls=el('div',null,inner);pushControls.id='pushControls';const inputs=[];for(const [key,label] of categories)inputs.push(toggle(inner,label,prefs.push[key],v=>{prefs.push[key]=v;save();window.panageiSyncPush?.()}));for(const [label,on] of [['Alle auswählen',true],['Alle abwählen',false]]){const b=el('button',label,inner);b.type='button';b.onclick=()=>{for(const [key] of categories)prefs.push[key]=on;for(const i of inputs)i.checked=on;save();window.panageiSyncPush?.()}}window.panageiRenderPush?.(pushControls);({d,inner}=section('App & Updates'));select(inner,'Startseite',[['dashboard','Dashboard'],['aufgaben','Aufgaben'],['modell','Hausmodell'],['historie','Bauhistorie'],['tagebuch','Bautagebuch']],'start');toggle(inner,'Automatisch nach Updates suchen',prefs.autoUpdate,v=>{prefs.autoUpdate=v;save()});if(update)inner.append(update);({d,inner}=section('Projekt & Informationen'));const ctx=window.panageiSettingsContext?.()||{};info(inner,'Version',document.title.match(/v\d+(?:\.\d+)*$/)?.[0]||'Unbekannt');info(inner,'Umgebung','TEST');info(inner,'Rolle',({owner:'Administrator',editor:'Bearbeiten',viewer:'Lesen'})[ctx.role]||'Nicht angemeldet');info(inner,'Letzte Synchronisierung',window.panageiLastSync?new Date(window.panageiLastSync).toLocaleString('de-DE'):'Noch nicht synchronisiert');const b=el('button','Abmelden',inner);b.type='button';b.onclick=()=>document.getElementById('cloudLogout').click()};})();
+window.panageiRenderSettings=()=>{const update=document.getElementById('panageiUpdate'),activity=document.getElementById('panageiActivity'),exportPanel=document.getElementById('panageiExport');const open=new Set([...root.querySelectorAll('details[open] > summary')].map(item=>item.textContent));const first=!root.querySelector('details');root.replaceChildren();let {d,inner}=section('Darstellung');d.open=first||open.has('Darstellung');select(inner,'Farbschema',[['system','System'],['light','Hell'],['dark','Dunkel']],'theme');({d,inner}=section('Benachrichtigungen'));el('small','Nur freigeschaltete Projektmitglieder. Automatische Nachrichten sind für registrierte Testgeräte aktiviert. Der Server prüft fällige Ereignisse jede Minute. Eigene neue Einträge lösen keine Nachricht aus.',inner);const pushControls=el('div',null,inner);pushControls.id='pushControls';const inputs=[];for(const [key,label] of categories)inputs.push(toggle(inner,label,prefs.push[key],v=>{prefs.push[key]=v;save();window.panageiSyncPush?.()}));for(const [label,on] of [['Alle auswählen',true],['Alle abwählen',false]]){const b=el('button',label,inner);b.type='button';b.onclick=()=>{for(const [key] of categories)prefs.push[key]=on;for(const i of inputs)i.checked=on;save();window.panageiSyncPush?.()}}window.panageiRenderPush?.(pushControls);({d,inner}=section('App & Updates'));select(inner,'Startseite',[['dashboard','Dashboard'],['aufgaben','Aufgaben'],['modell','Hausmodell'],['historie','Bauhistorie']],'start');toggle(inner,'Automatisch nach Updates suchen',prefs.autoUpdate,v=>{prefs.autoUpdate=v;save()});if(update)inner.append(update);({d,inner}=section('Projekt & Informationen'));const ctx=window.panageiSettingsContext?.()||{};info(inner,'Version',document.title.match(/v\d+(?:\.\d+)*$/)?.[0]||'Unbekannt');info(inner,'Umgebung','LIVE');info(inner,'Rolle',({owner:'Administrator',editor:'Bearbeiten',viewer:'Lesen'})[ctx.role]||'Nicht angemeldet');info(inner,'Letzte Synchronisierung',window.panageiLastSync?new Date(window.panageiLastSync).toLocaleString('de-DE'):'Noch nicht synchronisiert');const b=el('button','Abmelden',inner);b.type='button';b.onclick=()=>document.getElementById('cloudLogout').click();
+ for(const [title,panel] of [['Änderungsverlauf',activity],['Datenexport und Datensicherung',exportPanel]]){
+   const group=section(title);
+   if(panel)group.inner.append(panel);
+ }
+ for(const group of root.querySelectorAll('details')){
+   if(open.has(group.querySelector('summary').textContent))group.open=true;
+ }
+};})();
 </script><style>.reminder-options{display:grid;gap:7px;grid-template-columns:repeat(2,minmax(0,1fr));margin:5px 0}.reminder-options label{display:flex;align-items:center;gap:8px}.reminder-options input{width:20px;height:20px;accent-color:#34815d}.workspace-fields>label:has(.reminder-options){grid-column:1/-1}</style><script>
-(()=>{const getContext=()=>window.panageiSettingsContext?.(),request=(action,data)=>window.panageiPushRequest(action,data);const key=()=>{const c=getContext();return c?.user&&c?.project?'panagei-live-push:'+c.user+':'+c.project:null};function device(){try{return localStorage.getItem(key())}catch{return null}}function remember(id){try{if(key()){if(id)localStorage.setItem(key(),id);else localStorage.removeItem(key())}}catch{}}const supported=()=>('serviceWorker'in navigator)&&('PushManager'in window)&&('Notification'in window);const selected=()=>Object.entries(window.panageiPreferences?.push||{}).filter(([,v])=>v).map(([k])=>k);function bytes(v){const b=atob(v.replace(/-/g,'+').replace(/_/g,'/').padEnd(Math.ceil(v.length/4)*4,'='));return Uint8Array.from(b,c=>c.charCodeAt(0))}let status=null,busy=false;function say(t){if(status)status.textContent=t}async function reg(){return navigator.serviceWorker.register('./push-sw.js',{scope:'./'})}async function sync(){if(!supported()||!device()||busy)return;try{const r=await reg(),s=await r.pushManager.getSubscription();if(!s){remember(null);say('Registrierung fehlt. Push bitte erneut aktivieren.');return}const data=await request('subscribe',{subscription:s.toJSON(),categories:selected()});remember(data.id);say('Gerät und Benachrichtigungsauswahl synchronisiert.')}catch{say('Auswahl lokal gespeichert, Serverabgleich fehlgeschlagen.')}}window.panageiSyncPush=sync;window.panageiDeactivatePushOnLogout=async()=>{if(busy)throw Error('Push wird gerade aktualisiert');const id=device();if(id)await request('unsubscribe',{id});if(supported()){const r=await navigator.serviceWorker.getRegistration('./');const sub=await r?.pushManager.getSubscription();if(sub)await sub.unsubscribe()}remember(null)};window.panageiRenderPush=root=>{root.replaceChildren();status=document.createElement('p');status.setAttribute('role','status');status.textContent=!supported()?'Push auf diesem Gerät nicht verfügbar. Auf iPhone die installierte Web-App öffnen.':device()?'Dieses Gerät ist registriert.':'Dieses Gerät ist noch nicht registriert.';root.append(status);void sync();function button(label,fn){const b=document.createElement('button');b.type='button';b.textContent=label;b.disabled=!supported();b.onclick=async()=>{if(busy)return;busy=true;b.disabled=true;try{await fn()}catch(e){say('Fehler: '+e.message)}finally{busy=false;b.disabled=!supported()}};root.append(b)}button('Push aktivieren',async()=>{if(await Notification.requestPermission()!=='granted')throw Error('Keine Benachrichtigungsberechtigung');const k=await request('key',{});await reg();const r=await navigator.serviceWorker.ready;let s=await r.pushManager.getSubscription();if(!s)s=await r.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:bytes(k.publicKey)});const data=await request('subscribe',{subscription:s.toJSON(),categories:selected()});remember(data.id);say('Gerät registriert. Jetzt Testnachricht senden.')});button('Testbenachrichtigung senden',async()=>{if(!device())throw Error('Zuerst Push aktivieren');await request('test',{id:device()});say('Push-Dienst hat die Testnachricht angenommen.')});button('Push deaktivieren',async()=>{const id=device();if(id)await request('unsubscribe',{id});const r=await navigator.serviceWorker.getRegistration('./');const sub=await r?.pushManager.getSubscription();if(sub)await sub.unsubscribe();remember(null);say('Push für dieses Gerät deaktiviert.')});};})();
+(()=>{const getContext=()=>window.panageiSettingsContext?.(),request=(action,data)=>window.panageiPushRequest(action,data);const key=()=>{const c=getContext();return c?.user&&c?.project?'panagei-preview-push:'+c.user+':'+c.project:null};function device(){try{return localStorage.getItem(key())}catch{return null}}function remember(id){try{if(key()){if(id)localStorage.setItem(key(),id);else localStorage.removeItem(key())}}catch{}}const supported=()=>('serviceWorker'in navigator)&&('PushManager'in window)&&('Notification'in window);const selected=()=>Object.entries(window.panageiPreferences?.push||{}).filter(([,v])=>v).map(([k])=>k);function bytes(v){const b=atob(v.replace(/-/g,'+').replace(/_/g,'/').padEnd(Math.ceil(v.length/4)*4,'='));return Uint8Array.from(b,c=>c.charCodeAt(0))}let status=null,busy=false;function say(t){if(status)status.textContent=t}async function reg(){return navigator.serviceWorker.register('./push-sw.js',{scope:'./'})}async function sync(){if(!supported()||!device()||busy)return;try{const r=await reg(),s=await r.pushManager.getSubscription();if(!s){remember(null);say('Registrierung fehlt. Push bitte erneut aktivieren.');return}const data=await request('subscribe',{subscription:s.toJSON(),categories:selected()});remember(data.id);say('Gerät und Benachrichtigungsauswahl synchronisiert.')}catch{say('Auswahl lokal gespeichert, Serverabgleich fehlgeschlagen.')}}window.panageiSyncPush=sync;window.panageiDeactivatePushOnLogout=async()=>{if(busy)throw Error('Push wird gerade aktualisiert');const id=device();if(id)await request('unsubscribe',{id});if(supported()){const r=await navigator.serviceWorker.getRegistration('./');const sub=await r?.pushManager.getSubscription();if(sub)await sub.unsubscribe()}remember(null)};window.panageiRenderPush=root=>{root.replaceChildren();status=document.createElement('p');status.setAttribute('role','status');status.textContent=!supported()?'Push auf diesem Gerät nicht verfügbar. Auf iPhone die installierte Web-App öffnen.':device()?'Dieses Gerät ist registriert.':'Dieses Gerät ist noch nicht registriert.';root.append(status);void sync();function button(label,fn){const b=document.createElement('button');b.type='button';b.textContent=label;b.disabled=!supported();b.onclick=async()=>{if(busy)return;busy=true;b.disabled=true;try{await fn()}catch(e){say('Fehler: '+e.message)}finally{busy=false;b.disabled=!supported()}};root.append(b)}button('Push aktivieren',async()=>{if(await Notification.requestPermission()!=='granted')throw Error('Keine Benachrichtigungsberechtigung');const k=await request('key',{});await reg();const r=await navigator.serviceWorker.ready;let s=await r.pushManager.getSubscription();if(!s)s=await r.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:bytes(k.publicKey)});const data=await request('subscribe',{subscription:s.toJSON(),categories:selected()});remember(data.id);say('Gerät registriert. Jetzt Testnachricht senden.')});button('Testbenachrichtigung senden',async()=>{if(!device())throw Error('Zuerst Push aktivieren');await request('test',{id:device()});say('Push-Dienst hat die Testnachricht angenommen.')});button('Push deaktivieren',async()=>{const id=device();if(id)await request('unsubscribe',{id});const r=await navigator.serviceWorker.getRegistration('./');const sub=await r?.pushManager.getSubscription();if(sub)await sub.unsubscribe();remember(null);say('Push für dieses Gerät deaktiviert.')});};})();
 </script><style>#panageiAccount{display:flex;align-items:center;gap:6px;color:#dcebe2;font:500 12px/1.25 system-ui;max-width:100%;margin-top:5px}#panageiAccount[hidden]{display:none}#panageiAccount i{width:7px;height:7px;flex:none;background:#42d68c;border-radius:50%}#panageiAccount span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#panageiApp>header .brand-art{height:88px}html[data-theme=light] #panageiAccount{color:#163d30}#panageiWelcome{position:fixed;z-index:80;top:max(16px,env(safe-area-inset-top));right:18px;max-width:min(350px,calc(100vw - 36px));padding:15px 42px 15px 18px;border:1px solid #6caa8b;background:#153f32;color:#f0faf4;border-radius:12px;box-shadow:0 6px 24px #0d281e40;font-size:13px;line-height:1.5;animation:welcomeIn .22s ease-out}#panageiWelcome strong{display:block;font-size:17px}#panageiWelcome button{position:absolute;right:8px;top:9px;background:transparent;border:0;color:inherit;padding:4px 8px;font-size:20px;min-height:28px}@keyframes welcomeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:760px){#panageiApp>header{position:sticky;top:0;z-index:11;background:#102b25}#panageiAccount{margin-top:7px}#panageiTabs{position:relative;top:auto}#panageiWelcome{top:max(12px,env(safe-area-inset-top));right:12px;max-width:calc(100vw - 24px)}}@media(prefers-reduced-motion:reduce){#panageiWelcome{animation:none}}</style><style>
 /* v65.1: shared responsive form layout — iOS native dates and file names */
 #panageiApp .panagei-panel,#panageiApp .workspace-form,#panageiApp .workspace-fields,#panageiApp .workspace-row,#panageiApp .roomBody,#panageiApp .taskMeta,#panageiApp .inspector-grid{min-width:0;max-width:100%;box-sizing:border-box}
@@ -981,4 +1445,30 @@ html[data-theme=light] #panageiApp>header #panageiLogoutGroup #cloudLogout{color
 #panageiRoomCenter .room-center-entry strong,#panageiRoomCenter .room-center-entry small{display:block}
 #panageiRoomCenter .room-center-notes{white-space:pre-wrap}
 @media(max-width:760px){#panageiRoomCenter .room-center-grid{grid-template-columns:minmax(0,1fr)}#panageiRoomCenter .room-center-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
-</style><style>#archiveWorkspace .archive-filter-grid{margin:14px 0}#archiveWorkspace .archive-filter-actions{display:flex;align-items:end;gap:8px;flex-wrap:wrap}</style><style>#calendarWorkspace .calendar-timeline{max-height:560px;overflow:auto;margin:12px 0 24px;padding:4px}#calendarWorkspace .calendar-day{margin:14px 0 6px;color:var(--muted);font-size:14px}#calendarWorkspace .calendar-filters{margin:12px 0}</style><style>#panageiSyncPanel>small{display:block;margin:8px 0}#panageiSyncPanel button{margin:6px 6px 0 0}#panageiActivity .activity-filter{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}#panageiActivity .activity-filter select{flex:1;min-width:140px}#panageiActivity .activity-list{max-height:520px;overflow:auto}#panageiActivity .workspace-row p{overflow-wrap:anywhere}</style><style>#panageiExport label{display:flex;flex-direction:column;gap:6px;max-width:420px;margin:12px 0}#panageiExport button{margin:4px 8px 8px 0}#panageiExport small{display:block;color:var(--muted);line-height:1.5}</style></html>
+</style><style>#archiveWorkspace .archive-filter-grid{margin:14px 0}#archiveWorkspace .archive-filter-actions{display:flex;align-items:end;gap:8px;flex-wrap:wrap}</style><style>#calendarWorkspace .calendar-timeline{max-height:560px;overflow:auto;margin:12px 0 24px;padding:4px}#calendarWorkspace .calendar-day{margin:14px 0 6px;color:var(--muted);font-size:14px}#calendarWorkspace .calendar-filters{margin:12px 0}</style><style>#panageiSyncPanel>small{display:block;margin:8px 0}#panageiSyncPanel button{margin:6px 6px 0 0}#panageiActivity .activity-filter{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}#panageiActivity .activity-filter select{flex:1;min-width:140px}#panageiActivity .activity-list{max-height:520px;overflow:auto}#panageiActivity .workspace-row p{overflow-wrap:anywhere}</style><style>#panageiExport label{display:flex;flex-direction:column;gap:6px;max-width:420px;margin:12px 0}#panageiExport button{margin:4px 8px 8px 0}#panageiExport small{display:block;color:var(--muted);line-height:1.5}</style><style>
+#calendarWorkspace .month-calendar{max-width:600px;margin:0 auto 1rem}
+#calendarWorkspace .month-calendar-bar{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.6rem}
+#calendarWorkspace .month-calendar-bar h3{margin:0;text-align:center}
+#calendarWorkspace .month-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+#calendarWorkspace .month-weekday{text-align:center;font-size:.8rem;font-weight:650}
+#calendarWorkspace .month-calendar-grid button{padding:4px 0;min-height:40px;min-width:0;border-radius:.55rem;text-align:center}
+#calendarWorkspace .month-calendar-grid button.has-date{background:#d6eadb;color:#184537;font-weight:750}
+#calendarWorkspace .month-calendar-grid button[aria-current=date]{border-color:#367454}
+#calendarWorkspace .month-calendar-grid button[aria-pressed=true]{background:#153e34;color:white}
+#calendarWorkspace [data-appointment-date][hidden]{display:none!important}
+</style><style>
+#panageiSettingsPage .settings-project-tools details+details{border-top:1px solid var(--line,#dbe5df)}
+#panageiSettingsPage .settings-project-tools summary{min-height:44px}
+#panageiSettingsPage .settings-project-tools .settings-inner{padding:0 14px 14px}
+</style><style>
+#panageiRoomCenter .room-floor{border:1px solid var(--line,#dbe5df);border-radius:12px;margin:0 0 8px;overflow:hidden}
+#panageiRoomCenter .room-floor summary{min-height:48px;padding:12px 14px}
+#panageiRoomCenter .room-floor-content{padding:10px}
+#panageiRoomCenter .room-floor-select{display:block;width:100%;text-align:left;margin:0 0 6px}
+#panageiRoomCenter .room-floor-select[aria-expanded=true]{font-weight:700;border-color:#529075}
+#panageiRoomCenter .room-floor-detail{padding:8px 0 16px}
+</style><style>
+#renovationOverview .task-overview-controls{display:flex;align-items:center;gap:8px}
+#renovationOverview .task-overview-controls input{width:1.2rem;height:1.2rem;flex:none;accent-color:#367454}
+#renovationOverview .task-overview-controls button{text-align:left;flex:1;min-width:0;font-weight:650}
+</style></html>
