@@ -2,8 +2,8 @@
 (function(root){
  'use strict';
  root.createPanageiDrafts=function(options){
-  let client;try{client=sessionStorage.getItem('panagei-draft-client');if(!client){client=crypto.randomUUID();sessionStorage.setItem('panagei-draft-client',client)}}catch{client=crypto.randomUUID()}
-  let pending=null,conflict=false,storageError=false,restoring=false,loadedContext='',offeredContext='',timer;
+  const client=crypto.randomUUID(); // A fresh document ID prevents duplicated tabs from sharing a draft slot.
+  let pending=null,conflict=false,storageError=false,recoveryError='',restoring=false,loadedContext='',offeredContext='',timer;
   let formDrafts={};
   const context=()=>{const c=options.context();return c?.user&&c?.project?c.user+'|'+c.project+'|'+location.pathname.replace(/index\.html$/,''):null};
   const store=()=>{const c=context();return c?PanageiSafety.draftStore(localStorage,c,client):null};
@@ -23,7 +23,8 @@
   function render(){
    if(!context())return;const el=panel();el.replaceChildren();
    const text=document.createElement('p');el.append(text);
-   if(storageError)text.textContent='Entwurf konnte auf diesem Gerät nicht gesichert werden. Seite geöffnet lassen und Eingaben speichern.';
+   if(recoveryError)text.textContent=recoveryError;
+   else if(storageError)text.textContent='Entwurf konnte auf diesem Gerät nicht gesichert werden. Seite geöffnet lassen und Eingaben speichern.';
    else if(pending)text.textContent='Ein ungespeicherter Entwurf vom '+new Date(pending.savedAt).toLocaleString('de-DE')+' ist auf diesem Gerät vorhanden.';
    else if(conflict)text.textContent='Speicherkonflikt: Ein anderer Stand wurde gespeichert. Dein Entwurf wurde nicht überschrieben.';
    else text.textContent=options.snapshot().data||options.snapshot().roomInputs?.length||Object.keys(formDrafts).length?'Noch nicht gespeichert · Entwurf auf diesem Gerät gesichert.':'Änderungen gespeichert.';
@@ -39,7 +40,7 @@
   }
   async function restore(){
    if(!pending)return;const value=pending;
-   restoring=true;
+   restoring=true;recoveryError='';
    try{
     await options.restore(value);
     formDrafts=value.forms||{};
@@ -51,7 +52,7 @@
      form.dataset.dirty='true';
     }
     pending=null;localStorage.removeItem(value.key);loadedContext=context();
-   }finally{restoring=false;persist();render();}
+   }catch(error){recoveryError='Wiederherstellung fehlgeschlagen: '+error.message;}finally{restoring=false;persist();render();}
    // Restoring never writes to the server; the user explicitly resumes saving.
   }
   function discard(){try{store()?.remove()}catch{}formDrafts={};pending=null;conflict=false;render();}

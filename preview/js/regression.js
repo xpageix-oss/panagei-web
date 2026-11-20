@@ -7,7 +7,8 @@ document.getElementById('run').onclick=async()=>{
  const room={id:rid,project_id:pid,floor:1,name:'Testraum',length_m:4,width_m:3,height_m:2.35,area_m2:12,notes:'',revision:1};
  const model={dimensions:{length:16.5,width:11.8},model:{elements:[],levels:Array.from({length:5},(_,i)=>({name:['Keller','Erdgeschoss','Obergeschoss','Dachgeschoss','Dachboden'][i],z:i*2.6,height:2.35})),roof:{ridge:12.6,angle:35,center:5.9}},planNames:[]};
  const fixture={user,pid,rid,room,model,failWrites:false,refreshStatus:200,logoutCount:0,writes:[],reads:[],errors:[],storage:new Map(),session:new Map(),intervals:[]};
- fixture.data={umbau_projects:[{id:pid,name:'Regression',created_by:user.id}],umbau_rooms:[room],umbau_tasks:[],umbau_files:[],umbau_members:[{project_id:pid,user_id:user.id,role:'owner'}],umbau_model:[{project_id:pid,payload:model}],umbau_project_changes:[{project_id:pid,revision:1}]};
+ const material={id:'00000000-0000-4000-8000-000000000004',project_id:pid,title:'Testmaterial',trade:'',notes:'',quantity:1,unit:'Stk.',purchased:false,revision:1};
+ fixture.data={umbau_materials:[material],umbau_projects:[{id:pid,name:'Regression',created_by:user.id}],umbau_rooms:[room],umbau_tasks:[],umbau_files:[],umbau_members:[{project_id:pid,user_id:user.id,role:'owner'}],umbau_model:[{project_id:pid,payload:model}],umbau_project_changes:[{project_id:pid,revision:1}]};
  window.panageiTestFixture=fixture;
  let iframe,win,doc;
  const wait=async(fn,message)=>{const end=Date.now()+10000;while(Date.now()<end){const v=fn();if(v)return v;await new Promise(r=>setTimeout(r,40))}throw Error('Zeitüberschreitung: '+message)};
@@ -66,9 +67,22 @@ document.getElementById('run').onclick=async()=>{
   draftButton('Aktuellen Stand laden');await wait(()=>doc.querySelector('[data-field="notes"]')?.value==='Änderung vom zweiten Gerät','Aktueller Stand');
   input('[data-field="notes"]','Konflikt geklärt');await wait(()=>doc.querySelector('#cloudStatus').textContent==='Alle Änderungen in der Cloud gespeichert','Erfolgreich gespeichert');assert(room.notes==='Konflikt geklärt'&&room.revision===3,'Bestätigte Speicherung erhöht die Revision');assert(![...fixture.storage.keys()].some(k=>k.startsWith('panagei-draft-v1:')),'Bestätigter Entwurf wird entfernt');
   // An unsent task text must survive as well.
-  input('.newTask','Noch nicht hinzugefügte Aufgabe');await delay(200);await load();await wait(()=>doc.querySelector('#draftRecovery')?.textContent.includes('Entwurf wiederherstellen'),'Aufgabenentwurf');draftButton('Entwurf wiederherstellen');await wait(()=>![...doc.querySelectorAll('#draftRecovery button')].some(b=>b.textContent==='Entwurf wiederherstellen'),'Entwurf vollständig wiederhergestellt');await tasks();assert(doc.querySelector('.newTask').value==='Noch nicht hinzugefügte Aufgabe','Auch noch nicht hinzugefügter Aufgabentext wird wiederhergestellt');input('.newTask','');await delay(200);
+  input('.newTask','Noch nicht hinzugefügte Aufgabe');await delay(200);await load();await wait(()=>doc.querySelector('#draftRecovery')?.textContent.includes('Entwurf wiederherstellen'),'Aufgabenentwurf');draftButton('Entwurf wiederherstellen');await wait(()=>![...doc.querySelectorAll('#draftRecovery button')].some(b=>b.textContent==='Entwurf wiederherstellen'),'Entwurf vollständig wiederhergestellt');await tasks();assert(doc.querySelector('.newTask').value==='Noch nicht hinzugefügte Aufgabe','Auch noch nicht hinzugefügter Aufgabentext wird wiederhergestellt');await load();await wait(()=>doc.querySelector('#draftRecovery')?.textContent.includes('Entwurf wiederherstellen'),'Aufgabentext erneut laden');draftButton('Entwurf wiederherstellen');await wait(()=>![...doc.querySelectorAll('#draftRecovery button')].some(b=>b.textContent==='Entwurf wiederherstellen'),'Aufgabentext erneut wiederhergestellt');await tasks();assert(doc.querySelector('.newTask').value==='Noch nicht hinzugefügte Aufgabe','Aufgabentext bleibt auch nach erneutem Neustart erhalten');input('.newTask','');await delay(200);
   // Workspace form values and original revisions survive restart.
   click('[data-panagei-tab="kosten"]');await wait(()=>doc.querySelector('#costWorkspace form'),'Kostenformular');input('#costWorkspace [name="title"]','Ungespeicherter Beleg');await delay(200);await load();await wait(()=>doc.querySelector('#draftRecovery')?.textContent.includes('Entwurf wiederherstellen'),'Formularentwurf');draftButton('Entwurf wiederherstellen');await wait(()=>doc.querySelector('#costWorkspace [name="title"]')?.value==='Ungespeicherter Beleg','Formular wiederhergestellt');assert(true,'Formularentwürfe werden wiederhergestellt');
+  doc.querySelector('#costWorkspace form').dataset.dirty='false';
+  await tasks();
+  [...doc.querySelectorAll('#materialWorkspace .workspace-row button')].find(b=>b.textContent==='Bearbeiten').click();
+  input('#materialWorkspace [name="title"]','Lokale Materialänderung');
+  material.title='Neuer Materialstand';material.revision=2;
+  doc.querySelector('#materialWorkspace form').dispatchEvent(new win.Event('submit',{bubbles:true,cancelable:true}));
+  await wait(()=>doc.querySelector('#materialWorkspace .workspace-status')?.textContent.includes('Zwischenzeitlich'),'Formularkonflikt');
+  assert(material.title==='Neuer Materialstand','Veraltete Formularänderung wird abgewiesen');
+  assert(doc.querySelector('#materialWorkspace form').dataset.dirty==='true','Formulareingaben bleiben nach Konflikt erhalten');
+  [...doc.querySelectorAll('#materialWorkspace form button')].find(b=>b.textContent==='Abbrechen').click();
+  [...doc.querySelectorAll('#materialWorkspace .workspace-row button')].find(b=>b.textContent==='Löschen').click();
+  await wait(()=>doc.querySelector('#materialWorkspace .workspace-status')?.textContent.includes('Zwischenzeitlich'),'Löschkonflikt');
+  assert(fixture.data.umbau_materials.length===1,'Veralteter Löschversuch entfernt keine neueren Daten');
   fixture.refreshStatus=503;await fixture.refreshInterval();assert(fixture.session.has('umbau26_auth')&&!doc.querySelector('#panageiApp').hidden,'Temporärer Auth-Verbindungsfehler erhält Anmeldung und Eingaben');fixture.refreshStatus=200;
   // Discard form deliberately so logout can be tested without saved work.
   doc.querySelector('#costWorkspace form').dataset.dirty='false';click('#cloudLogout');await wait(()=>fixture.logoutCount===1,'Serverabmeldung');assert(true,'Abmeldung widerruft die Sitzung beim Server');
