@@ -13,3 +13,7 @@ test('draft recovery survives a new store and isolates account, project and chan
  assert.equal(draftStore(storage,'user|project|preview','new-tab').list()[0].data.note,'unfinished');assert.equal(draftStore(storage,'other|project|preview','tab').list().length,0);assert.equal(draftStore(storage,'user|project|live','tab').list().length,0);a.remove();assert.equal(a.list().length,0);
 });
 test('network and rate-limit failures do not invalidate the session',()=>{for(const status of [undefined,408,429,500,503])assert.equal(transient({status}),true);for(const status of [400,401,403])assert.equal(transient({status}),false)});
+test('independent documents preserve each other’s drafts',()=>{
+ const values=new Map();const storage={get length(){return values.size},key:i=>[...values.keys()][i],getItem:k=>values.get(k),setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
+ const a=draftStore(storage,'user|project|preview','document-a'),b=draftStore(storage,'user|project|preview','document-b');a.save({data:{note:'A'}});b.save({data:{note:'B'}});assert.equal(a.list().length,2);a.remove();assert.equal(b.list().length,1);assert.equal(b.list()[0].data.note,'B');
+});

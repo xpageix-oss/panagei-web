@@ -16,7 +16,9 @@ Preview-only release. The root production HTML and assets are unchanged.
 Run `node --test tests/safety.test.cjs` for transport and persistence unit tests.
 Open `preview/test-runner.html` and press **Tests starten** for isolated browser regressions with synthetic accounts, intercepted network calls and independent storage. This never authenticates to Supabase.
 
-Database revision increment, stale update and stale delete checks ran in a rolled-back transaction. Performance advisors no longer report missing foreign-key indexes, duplicate indexes or multiple permissive policies. Newly added indexes are naturally reported as unused until exercised.
+Six Node module tests and 19 isolated browser checks passed. Browser checks cover restart recovery, recovery without automatic writes, repeated unsent-task recovery, workspace conflicts and stale deletion, transient authentication failures, server logout, scoped loading and 1203-row pagination.
+
+Database revision increment, stale update and stale delete checks ran in a rolled-back transaction. Additional rolled-back synthetic owner/viewer/outsider tests confirmed scoped and room task policies; no synthetic auth users remain. Performance advisors no longer report missing foreign-key indexes, duplicate indexes or multiple permissive policies. Newly added indexes are naturally reported as unused until exercised.
 
 ## Deliberately retained / blocked
 
