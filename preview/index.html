@@ -68,7 +68,7 @@
 <label for="panageiTaskLevel"><strong>Stockwerk</strong></label>
 <select id="panageiTaskLevel"></select>
 </div>
-<div id="renovationOverview" class="panagei-panel"></div><div id="panageiTasksLayout">
+<div id="taskAssignmentForm" class="panagei-panel"></div><div id="renovationOverview" class="panagei-panel"></div><div id="panageiTasksLayout">
 <div class="panagei-panel"><div id="panageiTaskCanvas"></div></div>
 <div class="panagei-panel"><h2>Räume und Aufgaben</h2><div id="panageiTaskRooms"></div></div>
 </div><div id="materialWorkspace" class="panagei-panel"></div></div>
@@ -183,7 +183,7 @@ function cloudSession(data){cloud.token=data.access_token;updateRealtimeToken();
 async function cloudRefreshToken(){if(!cloud.refresh)return;const refresh=cloud.refresh;try{const r=await cloudFetch('/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:refresh})});if(cloud.refresh!==refresh)return;cloudSession(r)}catch(e){if(cloud.refresh!==refresh)return;clearHistory();clearPrivatePlans();clearModel();projectData={};cloud.token=null;cloud.refresh=null;cloud.user=null;cloud.project=null;cloud.dirty=false;clearTimeout(cloud.timer);try{sessionStorage.removeItem('umbau26_auth')}catch{};window.panageiGate.showLogin();window.panageiGate.message('Sitzung abgelaufen. Bitte erneut anmelden.')}}
 async function cloudInit(){try{const projects=await api('umbau_projects','?select=id,name,created_by&order=created_at.asc');const list=document.getElementById('cloudProjects');list.innerHTML='';if(!projects.length){cs('Angemeldet. Noch kein freigegebenes Projekt.');window.panageiGate.showLogin();window.panageiGate.message('Für dieses Konto ist noch kein Projekt freigegeben.');return}const sel=document.createElement('select');sel.setAttribute('aria-label','Cloud-Projekt');projects.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.name;sel.appendChild(o)});list.appendChild(sel);sel.onchange=async()=>{if(cloud.dirty||cloud.pushing||cloud.loading||modelSaving||document.querySelector('form[data-dirty="true"]')){sel.value=cloud.project;cs('Zuerst laufende Änderungen speichern.');return}clearHistory();clearPrivatePlans();clearModel();cloud.lastSnapshot='';cloud.project=sel.value;await cloudLoad()};cloud.project=projects.some(p=>p.id===cloud.project)?cloud.project:projects[0].id;sel.value=cloud.project;await cloudLoad()}catch(e){cs('Cloud-Zugriff fehlgeschlagen: '+e.message);window.panageiGate.showLogin();window.panageiGate.message('Cloud-Zugriff fehlgeschlagen: '+e.message)}}
 async function cloudCreateProject(){if(!cloud.user)return;try{const id=await cloudFetch('/rest/v1/rpc/umbau_create_project',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});cloud.project=id;await cloudInit()}catch(e){cs('Projekt konnte nicht erstellt werden: '+e.message)}}
-async function cloudLoad(){if(!cloud.project||cloud.loading||cloud.pushing||modelSaving||cloud.dirty)return;const pid=cloud.project,user=cloud.user?.id;try{cloud.loading=true;cs('Lade Projektdaten …');const [rooms,tasks,files,members,models]=await Promise.all([api('umbau_rooms','?select=*&project_id=eq.'+cloud.project),api('umbau_tasks','?select=*&order=updated_at.asc'),api('umbau_files','?select=*'),api('umbau_members','?select=role&project_id=eq.'+cloud.project+'&user_id=eq.'+cloud.user.id),api('umbau_model','?select=payload&project_id=eq.'+cloud.project)]);if(cloud.project!==pid||cloud.user?.id!==user||!cloud.token)return;if(cloud.dirty)return;if((document.activeElement?.closest('#roomCards')&&document.activeElement?.matches('input,textarea,select'))||[...document.querySelectorAll('#roomCards .newTask')].some(e=>e.value.trim())){realtimePending=true;return}cloud.role=members[0]?.role||null;if(!cloud.role)throw Error('Keine Projektberechtigung');installModel(models[0]?.payload);const roomIds=new Set(rooms.map(r=>r.id));const next={};for(const r of rooms){const floor=String(r.floor);if(!next[floor])next[floor]=[];next[floor].push({id:r.id,name:r.name,length:r.length_m??'',width:r.width_m??'',height:r.height_m??'',area:r.area_m2??'',notes:r.notes||'',tasks:tasks.filter(t=>t.room_id===r.id).map(t=>({id:t.id,text:t.title,done:t.done,trade:t.trade||'',priority:t.priority||'normal',due_date:t.due_date||''})),photos:[],cloudFiles:files.filter(f=>f.room_id===r.id)})}projectData=next;renderRenovation();void loadWorkspaces();refreshModelRooms();if(!$('modelDimensionForm')?.matches(':focus-within,[data-dirty="true"]'))showModelSelection();cloud.lastSnapshot=JSON.stringify(projectData);cloud.dirty=false;updatePanel();applyPanageiRole();updateAccountIdentity();cs('Cloud verbunden · Räume und Aufgaben geladen');window.panageiGate.showApp();startProjectRealtime();void loadActivity();requestRender();void cloudLoadImages();void loadPrivatePlans();if(!historyLoadedFor(pid,user))void loadHistory();void loadHistoricModels()}catch(e){if(cloud.project!==pid||cloud.user?.id!==user)return;clearHistory();clearPrivatePlans();clearModel();cs('Laden fehlgeschlagen: '+e.message);window.panageiGate.showLogin();window.panageiGate.message('Projektdaten konnten nicht geladen werden: '+e.message)}finally{cloud.loading=false}}
+async function cloudLoad(){if(!cloud.project||cloud.loading||cloud.pushing||modelSaving||cloud.dirty)return;const pid=cloud.project,user=cloud.user?.id;try{cloud.loading=true;cs('Lade Projektdaten …');const [rooms,tasks,files,members,models]=await Promise.all([api('umbau_rooms','?select=*&project_id=eq.'+cloud.project),api('umbau_tasks','?select=*&order=updated_at.asc'),api('umbau_files','?select=*'),api('umbau_members','?select=role&project_id=eq.'+cloud.project+'&user_id=eq.'+cloud.user.id),api('umbau_model','?select=payload&project_id=eq.'+cloud.project)]);if(cloud.project!==pid||cloud.user?.id!==user||!cloud.token)return;if(cloud.dirty)return;if((document.activeElement?.closest('#roomCards')&&document.activeElement?.matches('input,textarea,select'))||[...document.querySelectorAll('#roomCards .newTask')].some(e=>e.value.trim())){realtimePending=true;return}cloud.role=members[0]?.role||null;if(!cloud.role)throw Error('Keine Projektberechtigung');installModel(models[0]?.payload);const roomIds=new Set(rooms.map(r=>r.id));const next={};for(const r of rooms){const floor=String(r.floor);if(!next[floor])next[floor]=[];next[floor].push({id:r.id,name:r.name,length:r.length_m??'',width:r.width_m??'',height:r.height_m??'',area:r.area_m2??'',notes:r.notes||'',tasks:tasks.filter(t=>t.room_id===r.id).map(t=>({id:t.id,text:t.title,done:t.done,trade:t.trade||'',priority:t.priority||'normal',due_date:t.due_date||''})),photos:[],cloudFiles:files.filter(f=>f.room_id===r.id)})}projectData=next;scopedTaskState={pid,rows:tasks.filter(t=>t.project_id===pid&&!t.room_id)};renderRenovation();void loadWorkspaces();refreshModelRooms();if(!$('modelDimensionForm')?.matches(':focus-within,[data-dirty="true"]'))showModelSelection();cloud.lastSnapshot=JSON.stringify(projectData);cloud.dirty=false;updatePanel();applyPanageiRole();updateAccountIdentity();cs('Cloud verbunden · Räume und Aufgaben geladen');window.panageiGate.showApp();startProjectRealtime();void loadActivity();requestRender();void cloudLoadImages();void loadPrivatePlans();if(!historyLoadedFor(pid,user))void loadHistory();void loadHistoricModels()}catch(e){if(cloud.project!==pid||cloud.user?.id!==user)return;clearHistory();clearPrivatePlans();clearModel();cs('Laden fehlgeschlagen: '+e.message);window.panageiGate.showLogin();window.panageiGate.message('Projektdaten konnten nicht geladen werden: '+e.message)}finally{cloud.loading=false}}
 
 let historyGeneration=0,phaseUrls=[],historySelection=null,historyLoadedKey='';const historyLoadedFor=(p,u)=>historyLoadedKey===p+'|'+u;
 function historyNode(tag,txt,cls){const el=document.createElement(tag);if(txt!=null)el.textContent=txt;if(cls)el.className=cls;return el;}
@@ -349,6 +349,7 @@ function searchEntries(){
   for(const t of r.tasks||[])entries.push({kind:'Aufgabe',title:t.text,detail:r.label+' · '+(t.done?'Erledigt':'Offen'),extra:[t.trade,t.due_date,fmtDate(t.due_date)].join(' '),room:r.id,task:t.id});
   for(const f of r.cloudFiles||[])entries.push({kind:'Foto',title:f.original_name||'Raumfoto',detail:r.label,room:r.id});
  }
+ for(const t of scopedTasks())entries.push({kind:'Aufgabe',title:t.title,detail:taskScopeLabel(t.floor)+' · '+(t.done?'Erledigt':'Offen'),extra:t.trade,scopedTask:t.id});
  for(const w of workspaces){const def=searchWorkspaces[w.table];if(!def||w.pid!==cloud.project)continue;for(const row of w.rows){
   entries.push({kind:w.table==='umbau_archive'?(row.category||def[0]):def[0],title:row.title||w.title,detail:[row.room_id?roomName(row.room_id):'',row.trade,row.event_date?fmtDate(row.event_date):'',row.event_time?.slice(0,5),row.category].filter(Boolean).join(' · ')||w.title,extra:[row.notes,row.document_date,row.entry_date,row.next_due,row.event_date,row.unit].join(' '),workspace:w.table,id:row.id,page:def[1]});
  }}
@@ -367,6 +368,7 @@ function openRoomSearch(id,taskId,create=false){
 }
 function openSearchEntry(entry){
  if(!cloud.role||!cloud.project||!cloud.token)return;
+ if(entry.scopedTask){openScopedTask(entry.scopedTask);return}
  if(entry.room){if(entry.kind==='Raum')selectRoomCenter(entry.room);else openRoomSearch(entry.room,entry.task);return}
  if(entry.plan){window.panageiOpenPage?.('infos');const img=[...document.querySelectorAll('[data-plan]')].find(el=>el.dataset.plan===entry.plan);const details=img?.closest('details');if(details){details.open=true;revealTarget(details)}return}
  const w=workspaces.find(x=>x.table===entry.workspace&&x.pid===cloud.project);if(!w||!w.rows.some(r=>r.id===entry.id))return;
@@ -399,9 +401,8 @@ function quickWorkspace(table,page){
 }
 function renderQuickActions(){
  const root=$('panageiQuickActions');if(!root)return;root.replaceChildren();if(!writableWorkspace())return;
- const actions=[['Neue Aufgabe',()=>{const form=root.querySelector('.quick-task-form');form.hidden=!form.hidden;if(!form.hidden)form.querySelector('select')?.focus()}],['Neuer Termin',()=>quickWorkspace('umbau_appointments','calendar')]];
+ const actions=[['Neue Aufgabe',()=>{window.panageiOpenPage?.('aufgaben');revealTarget($('taskAssignmentForm')?.querySelector('select'),true)}],['Neuer Termin',()=>quickWorkspace('umbau_appointments','calendar')]];
  node('h3','Schnellaktionen',root);const grid=node('div',null,root,'quick-action-grid');for(const [label,run] of actions){const b=node('button','＋ '+label,grid);b.type='button';b.onclick=run}
- const form=node('div',null,root,'quick-task-form');form.hidden=true;const label=node('label','Raum für die neue Aufgabe',form),select=node('select',null,label);optionList(select,[['','Raum auswählen'],...allRooms().map(r=>[r.id,r.label])]);const go=node('button','Aufgabe erfassen',form);go.type='button';go.disabled=true;select.onchange=()=>{go.disabled=!select.value};go.onclick=()=>{if(select.value&&writableWorkspace())openRoomSearch(select.value,null,true)};
 }
 
 let activeRoomCenter='';
@@ -508,7 +509,7 @@ function syncBlocked(){return cloud.dirty||cloud.pushing||cloud.loading||modelSa
 
 
 const exportTables={umbau_budgets:'Budgets',umbau_rooms:'Räume',umbau_tasks:'Aufgaben',umbau_materials:'Material',umbau_costs:'Kosten',umbau_archive:'Archiv',umbau_diary:'Bautagebuch',umbau_appointments:'Termine',umbau_installation_markers:'Installationspläne',umbau_files:'Raumfotos (Dateiverweise)',umbau_bauabschnitte:'Bauabschnitte',umbau_dokumente:'Historische Dokumente',umbau_bauteile:'Bauteile',umbau_bauteil_raeume:'Bauteilzuordnungen',umbau_gebaeudetechnik:'Gebäudetechnik',umbau_model:'Hausmodell',umbau_model_versions:'Modellstände',umbau_activity:'Änderungsverlauf'};
-const csvColumns={umbau_rooms:['name','floor','area_m2','length_m','width_m','height_m','notes','id'],umbau_tasks:['title','room_id','done','trade','priority','due_date','id'],umbau_materials:['title','room_id','trade','quantity','unit','purchased','notes','id'],umbau_costs:['title','room_id','trade','planned','actual','notes','id'],umbau_archive:['title','room_id','trade','category','document_date','next_due','interval_months','notes','storage_path','id'],umbau_diary:['title','room_id','trade','entry_date','notes','storage_path','id'],umbau_appointments:['title','category','room_id','trade','task_id','event_date','event_time','notes','reminders','id']};
+const csvColumns={umbau_rooms:['name','floor','area_m2','length_m','width_m','height_m','notes','id'],umbau_tasks:['title','room_id','project_id','floor','done','trade','priority','due_date','id'],umbau_materials:['title','room_id','trade','quantity','unit','purchased','notes','id'],umbau_costs:['title','room_id','trade','planned','actual','notes','id'],umbau_archive:['title','room_id','trade','category','document_date','next_due','interval_months','notes','storage_path','id'],umbau_diary:['title','room_id','trade','entry_date','notes','storage_path','id'],umbau_appointments:['title','category','room_id','trade','task_id','event_date','event_time','notes','reminders','id']};
 function csvValue(v){if(v==null)return '""';if(typeof v==='number'&&Number.isFinite(v))return '"'+String(v).replace('.',',')+'"';let t=typeof v==='object'?JSON.stringify(v):typeof v==='boolean'?(v?'Ja':'Nein'):String(v);if(/^[\s\u0000-\u001f]*[=+\-@]/.test(t)||/^[\t\r\n]/.test(t))t="'"+t;return '"'+t.replace(/"/g,'""')+'"'}
 function exportCsv(rows,columns){return '\uFEFF'+[columns.map(csvValue).join(';'),...rows.map(r=>columns.map(c=>csvValue(r[c])).join(';'))].join('\r\n')}
 let exportBusy=false,exportEpoch=0,exportStatus='',exportChoice='umbau_tasks';
@@ -523,7 +524,7 @@ async function readExportRows(table,pid,valid){
 async function exportProject(mode){
  if(exportBusy||!activityContext()||syncBlocked())return;
  const pid=cloud.project,key=activityContext(),epoch=exportEpoch,choice=exportChoice,valid=()=>epoch===exportEpoch&&key===activityContext();exportBusy=true;exportStatus='Export wird erstellt …';renderExport();
- try{const initialRevision=mode==='json'?await api('umbau_project_changes','?select=revision&project_id=eq.'+encodeURIComponent(pid)):null;const roomRows=await readExportRows('umbau_rooms',pid,valid),roomIds=new Set(roomRows.map(r=>r.id));const read=async t=>{const rows=t==='umbau_rooms'?roomRows:await readExportRows(t,pid,valid);return t==='umbau_tasks'||t==='umbau_files'?rows.filter(r=>roomIds.has(r.room_id)):rows};
+ try{const initialRevision=mode==='json'?await api('umbau_project_changes','?select=revision&project_id=eq.'+encodeURIComponent(pid)):null;const roomRows=await readExportRows('umbau_rooms',pid,valid),roomIds=new Set(roomRows.map(r=>r.id));const read=async t=>{const rows=t==='umbau_rooms'?roomRows:await readExportRows(t,pid,valid);return t==='umbau_tasks'||t==='umbau_files'?rows.filter(r=>roomIds.has(r.room_id)||(t==='umbau_tasks'&&r.project_id===pid)):rows};
  const stamp=new Date().toISOString(),suffix=stamp.slice(0,10);
  if(mode==='csv'){const rows=await read(choice);if(!valid())return;const names=new Map(roomRows.map(r=>[r.id,r.name]));const columns=csvColumns[choice]||[...new Set(rows.flatMap(r=>Object.keys(r)))];const enriched=rows.map(r=>({...r,raum:r.room_id?names.get(r.room_id)||'':'Projekt gesamt'}));const cols=columns.includes('room_id')?['raum',...columns]:columns;downloadExport(exportCsv(enriched,cols),'text/csv;charset=utf-8','PANAGEI_'+choice.replace('umbau_','')+'_'+suffix+'.csv');exportStatus=rows.length+' Einträge für den Download erstellt.'}
  else{const revision=async()=>{const r=await api('umbau_project_changes','?select=revision&project_id=eq.'+encodeURIComponent(pid));return r?.[0]?.revision??null};const before=initialRevision?.[0]?.revision??null;const tables={};for(const t of Object.keys(exportTables)){tables[t]=await read(t)}const after=await revision();if(!valid())return;if(before!==after)throw Error('Projekt wurde während des Exports verändert. Bitte erneut exportieren.');const backup={format:'PANAGEI-project-data',version:1,app:'v71',exported_at:stamp,project_id:pid,includes_binary_files:false,restore_available:false,tables};downloadExport(JSON.stringify(backup,null,2),'application/json','PANAGEI_Datensicherung_'+suffix+'.json');exportStatus='Datensicherung für den Download erstellt.'}
@@ -542,7 +543,7 @@ function renderDashboard(){
  if(!cloud.role)return;
  const today=todayLocal();
  const time=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date());
- const tasks=allRooms().flatMap(r=>r.tasks||[]);
+ const tasks=[...allRooms().flatMap(r=>r.tasks||[]),...scopedTasks()];
  const complete=tasks.filter(t=>t.done).length;
  const done=tasks.length?Math.round(complete/tasks.length*100):0;
  const get=table=>workspaces.find(w=>w.table===table&&w.pid===cloud.project);
@@ -584,32 +585,109 @@ function renderDashboard(){
  node('strong',upcoming.title,item);
  node('small',[fmtDate(upcoming.event_date),upcoming.event_time?upcoming.event_time.slice(0,5)+' Uhr':'',upcoming.category].filter(Boolean).join(' · '),item);
 }
-function renderRenovation(){renderDashboard();
+const taskFloors=['Keller','Erdgeschoss','Obergeschoss','Dachgeschoss','Dachboden'];
+let scopedTaskState={pid:null,rows:[]};
+const scopedTasks=()=>scopedTaskState.pid===cloud.project?scopedTaskState.rows:[];
+const taskScopeLabel=floor=>floor==null?'Projekt gesamt':taskFloors[floor]+' gesamt';
+function openScopedTask(id){
+ window.panageiOpenPage?.('aufgaben');
+ Object.assign(taskFilters,{room:'',trade:'',priority:'',status:'all'});
+ renderRenovation();
+ revealTarget([...$('renovationOverview').querySelectorAll('[data-scoped-task]')].find(row=>row.dataset.scopedTask===id));
+}
+async function writeScopedTask(method,values,id){
+ const pid=cloud.project,user=cloud.user?.id;
+ if(!writableWorkspace()||!pid)throw Error('Keine Schreibberechtigung');
+ const result=await api('umbau_tasks',id?'?id=eq.'+id+'&project_id=eq.'+pid:'',{method,headers:{Prefer:'return=representation'},body:method==='DELETE'?undefined:JSON.stringify({...values,updated_at:new Date().toISOString(),...(id?{}:{project_id:pid})})});
+ if(result?.length!==1)throw Error('Änderung nicht bestätigt');
+ if(pid!==cloud.project||user!==cloud.user?.id||!cloud.token)return;
+ const rows=scopedTasks().filter(t=>t.id!==result[0].id);
+ if(method!=='DELETE')rows.push(result[0]);
+ scopedTaskState={pid,rows};
+ renderRenovation();
+ const calendar=workspaces.find(w=>w.table==='umbau_appointments'&&w.pid===pid);
+ if(calendar&&!calendar.busy&&!$(calendar.root)?.querySelector('form[data-dirty="true"]'))renderWorkspace(calendar);
+ void loadActivity();
+}
+function renderTaskAssignmentForm(){
+ const root=$('taskAssignmentForm');
+ if(!root)return;
+ root.hidden=!writableWorkspace();
+ if(root.hidden){root.replaceChildren();return}
+ const key=cloud.project+'|'+cloud.user?.id;
+ if(root.firstChild&&root.dataset.context===key)return;
+ root.dataset.context=key;root.replaceChildren();
+ node('h2','Neue Aufgabe',root);
+ const form=node('form',null,root,'workspace-form'),fields=node('div',null,form,'workspace-fields');
+ const scope=wsField(fields,{key:'assignment',label:'Zuordnung',type:'select',options:[['project','Projekt gesamt'],...taskFloors.map((_,floor)=>['floor:'+floor,taskScopeLabel(floor)]),['room','Einzelner Raum']]},'project');
+ const room=wsField(fields,{key:'room',label:'Raum',type:'select',options:[['','Raum auswählen']]},'');
+ const title=wsField(fields,{key:'title',label:'Aufgabe',required:true},'');
+ const trade=wsField(fields,{key:'trade',label:'Gewerk'},'');
+ const priority=wsField(fields,{key:'priority',label:'Priorität',type:'select',options:priorityOptions},'normal');
+ const date=wsField(fields,{key:'due_date',label:'Frist',type:'date'},'');
+ const status=node('p','',form,'workspace-status');status.setAttribute('role','status');
+ const submit=node('button','Aufgabe hinzufügen',form);submit.type='submit';
+ scope.onchange=()=>{
+   room.disabled=scope.value!=='room';room.required=!room.disabled;
+   room.closest('label').style.display=room.disabled?'none':'';
+   if(!room.disabled)optionList(room,[['','Raum auswählen'],...allRooms().map(r=>[r.id,r.label])]);
+ };
+ scope.onchange();
+ form.oninput=()=>{form.dataset.dirty='true'};
+ form.onsubmit=async event=>{
+   event.preventDefault();
+   if(submit.disabled||!title.value.trim()||!writableWorkspace())return;
+   submit.disabled=true;status.textContent='Speichere …';
+   try{
+     const values={title:title.value.trim(),trade:trade.value.trim(),priority:priority.value,due_date:date.value||null};
+     if(scope.value==='room'){
+       const selected=allRooms().find(r=>r.id===room.value);
+       if(!selected)throw Error('Raum auswählen');
+       const result=await api('umbau_tasks','',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({...values,room_id:selected.id})});
+       if(result?.length!==1)throw Error('Änderung nicht bestätigt');
+       if(root.dataset.context===key&&root.contains(form))await cloudLoad();
+     }else await writeScopedTask('POST',{...values,floor:scope.value==='project'?null:Number(scope.value.slice(6))});
+     form.reset();scope.onchange();form.dataset.dirty='false';status.textContent='Aufgabe gespeichert.';
+   }catch(error){status.textContent='Speichern fehlgeschlagen: '+error.message}
+   finally{submit.disabled=false}
+ };
+}
+function renderRenovation(){renderDashboard();renderTaskAssignmentForm();
  const root=$('renovationOverview');if(!root)return;root.replaceChildren();if(!cloud.role)return;
- const entries=allRooms().flatMap(r=>(r.tasks||[]).map(t=>({...t,room:r.label,room_id:r.id})));
+ const entries=[...allRooms().flatMap(r=>(r.tasks||[]).map(t=>({...t,room:r.label,room_id:r.id}))),...scopedTasks().map(t=>({...t,text:t.title,room:taskScopeLabel(t.floor),scoped:true}))];
  node('h2','Sanierungsfortschritt',root);const done=entries.filter(x=>x.done).length,pct=entries.length?Math.round(done/entries.length*100):0;
  const m=node('div',null,root,'workspace-metrics');for(const [label,value] of [['Gesamt',entries.length],['Erledigt',done],['Offen',entries.length-done],['Überfällig',entries.filter(x=>!x.done&&x.due_date&&x.due_date<todayLocal()).length]]){const card=node('div',null,m);node('strong',String(value),card);node('small',label,card)}
  const p=node('progress',null,root);p.max=100;p.value=pct;p.setAttribute('aria-label','Fortschritt '+pct+' Prozent');node('p',pct+' % erledigt',root);
  const filters=node('div',null,root,'workspace-fields');
- const opts={room:[['','Alle Räume'],...allRooms().map(r=>[r.id,r.label])],trade:[['','Alle Gewerke'],...Array.from(new Set(entries.map(t=>t.trade).filter(Boolean))).sort().map(x=>[x,x])],priority:[['','Alle Prioritäten'],...priorityOptions],status:[['open','Offen'],['done','Erledigt'],['all','Alle Aufgaben']]};
+ const opts={room:[['','Alle Zuordnungen'],['project','Projekt gesamt'],...taskFloors.map((_,floor)=>['floor:'+floor,taskScopeLabel(floor)]),...allRooms().map(r=>[r.id,r.label])],trade:[['','Alle Gewerke'],...Array.from(new Set(entries.map(t=>t.trade).filter(Boolean))).sort().map(x=>[x,x])],priority:[['','Alle Prioritäten'],...priorityOptions],status:[['open','Offen'],['done','Erledigt'],['all','Alle Aufgaben']]};
  for(const [k,values] of Object.entries(opts)){const sel=node('select',null,filters);optionList(sel,values);sel.value=taskFilters[k];if(sel.selectedIndex<0){sel.selectedIndex=0;taskFilters[k]=sel.value}sel.setAttribute('aria-label',k);sel.onchange=()=>{taskFilters[k]=sel.value;renderRenovation()}}
- const filtered=entries.filter(t=>(!taskFilters.room||t.room_id===taskFilters.room)&&(!taskFilters.trade||t.trade===taskFilters.trade)&&(!taskFilters.priority||t.priority===taskFilters.priority)&&(taskFilters.status==='all'||t.done===(taskFilters.status==='done'))).sort((a,b)=>{const x={urgent:0,high:1,normal:2,low:3};return (x[a.priority||'normal']-x[b.priority||'normal'])||String(a.due_date||'9999').localeCompare(String(b.due_date||'9999'))});
+ const filtered=entries.filter(t=>(!taskFilters.room||(t.scoped?(t.floor==null?'project':'floor:'+t.floor):t.room_id)===taskFilters.room)&&(!taskFilters.trade||t.trade===taskFilters.trade)&&(!taskFilters.priority||t.priority===taskFilters.priority)&&(taskFilters.status==='all'||t.done===(taskFilters.status==='done'))).sort((a,b)=>{const x={urgent:0,high:1,normal:2,low:3};return (x[a.priority||'normal']-x[b.priority||'normal'])||String(a.due_date||'9999').localeCompare(String(b.due_date||'9999'))});
  if(!filtered.length)node('p','Keine passenden Aufgaben.',root);
  for(const t of filtered){
    const row=node('div',null,root,'workspace-row task-overview-row');
    const controls=node('div',null,row,'task-overview-controls');
    const check=node('input',null,controls);check.type='checkbox';check.checked=t.done;check.disabled=!writableWorkspace();
    check.setAttribute('aria-label',t.text+' als erledigt markieren');
-   check.onchange=()=>{
+   if(t.scoped)row.dataset.scopedTask=t.id;
+   check.onchange=async ()=>{
+     if(t.scoped){
+       check.disabled=true;
+       try{await writeScopedTask('PATCH',{done:check.checked},t.id)}
+       catch(error){check.checked=t.done;alert('Speichern fehlgeschlagen: '+error.message)}
+       finally{check.disabled=!writableWorkspace()}
+       return;
+     }
      const task=allRooms().find(r=>r.id===t.room_id)?.tasks?.find(item=>item.id===t.id);
      if(!task||!writableWorkspace()){check.checked=t.done;return;}
      task.done=check.checked;
      updatePanel();
      saveProject();
    };
-   const jump=node('button',t.text,controls);jump.type='button';jump.onclick=()=>openRoomSearch(t.room_id,t.id);node('small',[t.room,t.trade||'Ohne Gewerk',priorityOptions.find(x=>x[0]===t.priority)?.[1]||'Normal',t.due_date?'Frist '+fmtDate(t.due_date):'Ohne Frist',t.done?'Erledigt':'Offen'].join(' · '),row)}
+   const jump=node('button',t.text,controls);jump.type='button';jump.onclick=()=>t.scoped?revealTarget(row):openRoomSearch(t.room_id,t.id);
+   if(t.scoped&&writableWorkspace()){const remove=node('button','Löschen',controls);remove.type='button';remove.onclick=async()=>{if(!confirm('Aufgabe löschen?'))return;remove.disabled=true;try{await writeScopedTask('DELETE',{},t.id)}catch(error){alert('Löschen fehlgeschlagen: '+error.message);remove.disabled=false}}}
+   node('small',[t.room,t.trade||'Ohne Gewerk',priorityOptions.find(x=>x[0]===t.priority)?.[1]||'Normal',t.due_date?'Frist '+fmtDate(t.due_date):'Ohne Frist',t.done?'Erledigt':'Offen'].join(' · '),row)}
 }
-function clearWorkspaces(){budgetState={pid:null,rows:[],error:false};historicObserver?.disconnect();highlightedTaskRoom='';taskPlanTransform=null;calendarDay='';Object.assign(calendarFilters,{room:'',trade:'',kind:'',period:'open'});Object.keys(archiveFilters).forEach(k=>archiveFilters[k]='');historicState={pid:null,phase:null,phases:[],models:[],rot:-0.72,floor:'all'};$('historicWorkspace')?.replaceChildren();workspaceEpoch++;for(const w of workspaces){w.rows=[];w.pid=null;w.edit=null;w.busy=false;$(w.root)?.replaceChildren()}}
+function clearWorkspaces(){scopedTaskState={pid:null,rows:[]};$('taskAssignmentForm')?.replaceChildren();budgetState={pid:null,rows:[],error:false};historicObserver?.disconnect();highlightedTaskRoom='';taskPlanTransform=null;calendarDay='';Object.assign(calendarFilters,{room:'',trade:'',kind:'',period:'open'});Object.keys(archiveFilters).forEach(k=>archiveFilters[k]='');historicState={pid:null,phase:null,phases:[],models:[],rot:-0.72,floor:'all'};$('historicWorkspace')?.replaceChildren();workspaceEpoch++;for(const w of workspaces){w.rows=[];w.pid=null;w.edit=null;w.busy=false;$(w.root)?.replaceChildren()}}
 async function loadWorkspaces(){const pid=cloud.project,epoch=workspaceEpoch;if(!pid||!cloud.role)return;try{const budgets=await api('umbau_budgets','?select=trade,amount&project_id=eq.'+encodeURIComponent(pid));if(epoch!==workspaceEpoch||pid!==cloud.project||!cloud.role)return;budgetState={pid,rows:budgets,error:false}}catch(e){if(epoch!==workspaceEpoch||pid!==cloud.project)return;budgetState={pid,rows:[],error:true}}renderDashboard();for(const w of workspaces){if(w.busy||($(w.root)?.querySelector('form[data-dirty="true"]')&&w.pid===pid))continue;try{const rows=await api(w.table,'?project_id=eq.'+encodeURIComponent(pid)+'&select=*&order=created_at.desc');if(epoch!==workspaceEpoch||pid!==cloud.project||!cloud.role)return;w.rows=rows||[];w.pid=pid;renderWorkspace(w)}catch(e){if(epoch===workspaceEpoch&&pid===cloud.project){const root=$(w.root);root.replaceChildren();node('h2',w.title,root);node('p','Laden fehlgeschlagen: '+e.message,root);const retry=node('button','Erneut laden',root);retry.onclick=()=>loadWorkspaces()}}}}
 function wsField(form,f,value){const label=node('label',f.label,form);label.classList.add('workspace-field');label.dataset.fieldType=f.type||'text';let input;if(f.type==='reminders'){const box=node('div',null,label);box.className='reminder-options';for(const [minutes,title] of reminderOptions){const l=node('label',null,box),c=node('input',null,l);c.type='checkbox';c.name=f.key+'_'+minutes;c.checked=(value||[]).includes(minutes);node('span',title,l)}return box}else if(f.type==='select'||f.type==='room'||f.type==='task'){input=node('select',null,label);optionList(input,f.type==='room'?(f.options?.()??[['','Projekt gesamt'],...allRooms().map(r=>[r.id,r.label])]):f.type==='task'?[['','Keine Aufgabe']]:typeof f.options==='function'?f.options(value):f.options)}else if(f.type==='textarea'){input=node('textarea',null,label);input.rows=2}else{input=node('input',null,label);input.type=f.type||'text';if(f.step)input.step=f.step;if(f.min!=null)input.min=f.min;if(f.max!=null)input.max=f.max;if(f.type==='text')input.maxLength=300}input.name=f.key;input.required=!!f.required;if(f.type==='checkbox')input.checked=!!value;else if(f.type!=='file')input.value=value??f.default??'';return input}
 function pathEncoded(path){return path.split('/').map(encodeURIComponent).join('/')}
@@ -1013,7 +1091,7 @@ function bindAppointmentTask(form,initial){
 }
 const calendarFilters={room:'',trade:'',kind:'',period:'open'};
 function calendarEntries(appointments,rooms,archive){
- return [...appointments.map(r=>({title:r.title,date:r.event_date,time:r.event_time?.slice(0,5),kind:'Termin',category:r.category,room:r.room_id||'',trade:r.trade||'',id:r.id,workspace:'umbau_appointments',page:'calendar'})),...rooms.flatMap(r=>(r.tasks||[]).filter(t=>!t.done&&t.due_date).map(t=>({title:t.text,date:t.due_date,kind:'Aufgabenfrist',room:r.id,trade:t.trade||'',task:t.id,page:'aufgaben'}))),...archive.filter(r=>r.category==='Wartung'&&r.next_due).map(r=>({title:r.title,date:r.next_due,kind:'Wartung',room:r.room_id||'',trade:r.trade||'',id:r.id,workspace:'umbau_archive',page:'archiv'}))].filter(e=>e.date).sort((a,b)=>(a.date+(a.time||'08:00')).localeCompare(b.date+(b.time||'08:00')));
+ return [...appointments.map(r=>({title:r.title,date:r.event_date,time:r.event_time?.slice(0,5),kind:'Termin',category:r.category,room:r.room_id||'',trade:r.trade||'',id:r.id,workspace:'umbau_appointments',page:'calendar'})),...rooms.flatMap(r=>(r.tasks||[]).filter(t=>!t.done&&t.due_date).map(t=>({title:t.text,date:t.due_date,kind:'Aufgabenfrist',room:r.id,trade:t.trade||'',task:t.id,page:'aufgaben'}))),...scopedTasks().filter(t=>!t.done&&t.due_date).map(t=>({title:t.title,date:t.due_date,kind:'Aufgabenfrist',trade:t.trade||'',scopedTask:t.id,page:'aufgaben'})),...archive.filter(r=>r.category==='Wartung'&&r.next_due).map(r=>({title:r.title,date:r.next_due,kind:'Wartung',room:r.room_id||'',trade:r.trade||'',id:r.id,workspace:'umbau_archive',page:'archiv'}))].filter(e=>e.date).sort((a,b)=>(a.date+(a.time||'08:00')).localeCompare(b.date+(b.time||'08:00')));
 }
 function calendarMatch(e,f,today){return (!f.room||e.room===f.room)&&(!f.trade||e.trade===f.trade)&&(!f.kind||e.kind===f.kind)&&(f.period==='all'||(f.period==='future'?e.date>=today:f.period==='past'?e.date<today:(e.date>=today||e.kind!=='Termin')))}
 let calendarDay='';
