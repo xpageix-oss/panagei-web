@@ -689,15 +689,6 @@ function costSummary(root,rows){
      for(const part of [name,value.budget===null?'—':money(value.budget),money(value.actual/100),value.budget===null?'—':money(value.budget-value.actual/100)])node('td',part,row);
    }
  }
- const legacy=rows.filter(row=>!isInvoice(row));
- if(legacy.length){
-   const history=node('details',null,root);
-   node('summary','Frühere Kostenpositionen · '+legacy.length,history);
-   node('p','Diese Positionen werden separat geführt.',history);
-   for(const row of legacy){const item=node('div',null,history,'workspace-row');node('strong',row.title,item);node('small','Budget '+money(row.planned)+' · Ist '+money(row.actual),item);
-     if(row.storage_path){const button=node('button','Beleg anzeigen',item);button.type='button';button.onclick=()=>void openWorkspaceFile(row.storage_path,node('span','',item));}
-   }
- }
 }
 workspaces.push({
  root:'costWorkspace',table:'umbau_costs',title:'Kostenpositionen',
