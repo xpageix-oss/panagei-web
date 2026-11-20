@@ -48,7 +48,7 @@ document.getElementById('run').onclick=async()=>{
   const base=new URL('./',location.href).href;
   iframe.srcdoc=html.replace('<head>','<head>') // The existing document intentionally omits an explicit head.
    .replace('<meta charset=', '<base href="'+base+'"><script>('+mock.toString()+')()<\/script><meta charset=');
-  await wait(()=>iframe.contentWindow?.panageiGate,'App-Start');win=iframe.contentWindow;doc=iframe.contentDocument;
+  await wait(()=>iframe.contentWindow?.panageiGate&&iframe.contentWindow?.panageiOpenPage&&iframe.contentDocument?.readyState==='complete','App-Start');win=iframe.contentWindow;doc=iframe.contentDocument;
  }
  function input(selector,value){const el=doc.querySelector(selector);if(!el)throw Error('Feld fehlt: '+selector);el.value=value;el.dispatchEvent(new win.Event('input',{bubbles:true}));el.dispatchEvent(new win.Event('change',{bubbles:true}));return el;}
  function click(selector){const el=doc.querySelector(selector);if(!el)throw Error('Element fehlt: '+selector);el.click();return el;}

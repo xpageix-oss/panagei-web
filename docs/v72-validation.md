@@ -23,6 +23,6 @@ Database revision increment, stale update and stale delete checks ran in a rolle
 - The membership and project creation SECURITY DEFINER functions enforce auth.uid() and fixed search_path. They are required for non-recursive membership authorization and atomic project creation; switching them to INVOKER indiscriminately would break access control.
 - Internal push tables intentionally deny direct client access; missing client policies are expected.
 - pg_net is not relocatable in this installation. Reinstalling it only to remove the schema warning could disrupt push delivery. Its supported schema configuration is retained.
-- Leaked-password protection remains an account-level configuration item. The available Supabase connector exposes no Auth configuration update; the dashboard fallback returned 404. It has not been enabled and must not be reported as complete.
+- Leaked-password protection remains an account-level configuration item. The organization is on the Free plan, while Supabase requires Pro or higher for leaked-password protection. No paid upgrade was made. The connector also exposes no Auth configuration update; the dashboard fallback returned 404. It has not been enabled and must not be reported as complete.
 
 Real iPhone/PWA and real two-device tests remain device acceptance checks.
