@@ -62,6 +62,6 @@
   window.addEventListener('pagehide',persist);
   window.addEventListener('beforeunload',e=>{persist();if(options.busy()||options.snapshot().data||options.snapshot().roomInputs?.length||Object.keys(formDrafts).length){e.preventDefault();e.returnValue=''}});
   window.addEventListener('online',()=>options.online());
-  return {persist,offer,render,discard,conflict(){conflict=true;persist();render()},get pending(){return !!pending},get hasConflict(){return conflict}};
+  return {persist,offer,render,discard,resetSession(){pending=null;conflict=false;formDrafts={};loadedContext='';offeredContext='';},conflict(){conflict=true;persist();render()},get pending(){return !!pending},get hasConflict(){return conflict}};
  };
 })(globalThis);
