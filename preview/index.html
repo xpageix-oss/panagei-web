@@ -625,6 +625,99 @@ async function loadHistoricModels(){
  state.phases=phases;state.models=models;if(!phases.some(p=>p.id===state.phase))state.phase=phases.at(-1)?.id||null;
  }catch(e){if(state===historicState)state.error=e.message}finally{state.loading=false;if(state===historicState&&cloud.project===pid)renderHistoric()}
 }
+function renderImportedWallModel(root, bar, state, wallModel){
+ const levels=['Keller','Erdgeschoss','Obergeschoss','Dachgeschoss','Dachboden'];
+ const type=node('label','Ansicht',bar), floor=node('select',null,type);
+ optionList(floor,[['all','Gesamthaus'],...levels.map((name,i)=>[String(i),name])]);
+ floor.value=state.floor;
+ node('h3','Wandmodell V'+wallModel.version,root);
+ const actions=node('div',null,root,'workspace-actions');
+ const canvas=node('canvas',null,root);
+ canvas.setAttribute('aria-label','Drehbares 3D-Hausmodell');
+ canvas.style.cssText='width:100%;height:clamp(260px,55vh,620px);display:block;background:#e7efe9;border-radius:12px;touch-action:pan-y';
+ const ctx=canvas.getContext('2d');
+ let selected=0,activeWall=null,roof=true;
+ // Orthographic triangles share a per-pixel depth buffer, including wall tops,
+// jambs and glazing. Their draw order is independent of the camera angle.
+let depthFrame;
+const rgbByColor=new Map();
+function renderSurfaces(surfaces,w,h,project){
+ const sample=Math.min(devicePixelRatio||1,1.5,1280/Math.max(w,h));
+ const width=Math.max(1,Math.round(w*sample));
+ const height=Math.max(1,Math.round(h*sample));
+ if(!depthFrame || depthFrame.width!==width || depthFrame.height!==height){
+   const layer=document.createElement('canvas');
+   layer.width=width;layer.height=height;
+   const brush=layer.getContext('2d');
+   depthFrame={width,height,layer,brush,image:brush.createImageData(width,height),depth:new Float32Array(width*height)};
+ }
+ const {image,depth,brush,layer}=depthFrame;
+ image.data.fill(0);
+ depth.fill(-Infinity);
+ function triangle(a,b,c,rgb){
+   const [ax,ay,az]=a,[bx,by,bz]=b,[cx,cy,cz]=c;
+   const ux=bx-ax,uy=by-ay,vx=cx-ax,vy=cy-ay;
+   const determinant=ux*vy-uy*vx;
+   if(Math.abs(determinant)<1e-7)return;
+   const minX=Math.max(0,Math.ceil(Math.min(ax,bx,cx)-.5));
+   const maxX=Math.min(width-1,Math.floor(Math.max(ax,bx,cx)-.5));
+   const minY=Math.max(0,Math.ceil(Math.min(ay,by,cy)-.5));
+   const maxY=Math.min(height-1,Math.floor(Math.max(ay,by,cy)-.5));
+   for(let y=minY;y<=maxY;y++){
+     for(let x=minX;x<=maxX;x++){
+       const px=x+.5-ax,py=y+.5-ay;
+       const u=(px*vy-py*vx)/determinant,v=(ux*py-uy*px)/determinant;
+       if(u<-.000001||v<-.000001||u+v>1.000001)continue;
+       const z=az+u*(bz-az)+v*(cz-az), index=y*width+x;
+       if(z<=depth[index]+.000001)continue;
+       depth[index]=z;
+       image.data.set(rgb,index*4);
+     }
+   }
+ }
+ for(const [level,material,vertices,id] of surfaces){
+   if(selected && level!==selected-1)continue;
+   if(!selected && level===4 && !roof)continue;
+   const color=id && id===activeWall?'#aa552d':material;
+   if(!rgbByColor.has(color)){
+     const n=parseInt(color.slice(1),16);
+     rgbByColor.set(color,[n>>16,(n>>8)&255,n&255,255]);
+   }
+   const points=vertices.map(point=>{
+     const [x,y,z]=project(point);
+     return [x*sample,y*sample,z];
+   });
+   for(let i=1;i<points.length-1;i++)triangle(points[0],points[i],points[i+1],rgbByColor.get(color));
+ }
+ brush.putImageData(image,0,0);
+ ctx.drawImage(layer,0,0,w,h);
+}
+
+ function draw(){
+   const {width:w,height:h}=canvas.getBoundingClientRect();
+   if(!w||!h)return;
+   const ratio=Math.min(devicePixelRatio||1,1.5);
+   canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio);
+   ctx.setTransform(ratio,0,0,ratio,0,0);
+   selected=state.floor==='all'?0:Number(state.floor)+1;
+   const cy=Math.cos(state.rot),sy=Math.sin(state.rot),pitch=.55;
+   const scale=Math.min(w/35,h/(selected===0?24:19));
+   const center=[6.3,1.15,3.75,6.5,8.1,11.5][selected];
+   renderSurfaces(wallModel.geometry,w,h,([x,y,z])=>{
+     x-=8.2;y-=5.9;z-=center;
+     const a=x*cy-y*sy,b=x*sy+y*cy;
+     return [w/2+a*scale,h/2+(b*Math.sin(pitch)-z*Math.cos(pitch))*scale,b*Math.cos(pitch)+z*Math.sin(pitch)];
+   });
+ }
+ floor.onchange=()=>{state.floor=floor.value;draw()};
+ for(const [label,delta] of [['↶ Drehen',-.35],['↷ Drehen',.35]]){
+   node('button',label,actions).onclick=()=>{state.rot+=delta;draw()};
+ }
+ const roofButton=node('button','Dach',actions);
+ roofButton.setAttribute('aria-pressed','true');
+ roofButton.onclick=()=>{roof=!roof;roofButton.setAttribute('aria-pressed',String(roof));draw()};
+ requestAnimationFrame(draw);
+}
 function renderHistoric(){
  const root=$('historicWorkspace');if(!root)return;root.replaceChildren();if(!cloud.role||!cloud.project)return;
  const state=historicState;if(state.pid!==cloud.project||(!state.phases.length&&state.loading)){node('p','Modellstände werden geladen …',root);return}
@@ -634,6 +727,10 @@ function renderHistoric(){
  optionList(sel,state.phases.map(p=>[p.id,(p.jahr_von===p.jahr_bis?p.jahr_von:p.jahr_von+'–'+p.jahr_bis)+' · '+p.bezeichnung+(state.models.some(m=>m.phase_id===p.id)?'':' (ohne 3D-Modell)')]));sel.value=state.phase;
  sel.onchange=()=>{state.phase=sel.value;state.floor='all';renderHistoric()};
  const version=state.models.find(m=>m.phase_id===state.phase),p=version?.payload,mdl=p?.model;
+ const wallModel=p?.wallModel;
+ if(wallModel?.format==='panagei-wall-model'&&Array.isArray(wallModel.geometry)&&wallModel.geometry.length){
+   renderImportedWallModel(root,bar,state,wallModel);return;
+ }
  if(!mdl?.elements?.length||!mdl.levels?.length||!p.dimensions){node('h3','Noch kein 3D-Modell vorhanden',root);node('p','Für diesen Bauabschnitt fehlen belegte Modelldaten. Die vorhandenen Originalunterlagen sind in der Bauhistorie zugänglich.',root);const b=node('button','Zur Bauhistorie',root);b.onclick=()=>window.panageiOpenPage?.('historie');return}
  node('h3',version.label,root);node('p',version.source||'Hinterlegter Modellstand',root);
  const fl=node('label','Ansicht',bar),floor=node('select',null,fl);optionList(floor,[['all','Gesamthaus'],...mdl.levels.map((l,i)=>[String(i),l.name])]);floor.value=state.floor;floor.onchange=()=>{state.floor=floor.value;renderHistoric()};
