@@ -4,7 +4,8 @@ const API='https://evvfenvbvctcvyscooyp.supabase.co',KEY='sb_publishable_ju52qhr
 const app=document.getElementById('panageiApp');
 if(!app)return;
 const style=document.createElement('style');style.textContent=`
-#panageiTabs[hidden]{display:none!important}\n#panageiContextSwitch{display:flex;gap:8px;padding:12px max(16px,calc((100vw - 1160px)/2));background:#e4eee7}
+#panageiTabs[hidden]{display:none!important}
+#panageiContextSwitch{display:flex;gap:8px;padding:12px max(16px,calc((100vw - 1160px)/2));background:#e4eee7}
 #panageiContextSwitch button{flex:1;max-width:220px;font-weight:700}
 #panageiContextSwitch button[aria-pressed=true]{background:#153e34;color:#fff}
 #panageiEveryday{max-width:980px;margin:0 auto;padding:12px 14px 40px}
@@ -61,7 +62,8 @@ async function request(path,method='GET',payload=null,extra={}) {
 }
 function status(message){$('everydayStatus').textContent=message}
 function memberName(record){return record.assigned_to_all?'Gemeinsam':record.assigned_to?(members.find(m=>m.user_id===record.assigned_to)?.display_name||'Ehemaliges Mitglied'):'Nicht zugewiesen'}
-function localDay(value){const d=new Date(value);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}\nfunction dateLabel(record){if(record.kind==='task')return record.due_date?'Fällig: '+new Date(record.due_date+'T12:00:00').toLocaleDateString('de-DE'):'Ohne Frist';return new Date(record.starts_at).toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'})}
+function localDay(value){const d=new Date(value);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function dateLabel(record){if(record.kind==='task')return record.due_date?'Fällig: '+new Date(record.due_date+'T12:00:00').toLocaleDateString('de-DE'):'Ohne Frist';return new Date(record.starts_at).toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'})}
 function option(select,value,label){const o=document.createElement('option');o.value=value;o.textContent=label;select.appendChild(o)}
 function fillMembers(){const choices=$('everydayForm').elements.assignee;const f=$('everydayFilter');const old=choices.value,filter=f.value;choices.replaceChildren();option(choices,'','Nicht zugewiesen');option(choices,'all','Gemeinsam');for(const m of members)option(choices,m.user_id,m.display_name+(m.user_id===identity?' (ich)':''));choices.value=old;f.replaceChildren();[['','Alle'],['me','Meine Aufgaben'],['all','Gemeinsam'],['unassigned','Nicht zugewiesen'],...members.map(m=>[m.user_id,m.display_name])].forEach(([v,l])=>option(f,v,l));f.value=filter}
 async function load(force=false){
@@ -149,7 +151,8 @@ $('everydayFilter').onchange=render;
 root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>selectView(b.dataset.view));
 function setMode(which){
  if(which===mode)return;
- mode=which;const everyday=which==='alltag';\n const header=app.querySelector('header h1');if(header)header.textContent=everyday?'Alltag – Aufgaben & Kalender':'Digitale Gebäudeakte';
+ mode=which;const everyday=which==='alltag';
+ const header=app.querySelector('header h1');if(header)header.textContent=everyday?'Alltag – Aufgaben & Kalender':'Digitale Gebäudeakte';
  root.hidden=!everyday;tabs.hidden=everyday;
  const pages=app.querySelectorAll('.panagei-page');pages.forEach(p=>{if(everyday)p.hidden=true});
  switcher.querySelectorAll('[data-context]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.context===which)));
