@@ -27,7 +27,38 @@ const style=document.createElement('style');style.textContent=`
 #panageiEveryday .everyday-calendar button[aria-pressed=true]{background:#153e34;color:white}
 #panageiEveryday .everyday-calendar button.has-events{border:2px solid #398260;font-weight:800}
 #panageiEveryday .everyday-calendar .weekday{text-align:center;font-size:12px;padding:6px 0}
-@media(max-width:500px){#panageiContextSwitch button{max-width:none}#panageiEveryday .everyday-panel{padding:12px}}
+@media(max-width:500px){#panageiContextSwitch button{max-width:none}#panageiEveryday .everyday-panel{padding:13px}}
+/* V75: clearly differentiated blue-grey everyday workspace */
+#panageiApp:has(#panageiEveryday:not([hidden])){background:#e9f1f8;color:#1a3854}
+#panageiApp:has(#panageiEveryday:not([hidden]))>header{background:#254969}
+#panageiContextSwitch{position:relative;z-index:13;background:#ddeaf5;border-bottom:1px solid #aebfd0;box-shadow:0 3px 12px #152e4212}
+#panageiContextSwitch button{border:2px solid #a0b4c6;background:#f8fbff;color:#1b405e;min-height:46px}
+#panageiContextSwitch button[aria-pressed=true]{background:#254d71;color:#fff;border-color:#254d71}
+#panageiEveryday{background:#e9f1f8;color:#1a3854;border-radius:16px}
+#panageiEveryday h2,#panageiEveryday h3{color:#173b59}
+#panageiEveryday>p{color:#50677c}
+#panageiEveryday .everyday-panel{background:#fff;border:1px solid #b5c8d9;box-shadow:0 4px 14px #1c395414}
+#panageiEveryday .everyday-tabs button{flex:1;border:1px solid #a9bfd1;background:#f8fbfe;color:#224966;font-weight:650}
+#panageiEveryday .everyday-tabs button[aria-selected=true]{background:#254d71;color:#fff;border-color:#254d71}
+#panageiEveryday :is(input,select,textarea){background:#fff!important;color:#193b58!important;border:1px solid #93abc0!important}
+#panageiEveryday :is(input,select,textarea):focus-visible{outline:3px solid #4b8bbd!important;outline-offset:2px}
+#panageiEveryday button{background:#f1f6fb;color:#234666;border:1px solid #a3bbce}
+#panageiEveryday button[type=submit]{background:#254d71;color:#fff;border-color:#254d71;font-weight:700}
+#panageiEveryday .everyday-entry{border-color:#c9d7e3}
+#panageiEveryday .everyday-entry small{color:#456277}
+#panageiEveryday .everyday-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+#panageiEveryday .everyday-fields label{min-width:0;font-weight:550}
+#panageiEveryday .everyday-wide{grid-column:1/-1}
+#panageiEveryday .everyday-reminders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#panageiEveryday .everyday-reminders label{display:flex;gap:8px;align-items:center;font-weight:400}
+#panageiEveryday .everyday-reminders input[type=checkbox]{width:19px;height:19px;min-height:19px;flex:none;accent-color:#254d71}
+#panageiEveryday .everyday-calendar .has-events{border-color:#3579aa}
+#panageiEveryday .everyday-calendar button[aria-pressed=true]{background:#254d71;color:#fff}
+#panageiEveryday .everyday-status{font-size:13px;color:#234c6c}
+@media(min-width:761px){#panageiContextSwitch{margin-left:0;padding:12px 16px}#panageiEveryday{margin:18px auto;max-width:min(980px,calc(100% - 36px))}}
+@media(max-width:760px){#panageiEveryday{margin:10px;padding:12px;border-radius:12px}#panageiContextSwitch{padding:10px 12px}}
+@media(max-width:500px){#panageiEveryday .everyday-fields,#panageiEveryday .everyday-reminders{grid-template-columns:1fr}#panageiEveryday .everyday-wide{grid-column:1}}
+
 `;document.head.appendChild(style);
 const switcher=document.createElement('div');switcher.id='panageiContextSwitch';switcher.hidden=true;
 switcher.innerHTML='<button type="button" data-context="umbau" aria-pressed="true">Umbau</button><button type="button" data-context="alltag" aria-pressed="false">Alltag</button>';
@@ -36,14 +67,14 @@ const root=document.createElement('div');root.id='panageiEveryday';root.hidden=t
 root.innerHTML=`<h2>Alltag</h2><p>Eigene Aufgaben und Termine, getrennt vom Umbau. Synchronisiert über das gemeinsame Projekt.</p>
 <div class="everyday-tabs" role="tablist"><button type="button" data-view="task" aria-selected="true">Aufgaben</button><button type="button" data-view="event" aria-selected="false">Kalender</button></div>
 <div id="everydayStatus" role="status" aria-live="polite"></div>
-<div class="everyday-panel"><h3 id="everydayFormTitle">Neue Aufgabe</h3><form id="everydayForm">
-<label>Titel<input name="title" required maxlength="240" autocomplete="off"></label>
-<label>Notizen<textarea name="notes" maxlength="5000"></textarea></label>
-<label id="everydayDateLabel">Fällig am<input name="due_date" type="date"></label>
-<label id="everydayStartLabel" hidden>Beginn<input name="starts_at" type="datetime-local"></label>
-<label id="everydayEndLabel" hidden>Ende (optional)<input name="ends_at" type="datetime-local"></label>
+<div class="everyday-panel"><h3 id="everydayFormTitle">Neue Aufgabe</h3><form id="everydayForm" class="workspace-form"><div class="everyday-fields">
+<label class="everyday-wide">Bezeichnung<input name="title" required maxlength="240" autocomplete="off"></label>
+<label class="everyday-wide">Notizen<textarea name="notes" maxlength="5000"></textarea></label>
+<label id="everydayPriorityLabel">Priorität<select name="priority"><option value="low">Niedrig</option><option value="normal" selected>Normal</option><option value="high">Hoch</option><option value="urgent">Dringend</option></select></label><label id="everydayDateLabel">Frist<input name="due_date" type="date"></label>
+<label id="everydayStartLabel" hidden>Datum<input name="event_date" type="date"></label><label id="everydayTimeLabel" hidden>Uhrzeit<input name="event_time" type="time" value="09:00"></label>
+<label id="everydayCategoryLabel" hidden>Kategorie<select name="category"><option>Besprechung</option><option>Arzttermin</option><option>Privat</option><option>Familie</option><option>Wartung</option><option>Sonstiges</option></select></label><div class="everyday-wide" id="everydayRemindersLabel" hidden><strong>Erinnerungen</strong><div class="everyday-reminders"><label><input type="checkbox" name="reminder_10080">1 Woche vorher</label><label><input type="checkbox" name="reminder_1440" checked>24 Stunden vorher</label><label><input type="checkbox" name="reminder_120">2 Stunden vorher</label><label><input type="checkbox" name="reminder_60" checked>1 Stunde vorher</label><label><input type="checkbox" name="reminder_30">30 Minuten vorher</label><label><input type="checkbox" name="reminder_15">15 Minuten vorher</label><label><input type="checkbox" name="reminder_0">Zum Terminbeginn</label></div><small>Erinnerungen werden gespeichert. Automatische Benachrichtigungen im Alltag sind noch nicht aktiviert.</small></div>
 <label id="everydayAssigneeLabel">Zuständig<select name="assignee"><option value="">Nicht zugewiesen</option><option value="all">Gemeinsam</option></select></label>
-<div class="everyday-row"><button type="submit" id="everydaySave">Speichern</button><button type="button" id="everydayCancel" hidden>Abbrechen</button></div>
+</div><div class="everyday-row"><button type="submit" id="everydaySave">Aufgabe hinzufügen</button><button type="button" id="everydayCancel" hidden>Abbrechen</button></div>
 </form></div>
 <div id="everydayCalendarBox" class="everyday-panel" hidden></div>
 <div class="everyday-panel"><div class="everyday-row"><h3 id="everydayListTitle">Aufgaben</h3><button type="button" id="everydayReload">Aktualisieren</button></div>
@@ -63,7 +94,7 @@ async function request(path,method='GET',payload=null,extra={}) {
 function status(message){$('everydayStatus').textContent=message}
 function memberName(record){return record.assigned_to_all?'Gemeinsam':record.assigned_to?(members.find(m=>m.user_id===record.assigned_to)?.display_name||'Ehemaliges Mitglied'):'Nicht zugewiesen'}
 function localDay(value){const d=new Date(value);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function dateLabel(record){if(record.kind==='task')return record.due_date?'Fällig: '+new Date(record.due_date+'T12:00:00').toLocaleDateString('de-DE'):'Ohne Frist';return new Date(record.starts_at).toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'})}
+function dateLabel(record){if(record.kind==='task')return (record.due_date?'Frist: '+new Date(record.due_date+'T12:00:00').toLocaleDateString('de-DE'):'Ohne Frist')+' · '+({low:'Niedrig',normal:'Normal',high:'Hoch',urgent:'Dringend'}[record.priority]||'Normal');return new Date(record.starts_at).toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'})+' · '+(record.category||'Sonstiges')}
 function option(select,value,label){const o=document.createElement('option');o.value=value;o.textContent=label;select.appendChild(o)}
 function fillMembers(){const choices=$('everydayForm').elements.assignee;const f=$('everydayFilter');const old=choices.value,filter=f.value;choices.replaceChildren();option(choices,'','Nicht zugewiesen');option(choices,'all','Gemeinsam');for(const m of members)option(choices,m.user_id,m.display_name+(m.user_id===identity?' (ich)':''));choices.value=old;f.replaceChildren();[['','Alle'],['me','Meine Aufgaben'],['all','Gemeinsam'],['unassigned','Nicht zugewiesen'],...members.map(m=>[m.user_id,m.display_name])].forEach(([v,l])=>option(f,v,l));f.value=filter}
 async function load(force=false){
@@ -85,8 +116,8 @@ async function load(force=false){
  lastRefresh=Date.now();render();
  }catch(e){status('Synchronisierung fehlgeschlagen: '+e.message)}finally{loading=false}
 }
-function resetForm(){edit=null;const form=$('everydayForm');form.reset();$('everydayCancel').hidden=true;$('everydayFormTitle').textContent=view==='task'?'Neue Aufgabe':'Neuer Termin';$('everydaySave').textContent='Speichern'}
-function selectView(which){view=which;resetForm();root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===view)));$('everydayDateLabel').hidden=view!=='task';$('everydayStartLabel').hidden=view!=='event';$('everydayEndLabel').hidden=view!=='event';$('everydayAssigneeLabel').hidden=view!=='task';$('everydayFilterLabel').hidden=view!=='task';$('everydayCalendarBox').hidden=view!=='event';$('everydayListTitle').textContent=view==='task'?'Aufgaben':'Termine';render()}
+function resetForm(){edit=null;const form=$('everydayForm');form.reset();$('everydayCancel').hidden=true;$('everydayFormTitle').textContent=view==='task'?'Neue Aufgabe':'Neuer Termin';$('everydaySave').textContent=view==='task'?'Aufgabe hinzufügen':'Termin hinzufügen'}
+function selectView(which){view=which;resetForm();root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===view)));for(const id of ['everydayDateLabel','everydayPriorityLabel','everydayAssigneeLabel','everydayFilterLabel'])$(id).hidden=view!=='task';for(const id of ['everydayStartLabel','everydayTimeLabel','everydayCategoryLabel','everydayRemindersLabel','everydayCalendarBox'])$(id).hidden=view!=='event';$('everydayListTitle').textContent=view==='task'?'Aufgaben':'Termine';render()}
 function element(tag,className,text,parent){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined&&text!==null)el.textContent=text;if(parent)parent.appendChild(el);return el}
 function visibleRows(){const filter=$('everydayFilter').value;return rows.filter(r=>r.kind===view&&(!selectedDate||view!=='event'||localDay(r.starts_at)===selectedDate)&&(!filter||view!=='task'||(filter==='me'?(r.assigned_to===identity||r.assigned_to_all):filter==='all'?r.assigned_to_all:filter==='unassigned'?!r.assigned_to&&!r.assigned_to_all:r.assigned_to===filter)))}
 function render(){
@@ -127,7 +158,7 @@ function renderCalendar(){
 }
 function startEdit(r){
  edit=r;$('everydayFormTitle').textContent='Eintrag bearbeiten';$('everydaySave').textContent='Änderungen speichern';$('everydayCancel').hidden=false;
- const f=$('everydayForm').elements;f.title.value=r.title;f.notes.value=r.notes||'';f.due_date.value=r.due_date||'';f.starts_at.value=r.starts_at?toLocal(r.starts_at):'';f.ends_at.value=r.ends_at?toLocal(r.ends_at):'';f.assignee.value=r.assigned_to_all?'all':r.assigned_to||'';root.scrollIntoView({block:'start',behavior:'smooth'});
+ const f=$('everydayForm').elements;f.title.value=r.title;f.notes.value=r.notes||'';f.due_date.value=r.due_date||'';f.priority.value=r.priority||'normal';f.category.value=r.category||'Sonstiges';f.event_date.value=r.starts_at?localDay(r.starts_at):'';f.event_time.value=r.starts_at?toLocal(r.starts_at).slice(11,16):'09:00';for(const m of [10080,1440,120,60,30,15,0])f['reminder_'+m].checked=(r.reminders||[]).includes(m);f.assignee.value=r.assigned_to_all?'all':r.assigned_to||'';root.scrollIntoView({block:'start',behavior:'smooth'});
 }
 function toLocal(value){const d=new Date(value),t=new Date(d.getTime()-d.getTimezoneOffset()*60000);return t.toISOString().slice(0,16)}
 async function mutate(r,fields){
@@ -140,8 +171,8 @@ $('everydayForm').onsubmit=async e=>{
  const f=e.currentTarget.elements,p=selectedProject();if(!p)return;
  const payload={title:f.title.value.trim(),notes:f.notes.value.trim(),kind:view,project_id:p};
  if(!payload.title)return;
- if(view==='task'){payload.due_date=f.due_date.value||null;payload.assigned_to=f.assignee.value&&f.assignee.value!=='all'?f.assignee.value:null;payload.assigned_to_all=f.assignee.value==='all'}
- else{if(!f.starts_at.value){status('Bitte Beginn angeben');return}payload.starts_at=new Date(f.starts_at.value).toISOString();payload.ends_at=f.ends_at.value?new Date(f.ends_at.value).toISOString():null}
+ if(view==='task'){payload.due_date=f.due_date.value||null;payload.priority=f.priority.value;payload.assigned_to=f.assignee.value&&f.assignee.value!=='all'?f.assignee.value:null;payload.assigned_to_all=f.assignee.value==='all'}
+ else{if(!f.event_date.value||!f.event_time.value){status('Bitte Datum und Uhrzeit angeben');return}payload.starts_at=new Date(f.event_date.value+'T'+f.event_time.value).toISOString();payload.ends_at=null;payload.category=f.category.value;payload.reminders=[10080,1440,120,60,30,15,0].filter(m=>f['reminder_'+m].checked)}
  const save=$('everydaySave');save.disabled=true;
  try{if(edit){await mutate(edit,payload)}else{await request('panagei_everyday_entries','POST',payload);await load(true)}resetForm();status('Gespeichert und synchronisiert')}catch(e){status('Speichern fehlgeschlagen: '+e.message)}finally{save.disabled=false}
 };
@@ -154,9 +185,9 @@ function setMode(which){
  mode=which;const everyday=which==='alltag';
  const header=app.querySelector('header h1');if(header)header.textContent=everyday?'Alltag – Aufgaben & Kalender':'Digitale Gebäudeakte';
  root.hidden=!everyday;tabs.hidden=everyday;
- const pages=app.querySelectorAll('.panagei-page');pages.forEach(p=>{if(everyday)p.hidden=true});
+ const pages=app.querySelectorAll('.panagei-page,#panageiModelPage');pages.forEach(p=>{if(everyday)p.hidden=true});
  switcher.querySelectorAll('[data-context]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.context===which)));
- if(!everyday){window.panageiOpenPage?.('dashboard')}else{selectedDate='';void load(true)}
+ if(!everyday){window.panageiOpenPage?.('dashboard');const fallback=$('panageiDashboardPage');if(fallback)fallback.hidden=false}else{selectedDate='';void load(true)}
 }
 switcher.querySelectorAll('[data-context]').forEach(b=>b.onclick=()=>setMode(b.dataset.context));
 function tick(){
