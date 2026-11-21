@@ -29,6 +29,7 @@ document.getElementById('run').onclick=async()=>{
    if(u.pathname.includes('/auth/v1/logout')){f.logoutCount++;return reply({})}
    if(u.pathname.startsWith('/storage/'))return reply({message:'not found'},404);
    if(u.pathname.includes('/functions/'))return reply({publicKey:''});
+   if(u.pathname.endsWith('/rpc/umbau_task_members'))return reply([{user_id:f.user.id,display_name:'Test',role:'owner'}]);
    const table=u.pathname.split('/').pop(),rows=f.data[table]||[];
    function matches(row){for(const [k,v]of u.searchParams){if(v.startsWith('eq.')&&String(row[k])!==v.slice(3))return false;if(v.startsWith('in.(')&&!v.slice(4,-1).split(',').includes(String(row[k])))return false;}return true;}
    if(method==='GET'){f.reads.push({table,query:u.search});return reply(rows.filter(matches).slice(+(u.searchParams.get('offset')||0),+(u.searchParams.get('offset')||0)+127))}
@@ -84,6 +85,11 @@ document.getElementById('run').onclick=async()=>{
   await wait(()=>doc.querySelector('#materialWorkspace .workspace-status')?.textContent.includes('Zwischenzeitlich'),'Löschkonflikt');
   assert(fixture.data.umbau_materials.length===1,'Veralteter Löschversuch entfernt keine neueren Daten');
   fixture.refreshStatus=503;await fixture.refreshInterval();assert(fixture.session.has('umbau26_auth')&&!doc.querySelector('#panageiApp').hidden,'Temporärer Auth-Verbindungsfehler erhält Anmeldung und Eingaben');fixture.refreshStatus=200;
+  await tasks();input('#taskAssignmentForm [name="title"]','Zugewiesene Projektaufgabe');input('#taskAssignmentForm [name="responsible"]',user.id);doc.querySelector('#taskAssignmentForm form').dispatchEvent(new win.Event('submit',{bubbles:true,cancelable:true}));
+  await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Projektaufgabe'&&t.assigned_to===user.id),'Personenzuweisung');assert(true,'Neue Projektaufgabe kann einer Person zugewiesen werden');
+  input('#renovationOverview [aria-label="Zuständig"]','all');await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Projektaufgabe'&&t.assigned_to_all&&!t.assigned_to),'Gemeinsame Aufgabe');assert(true,'Bestehende Projektaufgabe kann gemeinsam zugewiesen werden');
+  input('#taskAssignmentForm [name="assignment"]','room');input('#taskAssignmentForm [name="room"]',rid);input('#taskAssignmentForm [name="title"]','Zugewiesene Raumaufgabe');input('#taskAssignmentForm [name="responsible"]',user.id);doc.querySelector('#taskAssignmentForm form').dispatchEvent(new win.Event('submit',{bubbles:true,cancelable:true}));
+  await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Raumaufgabe'&&t.assigned_to===user.id),'Raumzuweisung');await tasks();input('.roomCard [aria-label="Zuständig"]','all');await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Raumaufgabe'&&t.assigned_to_all&&!t.assigned_to),'Raumzuweisung ändern');assert(true,'Raumzuweisung wird beim Speichern übernommen');
   // Discard form deliberately so logout can be tested without saved work.
   doc.querySelector('#costWorkspace form').dataset.dirty='false';click('#cloudLogout');await wait(()=>fixture.logoutCount===1,'Serverabmeldung');assert(true,'Abmeldung widerruft die Sitzung beim Server');
   const indirect=fixture.reads.filter(r=>['umbau_tasks','umbau_files'].includes(r.table));assert(indirect.every(r=>{const q=new URLSearchParams(r.query);return q.has('project_id')||q.has('room_id')}),'Aufgaben und Dateien werden ausschließlich projektbezogen geladen');
