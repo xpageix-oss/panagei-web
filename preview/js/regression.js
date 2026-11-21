@@ -41,7 +41,7 @@ document.getElementById('run').onclick=async()=>{
     else f.data[table]=rows.filter(row=>!found.includes(row));
     return reply(found);
    }
-   if(method==='POST'){const body=JSON.parse(options.body),existing=rows.find(row=>row.id===body.id);if(existing)return reply([]);const row={id:crypto.randomUUID(),revision:1,...(table==='umbau_tasks'?{done:false}:{}),...body};rows.push(row);f.data[table]=rows;return reply([row])}
+   if(method==='POST'){const body=JSON.parse(options.body),existing=rows.find(row=>row.id===body.id);if(existing)return reply([]);const row={id:crypto.randomUUID(),revision:1,...(table==='umbau_tasks'?{done:false,assigned_to:null,assigned_to_all:false}:{}),...body};rows.push(row);f.data[table]=rows;return reply([row])}
    return reply([]);
   };
  };
@@ -85,16 +85,20 @@ document.getElementById('run').onclick=async()=>{
   await wait(()=>doc.querySelector('#materialWorkspace .workspace-status')?.textContent.includes('Zwischenzeitlich'),'Löschkonflikt');
   assert(fixture.data.umbau_materials.length===1,'Veralteter Löschversuch entfernt keine neueren Daten');
   fixture.refreshStatus=503;await fixture.refreshInterval();assert(fixture.session.has('umbau26_auth')&&!doc.querySelector('#panageiApp').hidden,'Temporärer Auth-Verbindungsfehler erhält Anmeldung und Eingaben');fixture.refreshStatus=200;
-  await tasks();input('#taskAssignmentForm [name="title"]','Zugewiesene Projektaufgabe');input('#taskAssignmentForm [name="responsible"]',user.id);doc.querySelector('#taskAssignmentForm form').dispatchEvent(new win.Event('submit',{bubbles:true,cancelable:true}));
-  await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Projektaufgabe'&&t.assigned_to===user.id),'Personenzuweisung');assert(true,'Neue Projektaufgabe kann einer Person zugewiesen werden');
-  await wait(()=>doc.querySelector('#renovationOverview [aria-label="Zuständig"]'),'Zuweisungsauswahl geladen');input('#renovationOverview [aria-label="Zuständig"]','all');await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Projektaufgabe'&&t.assigned_to_all&&!t.assigned_to),'Gemeinsame Aufgabe');assert(true,'Bestehende Projektaufgabe kann gemeinsam zugewiesen werden');
-  input('#taskAssignmentForm [name="assignment"]','room');input('#taskAssignmentForm [name="room"]',rid);input('#taskAssignmentForm [name="title"]','Zugewiesene Raumaufgabe');input('#taskAssignmentForm [name="responsible"]',user.id);doc.querySelector('#taskAssignmentForm form').dispatchEvent(new win.Event('submit',{bubbles:true,cancelable:true}));
-  await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Raumaufgabe'&&t.assigned_to===user.id),'Raumzuweisung');await wait(()=>doc.querySelector('#taskAssignmentForm .workspace-status')?.textContent==='Aufgabe gespeichert.','Aufgabe vollständig angelegt');await tasks();input('.roomCard [aria-label="Zuständig"]','all');await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Raumaufgabe'&&t.assigned_to_all&&!t.assigned_to),'Raumzuweisung ändern');assert(true,'Raumzuweisung wird beim Speichern übernommen');
+  await tasks();input('#taskAssignmentForm [name="title"]','Zugewiesene Projektaufgabe');input('#taskAssignmentForm [name="assigned_to"]',user.id);doc.querySelector('#taskAssignmentForm form').dispatchEvent(new win.Event('submit',{bubbles:true,cancelable:true}));
+  await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Projektaufgabe'&&t.assigned_to===user.id),'Personenzuweisung');await wait(()=>doc.querySelector('#renovationOverview [aria-label="Zuständig"]'),'Zuweisung in Übersicht');assert(true,'Neue Projektaufgabe kann einer Person zugewiesen werden');
+  const oldAssignment=input('#renovationOverview [aria-label="Zuständig"]','all');await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Projektaufgabe'&&t.assigned_to_all&&!t.assigned_to),'Gemeinsame Aufgabe');await wait(()=>!oldAssignment.isConnected,'Bestätigte Zuweisung');assert(true,'Bestehende Projektaufgabe kann gemeinsam zugewiesen werden');
+  input('#taskAssignmentForm [name="assignment"]','room');input('#taskAssignmentForm [name="room"]',rid);input('#taskAssignmentForm [name="title"]','Zugewiesene Raumaufgabe');input('#taskAssignmentForm [name="assigned_to"]',user.id);doc.querySelector('#taskAssignmentForm form').dispatchEvent(new win.Event('submit',{bubbles:true,cancelable:true}));
+  await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Raumaufgabe'&&t.assigned_to===user.id),'Raumzuweisung');await wait(()=>doc.querySelector('#taskAssignmentForm .workspace-status')?.textContent==='Aufgabe gespeichert.','Raumaufgabe bestätigt');await tasks();input('.roomCard [aria-label="Zuständig"]','all');await wait(()=>fixture.data.umbau_tasks.some(t=>t.title==='Zugewiesene Raumaufgabe'&&t.assigned_to_all&&!t.assigned_to),'Raumzuweisung ändern');await wait(()=>doc.querySelector('#cloudStatus').textContent==='Alle Änderungen in der Cloud gespeichert','Raumzuweisung bestätigt');assert(true,'Raumzuweisung wird beim Speichern übernommen');
+  input('#renovationOverview [aria-label="Zuständigkeit filtern"]','me');assert(doc.querySelectorAll('#renovationOverview .task-overview-row').length===2,'Meine Aufgaben enthält gemeinsame Aufgaben');
+  input('#renovationOverview [aria-label="Zuständigkeit filtern"]','unassigned');assert(doc.querySelectorAll('#renovationOverview .task-overview-row').length===0,'Nicht zugewiesen blendet zugewiesene Aufgaben aus');
+  input('#renovationOverview [aria-label="Zuständigkeit filtern"]','');
+  // Pagination returns all 1203 rows even when the API only returns 127 at once.
+  const rows=Array.from({length:1203},(_,id)=>({id}));const result=await win.PanageiSafety.readAll(async q=>{const p=new URLSearchParams(q);return rows.slice(+p.get('offset'),+p.get('offset')+127)},'?project_id=eq.test');assert(result.length===1203,'Pagination lädt 1203 Einträge trotz kleiner Serverseiten vollständig');
   // Discard form deliberately so logout can be tested without saved work.
   doc.querySelector('#costWorkspace form').dataset.dirty='false';click('#cloudLogout');await wait(()=>fixture.logoutCount===1,'Serverabmeldung');assert(true,'Abmeldung widerruft die Sitzung beim Server');
   const indirect=fixture.reads.filter(r=>['umbau_tasks','umbau_files'].includes(r.table));assert(indirect.every(r=>{const q=new URLSearchParams(r.query);return q.has('project_id')||q.has('room_id')}),'Aufgaben und Dateien werden ausschließlich projektbezogen geladen');
-  // Pagination returns all 1203 rows even when the API only returns 127 at once.
-  const rows=Array.from({length:1203},(_,id)=>({id}));const result=await win.PanageiSafety.readAll(async q=>{const p=new URLSearchParams(q);return rows.slice(+p.get('offset'),+p.get('offset')+127)},'?project_id=eq.test');assert(result.length===1203,'Pagination lädt 1203 Einträge trotz kleiner Serverseiten vollständig');
   assert(fixture.errors.length===0,'Alle Abläufe ohne Laufzeitfehler');output.className='passed';output.textContent+='\nBESTANDEN: '+results.length+' Prüfungen.';output.dataset.result='passed';
  }catch(error){output.className='failed';output.textContent+='\nFEHLER: '+error.message+'\n'+fixture.errors.join('\n');output.dataset.result='failed';console.error(error)}finally{button.disabled=false}
 };
+
