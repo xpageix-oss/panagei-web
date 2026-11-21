@@ -41,7 +41,7 @@ document.getElementById('run').onclick=async()=>{
     else f.data[table]=rows.filter(row=>!found.includes(row));
     return reply(found);
    }
-   if(method==='POST'){const body=JSON.parse(options.body),existing=rows.find(row=>row.id===body.id);if(existing)return reply([]);const row={id:crypto.randomUUID(),revision:1,...body};rows.push(row);f.data[table]=rows;return reply([row])}
+   if(method==='POST'){const body=JSON.parse(options.body),existing=rows.find(row=>row.id===body.id);if(existing)return reply([]);const row={id:crypto.randomUUID(),revision:1,...(table==='umbau_tasks'?{done:false}:{}),...body};rows.push(row);f.data[table]=rows;return reply([row])}
    return reply([]);
   };
  };
