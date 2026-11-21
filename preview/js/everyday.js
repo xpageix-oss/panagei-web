@@ -78,7 +78,7 @@ root.innerHTML=`<h2>Alltag</h2><p>Eigene Aufgaben und Termine, getrennt vom Umba
 </form></div>
 <div id="everydayCalendarBox" class="everyday-panel" hidden></div>
 <div class="everyday-panel"><div class="everyday-row"><h3 id="everydayListTitle">Aufgaben</h3><button type="button" id="everydayReload">Aktualisieren</button></div>
-<label id="everydayFilterLabel">Zuständigkeit filtern<select id="everydayFilter"><option value="">Alle</option><option value="me">Meine Aufgaben</option><option value="all">Gemeinsam</option><option value="unassigned">Nicht zugewiesen</option></select></label>
+<div id="everydayFilterLabel" class="everyday-fields"><label>Zuständigkeit<select id="everydayFilter"><option value="">Alle</option><option value="me">Meine Aufgaben</option><option value="all">Gemeinsam</option><option value="unassigned">Nicht zugewiesen</option></select></label><label>Status<select id="everydayStatusFilter"><option value="open">Offen</option><option value="done">Erledigt</option><option value="all">Alle</option></select></label></div>
 <div id="everydayList"></div></div>`;
 tabs.after(root);
 let mode='umbau',view='task',project=null,identity=null,rows=[],members=[],edit=null,calendarMonth=new Date(),selectedDate='',loading=false,role='viewer',lastRefresh=0;
@@ -116,10 +116,10 @@ async function load(force=false){
  lastRefresh=Date.now();render();
  }catch(e){status('Synchronisierung fehlgeschlagen: '+e.message)}finally{loading=false}
 }
-function resetForm(){edit=null;const form=$('everydayForm');form.reset();$('everydayCancel').hidden=true;$('everydayFormTitle').textContent=view==='task'?'Neue Aufgabe':'Neuer Termin';$('everydaySave').textContent=view==='task'?'Aufgabe hinzufügen':'Termin hinzufügen'}
+function resetForm(){edit=null;const form=$('everydayForm');form.reset();if(view==='event')form.elements.event_date.value=selectedDate||localDay(new Date());$('everydayCancel').hidden=true;$('everydayFormTitle').textContent=view==='task'?'Neue Aufgabe':'Neuer Termin';$('everydaySave').textContent=view==='task'?'Aufgabe hinzufügen':'Termin hinzufügen'}
 function selectView(which){view=which;resetForm();root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===view)));for(const id of ['everydayDateLabel','everydayPriorityLabel','everydayAssigneeLabel','everydayFilterLabel'])$(id).hidden=view!=='task';for(const id of ['everydayStartLabel','everydayTimeLabel','everydayCategoryLabel','everydayRemindersLabel','everydayCalendarBox'])$(id).hidden=view!=='event';$('everydayListTitle').textContent=view==='task'?'Aufgaben':'Termine';render()}
 function element(tag,className,text,parent){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined&&text!==null)el.textContent=text;if(parent)parent.appendChild(el);return el}
-function visibleRows(){const filter=$('everydayFilter').value;return rows.filter(r=>r.kind===view&&(!selectedDate||view!=='event'||localDay(r.starts_at)===selectedDate)&&(!filter||view!=='task'||(filter==='me'?(r.assigned_to===identity||r.assigned_to_all):filter==='all'?r.assigned_to_all:filter==='unassigned'?!r.assigned_to&&!r.assigned_to_all:r.assigned_to===filter)))}
+function visibleRows(){const filter=$('everydayFilter').value,doneFilter=$('everydayStatusFilter').value;return rows.filter(r=>(view!=='task'||doneFilter==='all'||r.done===(doneFilter==='done'))&&r.kind===view&&(!selectedDate||view!=='event'||localDay(r.starts_at)===selectedDate)&&(!filter||view!=='task'||(filter==='me'?(r.assigned_to===identity||r.assigned_to_all):filter==='all'?r.assigned_to_all:filter==='unassigned'?!r.assigned_to&&!r.assigned_to_all:r.assigned_to===filter)))}
 function render(){
  const list=$('everydayList');list.replaceChildren();
  const items=visibleRows().sort((a,b)=>view==='task'?Number(a.done)-Number(b.done)||String(a.due_date||'9999').localeCompare(String(b.due_date||'9999')):String(a.starts_at).localeCompare(String(b.starts_at)));
@@ -153,7 +153,7 @@ function renderCalendar(){
  for(let day=1;day<=new Date(y,m+1,0).getDate();day++){
  const key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
  const count=rows.filter(r=>r.kind==='event'&&localDay(r.starts_at)===key).length;
- const b=element('button',count?'has-events':'',String(day)+(count?' •':''),grid);b.type='button';b.setAttribute('aria-pressed',String(selectedDate===key));b.setAttribute('aria-label',key+(count?' · '+count+' Termine':''));b.onclick=()=>{selectedDate=selectedDate===key?'':key;render()};
+ const b=element('button',count?'has-events':'',String(day)+(count?' •':''),grid);b.type='button';b.setAttribute('aria-pressed',String(selectedDate===key));b.setAttribute('aria-label',key+(count?' · '+count+' Termine':''));b.onclick=()=>{selectedDate=selectedDate===key?'':key;if(!edit)$('everydayForm').elements.event_date.value=key;render()};
  }
 }
 function startEdit(r){
@@ -178,7 +178,7 @@ $('everydayForm').onsubmit=async e=>{
 };
 $('everydayCancel').onclick=resetForm;
 $('everydayReload').onclick=()=>void load(true);
-$('everydayFilter').onchange=render;
+$('everydayFilter').onchange=render;$('everydayStatusFilter').onchange=render;
 root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>selectView(b.dataset.view));
 function setMode(which){
  if(which===mode)return;
