@@ -4,7 +4,7 @@ const API='https://evvfenvbvctcvyscooyp.supabase.co',KEY='sb_publishable_ju52qhr
 const app=document.getElementById('panageiApp');
 if(!app)return;
 const style=document.createElement('style');style.textContent=`
-#panageiContextSwitch{display:flex;gap:8px;padding:12px max(16px,calc((100vw - 1160px)/2));background:#e4eee7}
+#panageiTabs[hidden]{display:none!important}\n#panageiContextSwitch{display:flex;gap:8px;padding:12px max(16px,calc((100vw - 1160px)/2));background:#e4eee7}
 #panageiContextSwitch button{flex:1;max-width:220px;font-weight:700}
 #panageiContextSwitch button[aria-pressed=true]{background:#153e34;color:#fff}
 #panageiEveryday{max-width:980px;margin:0 auto;padding:12px 14px 40px}
@@ -61,7 +61,7 @@ async function request(path,method='GET',payload=null,extra={}) {
 }
 function status(message){$('everydayStatus').textContent=message}
 function memberName(record){return record.assigned_to_all?'Gemeinsam':record.assigned_to?(members.find(m=>m.user_id===record.assigned_to)?.display_name||'Ehemaliges Mitglied'):'Nicht zugewiesen'}
-function dateLabel(record){if(record.kind==='task')return record.due_date?'Fällig: '+new Date(record.due_date+'T12:00:00').toLocaleDateString('de-DE'):'Ohne Frist';return new Date(record.starts_at).toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'})}
+function localDay(value){const d=new Date(value);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}\nfunction dateLabel(record){if(record.kind==='task')return record.due_date?'Fällig: '+new Date(record.due_date+'T12:00:00').toLocaleDateString('de-DE'):'Ohne Frist';return new Date(record.starts_at).toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'})}
 function option(select,value,label){const o=document.createElement('option');o.value=value;o.textContent=label;select.appendChild(o)}
 function fillMembers(){const choices=$('everydayForm').elements.assignee;const f=$('everydayFilter');const old=choices.value,filter=f.value;choices.replaceChildren();option(choices,'','Nicht zugewiesen');option(choices,'all','Gemeinsam');for(const m of members)option(choices,m.user_id,m.display_name+(m.user_id===identity?' (ich)':''));choices.value=old;f.replaceChildren();[['','Alle'],['me','Meine Aufgaben'],['all','Gemeinsam'],['unassigned','Nicht zugewiesen'],...members.map(m=>[m.user_id,m.display_name])].forEach(([v,l])=>option(f,v,l));f.value=filter}
 async function load(force=false){
@@ -86,7 +86,7 @@ async function load(force=false){
 function resetForm(){edit=null;const form=$('everydayForm');form.reset();$('everydayCancel').hidden=true;$('everydayFormTitle').textContent=view==='task'?'Neue Aufgabe':'Neuer Termin';$('everydaySave').textContent='Speichern'}
 function selectView(which){view=which;resetForm();root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===view)));$('everydayDateLabel').hidden=view!=='task';$('everydayStartLabel').hidden=view!=='event';$('everydayEndLabel').hidden=view!=='event';$('everydayAssigneeLabel').hidden=view!=='task';$('everydayFilterLabel').hidden=view!=='task';$('everydayCalendarBox').hidden=view!=='event';$('everydayListTitle').textContent=view==='task'?'Aufgaben':'Termine';render()}
 function element(tag,className,text,parent){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined&&text!==null)el.textContent=text;if(parent)parent.appendChild(el);return el}
-function visibleRows(){const filter=$('everydayFilter').value;return rows.filter(r=>r.kind===view&&(!selectedDate||view!=='event'||r.starts_at?.slice(0,10)===selectedDate)&&(!filter||view!=='task'||(filter==='me'?(r.assigned_to===identity||r.assigned_to_all):filter==='all'?r.assigned_to_all:filter==='unassigned'?!r.assigned_to&&!r.assigned_to_all:r.assigned_to===filter)))}
+function visibleRows(){const filter=$('everydayFilter').value;return rows.filter(r=>r.kind===view&&(!selectedDate||view!=='event'||localDay(r.starts_at)===selectedDate)&&(!filter||view!=='task'||(filter==='me'?(r.assigned_to===identity||r.assigned_to_all):filter==='all'?r.assigned_to_all:filter==='unassigned'?!r.assigned_to&&!r.assigned_to_all:r.assigned_to===filter)))}
 function render(){
  const list=$('everydayList');list.replaceChildren();
  const items=visibleRows().sort((a,b)=>view==='task'?Number(a.done)-Number(b.done)||String(a.due_date||'9999').localeCompare(String(b.due_date||'9999')):String(a.starts_at).localeCompare(String(b.starts_at)));
@@ -119,7 +119,7 @@ function renderCalendar(){
  for(let n=0;n<offset;n++)element('span','',null,grid);
  for(let day=1;day<=new Date(y,m+1,0).getDate();day++){
  const key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
- const count=rows.filter(r=>r.kind==='event'&&r.starts_at?.slice(0,10)===key).length;
+ const count=rows.filter(r=>r.kind==='event'&&localDay(r.starts_at)===key).length;
  const b=element('button',count?'has-events':'',String(day)+(count?' •':''),grid);b.type='button';b.setAttribute('aria-pressed',String(selectedDate===key));b.setAttribute('aria-label',key+(count?' · '+count+' Termine':''));b.onclick=()=>{selectedDate=selectedDate===key?'':key;render()};
  }
 }
@@ -149,7 +149,7 @@ $('everydayFilter').onchange=render;
 root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>selectView(b.dataset.view));
 function setMode(which){
  if(which===mode)return;
- mode=which;const everyday=which==='alltag';
+ mode=which;const everyday=which==='alltag';\n const header=app.querySelector('header h1');if(header)header.textContent=everyday?'Alltag – Aufgaben & Kalender':'Digitale Gebäudeakte';
  root.hidden=!everyday;tabs.hidden=everyday;
  const pages=app.querySelectorAll('.panagei-page');pages.forEach(p=>{if(everyday)p.hidden=true});
  switcher.querySelectorAll('[data-context]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.context===which)));
@@ -159,7 +159,7 @@ switcher.querySelectorAll('[data-context]').forEach(b=>b.onclick=()=>setMode(b.d
 function tick(){
  const s=session();const ready=!app.hidden&&!!s?.user?.id&&!!selectedProject();
  switcher.hidden=!ready;
- if(!ready){if(mode==='alltag'){mode='umbau';root.hidden=true;tabs.hidden=false}project=null;identity=null;rows=[];return}
+ if(!ready){if(mode==='alltag'){mode='umbau';root.hidden=true;tabs.hidden=false}project=null;identity=null;rows=[];const header=app.querySelector('header h1');if(header)header.textContent='Digitale Gebäudeakte';return}
  if(mode==='alltag'&&(project!==selectedProject()||identity!==s.user.id||Date.now()-lastRefresh>30000))void load(true);
 }
 setInterval(tick,1500);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&mode==='alltag')void load(true)});tick();
