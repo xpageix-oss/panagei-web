@@ -191,6 +191,21 @@ const style=document.createElement('style');style.textContent=`
 #panageiApp[data-context="alltag"] #everydaySelectedDay .everyday-day-event strong{display:block;font-size:15px;font-weight:700;color:#173d59!important}
 #panageiApp[data-context="alltag"] #everydaySelectedDay .everyday-day-event small{display:block;font-size:13px;color:#3c607c!important;margin-top:3px}
 
+
+/* V82: explicit contrast for event titles in the full calendar list */
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayList .everyday-entry{color:#193d59!important;border-color:#bbcedf!important}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayList .everyday-entry .everyday-row strong{
+ color:#183a58!important;opacity:1!important;font-size:16px;font-weight:750;
+ text-shadow:none!important;filter:none!important
+}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayList .everyday-entry>small{
+ color:#355c79!important;opacity:1!important;font-size:13px
+}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayList .everyday-entry>p{color:#284f6d!important}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydaySelectedDay h4{
+ color:#173d59!important;opacity:1!important
+}
+
 `;document.head.appendChild(style);
 const switcher=document.createElement('div');switcher.id='panageiContextSwitch';switcher.hidden=true;
 switcher.innerHTML='<button type="button" data-context="umbau" aria-pressed="true">Umbau</button><button type="button" data-context="alltag" aria-pressed="false">Alltag</button>';
