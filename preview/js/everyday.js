@@ -28,6 +28,40 @@ const style=document.createElement('style');style.textContent=`
 #panageiEveryday .everyday-calendar button.has-events{border:2px solid #398260;font-weight:800}
 #panageiEveryday .everyday-calendar .weekday{text-align:center;font-size:12px;padding:6px 0}
 @media(max-width:500px){#panageiContextSwitch button{max-width:none}#panageiEveryday .everyday-panel{padding:13px}}
+/* V75.1: consistent per-mode color treatment */
+#panageiApp:has(#panageiEveryday[hidden]) #panageiContextSwitch{
+ background:#dcebe0;
+ border-bottom:1px solid #88ab97;
+ box-shadow:0 3px 12px #123b2618;
+}
+#panageiApp:has(#panageiEveryday[hidden]) #panageiContextSwitch button{
+ background:#f1f8f2;
+ border:2px solid #80aa8b;
+ color:#173e2d;
+}
+#panageiApp:has(#panageiEveryday[hidden]) #panageiContextSwitch button[aria-pressed=true]{
+ background:#20533b;
+ border-color:#20533b;
+ color:#fff;
+}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiEveryday{
+ background:#dceaf6;
+ border:1px solid #abc4d8;
+ box-shadow:0 5px 18px #173e5c1a;
+}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiEveryday .everyday-panel{
+ background:#eef5fc;
+ border:1px solid #9eb9cf;
+}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiEveryday .workspace-form{
+ background:#e2eef9;
+ border:1px solid #a5c3db;
+}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiEveryday .everyday-fields{
+ background:#e5f0fa;
+ border-radius:10px;
+ padding:12px;
+}
 /* V75: clearly differentiated blue-grey everyday workspace */
 #panageiApp:has(#panageiEveryday:not([hidden])){background:#e9f1f8;color:#1a3854}
 #panageiApp:has(#panageiEveryday:not([hidden]))>header{background:#254969}
