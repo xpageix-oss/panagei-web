@@ -128,6 +128,28 @@ const style=document.createElement('style');style.textContent=`
 }
 @media(max-width:380px){#panageiEveryday .everyday-dashboard-stats{grid-template-columns:1fr}}
 
+
+/* V77: Alltag navigation consists of only three entries. Umbau remains unchanged. */
+#panageiApp[data-context="alltag"] #panageiTabs button:not([data-panagei-tab="aufgaben"]):not([data-panagei-tab="calendar"]):not([data-panagei-tab="settings"]){display:none!important}
+#panageiApp[data-context="alltag"] #panageiTabs button{color:#eaf4fc!important;border-color:transparent!important;background:transparent!important}
+#panageiApp[data-context="alltag"] #panageiTabs button:hover{background:#2b5472!important}
+#panageiApp[data-context="alltag"] #panageiTabs button[aria-selected="true"]{background:#7baed1!important;color:#102f47!important;border-color:#b3d7ed!important;box-shadow:0 4px 16px #2a67984d!important}
+#panageiApp[data-context="alltag"] #panageiTabs button svg{color:#bddaf0!important}
+#panageiApp[data-context="alltag"] #panageiTabs button[aria-selected="true"] svg{color:#1e4c72!important}
+#panageiApp[data-context="alltag"] #panageiEveryday button,
+#panageiApp[data-context="alltag"] #panageiEveryday .panagei-panel button{background:#e3effb!important;color:#173d59!important;border:1px solid #7ca7c8!important;border-radius:9px}
+#panageiApp[data-context="alltag"] #panageiEveryday button:hover{background:#c6e1f5!important;border-color:#427fae!important}
+#panageiApp[data-context="alltag"] #panageiEveryday button[type="submit"],
+#panageiApp[data-context="alltag"] #panageiEveryday button[aria-pressed="true"],
+#panageiApp[data-context="alltag"] #panageiEveryday button[aria-selected="true"]{background:#255d8d!important;color:#fff!important;border-color:#255d8d!important}
+#panageiApp[data-context="alltag"] #panageiEveryday button:focus-visible,
+#panageiApp[data-context="alltag"] #panageiTabs button:focus-visible{outline:3px solid #4da1df!important;outline-offset:2px}
+#panageiApp[data-context="alltag"] #panageiEveryday input[type="checkbox"]{accent-color:#286e9f!important}
+#panageiApp[data-context="alltag"] #panageiEveryday label,
+#panageiApp[data-context="alltag"] #panageiEveryday .workspace-field{color:#1c4666!important}
+#panageiApp[data-context="alltag"] #panageiEveryday .everyday-fields{background:#e5f0fa!important}
+#panageiApp[data-context="alltag"] #panageiEveryday .workspace-form{background:#d8e9f8!important}
+
 `;document.head.appendChild(style);
 const switcher=document.createElement('div');switcher.id='panageiContextSwitch';switcher.hidden=true;
 switcher.innerHTML='<button type="button" data-context="umbau" aria-pressed="true">Umbau</button><button type="button" data-context="alltag" aria-pressed="false">Alltag</button>';
@@ -274,7 +296,7 @@ root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>selectView(b.datas
 const pageNames={dashboard:'Projektübersicht',historie:'Bauhistorie',bauteile:'Raumzentrale',infos:'Dokumente',aufgaben:'Aufgaben',modell:'Hausmodell',kosten:'Kosten',calendar:'Kalender',settings:'Einstellungen',admin:'Administration'};
 function showEverydayPage(name){
  if(mode!=='alltag')return;
- everydayPage=name in pageNames?name:'dashboard';
+ everydayPage=['aufgaben','calendar','settings'].includes(name)?name:'aufgaben';
  everydayDashboard.hidden=everydayPage!=='dashboard';
  everydayWork.hidden=!['aufgaben','calendar'].includes(everydayPage);
  everydayPlaceholder.hidden=everydayPage==='dashboard'||!everydayWork.hidden;
@@ -312,7 +334,7 @@ function setMode(which){
  const pages=app.querySelectorAll('.panagei-page,#panageiModelPage');
  pages.forEach(p=>{if(everyday&&p!==root)p.hidden=true});
  switcher.querySelectorAll('[data-context]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.context===which)));
- if(!everyday){window.panageiOpenPage?.('dashboard')}else{selectedDate='';showEverydayPage('dashboard');void load(true)}
+ if(!everyday){window.panageiOpenPage?.('dashboard')}else{selectedDate='';showEverydayPage('aufgaben');void load(true)}
 }
 switcher.querySelectorAll('[data-context]').forEach(b=>b.onclick=()=>setMode(b.dataset.context));
 function tick(){
