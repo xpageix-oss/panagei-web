@@ -150,6 +150,40 @@ const style=document.createElement('style');style.textContent=`
 #panageiApp[data-context="alltag"] #panageiEveryday .everyday-fields{background:#e5f0fa!important}
 #panageiApp[data-context="alltag"] #panageiEveryday .workspace-form{background:#d8e9f8!important}
 
+
+/* V79: readable dashboard lists and shared settings in blue everyday shell */
+#panageiApp[data-context="alltag"]{background:radial-gradient(ellipse at 65% 17%,#244862,#152f43 65%,#102736)!important}
+#panageiApp[data-context="alltag"]>header{background:#122d40!important;border-right-color:#5c7d95!important}
+#panageiApp[data-context="alltag"] #panageiTabs{background:linear-gradient(165deg,#102b3f,#17384f)!important;border-right-color:#6d91a8!important}
+#panageiApp[data-context="alltag"] #panageiContextSwitch{background:#dce9f5!important;border-color:#abc5db!important}
+#panageiApp[data-context="alltag"] #everydayCurrentTasks,
+#panageiApp[data-context="alltag"] #everydayUpcoming{color:#1b3c56!important;font-size:14px;line-height:1.6;min-height:26px}
+#panageiApp[data-context="alltag"] #everydayCurrentTasks .everyday-entry,
+#panageiApp[data-context="alltag"] #everydayUpcoming .everyday-entry{color:#183d5a!important;background:#e6f0fa!important;border:1px solid #b6cadc!important;border-radius:9px;padding:11px 13px;margin:7px 0}
+#panageiApp[data-context="alltag"] #everydayCurrentTasks .everyday-entry strong,
+#panageiApp[data-context="alltag"] #everydayUpcoming .everyday-entry strong{display:block;color:#173951!important;font-size:15px}
+#panageiApp[data-context="alltag"] #everydayCurrentTasks .everyday-entry small,
+#panageiApp[data-context="alltag"] #everydayUpcoming .everyday-entry small{display:block;color:#365d7c!important;font-size:13px;margin-top:3px}
+#panageiApp[data-context="alltag"] #panageiSettingsPage{
+ background:#e3edf7!important;color:#1a3d58!important;border:1px solid #aac3d6!important;
+ border-radius:18px!important;max-width:1450px!important;margin:20px auto!important;padding:clamp(13px,2vw,25px)!important;
+}
+#panageiApp[data-context="alltag"] #panageiSettingsPage h2,
+#panageiApp[data-context="alltag"] #panageiSettingsPage h3,
+#panageiApp[data-context="alltag"] #panageiSettingsPage summary{color:#173e5b!important}
+#panageiApp[data-context="alltag"] #panageiSettingsPage :is(.panagei-panel,details,.settings-inner){
+ background:#eef5fb!important;border-color:#abc3d8!important;color:#1b405b!important
+}
+#panageiApp[data-context="alltag"] #panageiSettingsPage :is(button,select,input:not([type="checkbox"]),textarea){
+ background:#e2eef9!important;border:1px solid #82aac9!important;color:#173e59!important
+}
+#panageiApp[data-context="alltag"] #panageiSettingsPage button:hover{background:#cbe3f4!important}
+#panageiApp[data-context="alltag"] #panageiSettingsPage :is(input[type="checkbox"]){accent-color:#286e9f!important}
+#panageiApp[data-context="alltag"] #panageiSettingsPage :is(.settings-line,.settings-info,small,p,label){color:#284b65!important;border-color:#b6ccdd!important}
+@media(max-width:760px){
+ #panageiApp[data-context="alltag"] #panageiSettingsPage{width:calc(100% - 20px)!important;margin:12px auto 20px!important;padding:12px!important;border-radius:14px!important}
+}
+
 `;document.head.appendChild(style);
 const switcher=document.createElement('div');switcher.id='panageiContextSwitch';switcher.hidden=true;
 switcher.innerHTML='<button type="button" data-context="umbau" aria-pressed="true">Umbau</button><button type="button" data-context="alltag" aria-pressed="false">Alltag</button>';
@@ -234,7 +268,12 @@ function renderDashboardEveryday(){
  for(const task of currentTasks.slice(0,6)){const item=document.createElement('div');item.className='everyday-entry';const name=document.createElement('strong');name.textContent=task.title;item.appendChild(name);const details=document.createElement('small');details.textContent=dateLabel(task)+' · '+memberName(task);item.appendChild(details);taskList.appendChild(item)}
  const upcoming=$('everydayUpcoming');upcoming.replaceChildren();
  if(!future.length){upcoming.textContent='Keine anstehenden Termine.';return}
- for(const r of future.slice(0,5)){const item=document.createElement('div');item.className='everyday-entry';item.textContent=r.title+' · '+dateLabel(r);upcoming.appendChild(item)}
+ for(const r of future.slice(0,5)){
+  const item=document.createElement('div');item.className='everyday-entry';
+  const title=document.createElement('strong');title.textContent=r.title;item.appendChild(title);
+  const details=document.createElement('small');details.textContent=dateLabel(r);item.appendChild(details);
+  upcoming.appendChild(item);
+ }
 }
 function render(){
  renderDashboardEveryday();
@@ -301,9 +340,14 @@ const pageNames={dashboard:'Projektübersicht',historie:'Bauhistorie',bauteile:'
 function showEverydayPage(name){
  if(mode!=='alltag')return;
  everydayPage=['dashboard','aufgaben','calendar','settings'].includes(name)?name:'dashboard';
+ const settingsPage=$('panageiSettingsPage');
+ const settingsActive=everydayPage==='settings';
+ root.hidden=settingsActive;
+ settingsPage.hidden=!settingsActive;
  everydayDashboard.hidden=everydayPage!=='dashboard';
  everydayWork.hidden=!['aufgaben','calendar'].includes(everydayPage);
- everydayPlaceholder.hidden=everydayPage==='dashboard'||!everydayWork.hidden;
+ everydayPlaceholder.hidden=true;
+ if(settingsActive)window.panageiRenderSettings?.();
  $('everydayPlaceholderTitle').textContent=pageNames[everydayPage]||'Alltag';
  if(!everydayWork.hidden){
    selectView(everydayPage==='aufgaben'?'task':'event');
@@ -338,7 +382,7 @@ function setMode(which){
  const pages=app.querySelectorAll('.panagei-page,#panageiModelPage');
  pages.forEach(p=>{if(everyday&&p!==root)p.hidden=true});
  switcher.querySelectorAll('[data-context]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.context===which)));
- if(!everyday){window.panageiOpenPage?.('dashboard')}else{selectedDate='';showEverydayPage('dashboard');void load(true)}
+ if(!everyday){$('panageiSettingsPage').hidden=true;window.panageiOpenPage?.('dashboard')}else{selectedDate='';showEverydayPage('dashboard');void load(true)}
 }
 switcher.querySelectorAll('[data-context]').forEach(b=>b.onclick=()=>setMode(b.dataset.context));
 function tick(){
