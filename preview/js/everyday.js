@@ -129,8 +129,8 @@ const style=document.createElement('style');style.textContent=`
 @media(max-width:380px){#panageiEveryday .everyday-dashboard-stats{grid-template-columns:1fr}}
 
 
-/* V77: Alltag navigation consists of only three entries. Umbau remains unchanged. */
-#panageiApp[data-context="alltag"] #panageiTabs button:not([data-panagei-tab="aufgaben"]):not([data-panagei-tab="calendar"]):not([data-panagei-tab="settings"]){display:none!important}
+/* V78: Alltag navigation includes Dashboard, Aufgaben, Kalender, Einstellungen. Umbau unchanged. */
+#panageiApp[data-context="alltag"] #panageiTabs button:not([data-panagei-tab="dashboard"]):not([data-panagei-tab="aufgaben"]):not([data-panagei-tab="calendar"]):not([data-panagei-tab="settings"]){display:none!important}
 #panageiApp[data-context="alltag"] #panageiTabs button{color:#eaf4fc!important;border-color:transparent!important;background:transparent!important}
 #panageiApp[data-context="alltag"] #panageiTabs button:hover{background:#2b5472!important}
 #panageiApp[data-context="alltag"] #panageiTabs button[aria-selected="true"]{background:#7baed1!important;color:#102f47!important;border-color:#b3d7ed!important;box-shadow:0 4px 16px #2a67984d!important}
@@ -177,7 +177,7 @@ const everydayWork=document.createElement('div');everydayWork.id='everydayWork';
 while(root.firstChild)everydayWork.appendChild(root.firstChild);
 root.appendChild(everydayWork);
 const everydayDashboard=document.createElement('div');everydayDashboard.id='everydayDashboard';everydayDashboard.hidden=true;
-everydayDashboard.innerHTML='<h2 class="everyday-page-title">Alltagsübersicht</h2><p class="everyday-lead">Aufgaben und Termine auf einen Blick.</p><section class="everyday-panel"><h3>Schnellaktionen</h3><div class="everyday-shortcuts"><button type="button" data-everyday-shortcut="aufgaben">＋ Neue Aufgabe</button><button type="button" data-everyday-shortcut="calendar">＋ Neuer Termin</button></div></section><section class="everyday-panel"><h3>Dein Alltag</h3><div class="everyday-dashboard-stats"><div><strong id="everydayOpenCount">0</strong><small>Offene Aufgaben</small></div><div><strong id="everydayDoneCount">0</strong><small>Erledigte Aufgaben</small></div><div><strong id="everydayFutureCount">0</strong><small>Bevorstehende Termine</small></div></div><h3 style="margin-top:22px">Nächste Termine</h3><div id="everydayUpcoming">Noch keine anstehenden Termine.</div></section>';
+everydayDashboard.innerHTML='<h2 class="everyday-page-title">Alltagsübersicht</h2><p class="everyday-lead">Aufgaben und Termine auf einen Blick.</p><section class="everyday-panel"><h3>Schnellaktionen</h3><div class="everyday-shortcuts"><button type="button" data-everyday-shortcut="aufgaben">＋ Neue Aufgabe</button><button type="button" data-everyday-shortcut="calendar">＋ Neuer Termin</button></div></section><section class="everyday-panel"><h3>Dein Alltag</h3><div class="everyday-dashboard-stats"><div><strong id="everydayOpenCount">0</strong><small>Offene Aufgaben</small></div><div><strong id="everydayDoneCount">0</strong><small>Erledigte Aufgaben</small></div><div><strong id="everydayFutureCount">0</strong><small>Bevorstehende Termine</small></div></div><h3 style="margin-top:22px">Aktuelle Aufgaben</h3><div id="everydayCurrentTasks">Noch keine offenen Aufgaben.</div><h3 style="margin-top:22px">Nächste Termine</h3><div id="everydayUpcoming">Noch keine anstehenden Termine.</div></section>';
 root.prepend(everydayDashboard);
 const everydayPlaceholder=document.createElement('div');everydayPlaceholder.id='everydayPlaceholder';everydayPlaceholder.hidden=true;
 everydayPlaceholder.innerHTML='<h2 class="everyday-page-title" id="everydayPlaceholderTitle"></h2><p class="everyday-lead">Dieser Bereich ist für die Alltagsansicht vorgesehen.</p><section class="everyday-panel everyday-placeholder"><h3>Noch keine Einträge</h3><p>Hier wird der entsprechende Alltagsbereich später eingerichtet. Deine Umbaudaten bleiben unverändert.</p></section>';
@@ -228,6 +228,10 @@ function renderDashboardEveryday(){
  $('everydayOpenCount').textContent=String(open);
  $('everydayDoneCount').textContent=String(done);
  $('everydayFutureCount').textContent=String(future.length);
+ const taskList=$('everydayCurrentTasks');taskList.replaceChildren();
+ const currentTasks=rows.filter(r=>r.kind==='task'&&!r.done).sort((a,b)=>String(a.due_date||'9999-12-31').localeCompare(String(b.due_date||'9999-12-31')));
+ if(!currentTasks.length)taskList.textContent='Keine offenen Aufgaben.';
+ for(const task of currentTasks.slice(0,6)){const item=document.createElement('div');item.className='everyday-entry';const name=document.createElement('strong');name.textContent=task.title;item.appendChild(name);const details=document.createElement('small');details.textContent=dateLabel(task)+' · '+memberName(task);item.appendChild(details);taskList.appendChild(item)}
  const upcoming=$('everydayUpcoming');upcoming.replaceChildren();
  if(!future.length){upcoming.textContent='Keine anstehenden Termine.';return}
  for(const r of future.slice(0,5)){const item=document.createElement('div');item.className='everyday-entry';item.textContent=r.title+' · '+dateLabel(r);upcoming.appendChild(item)}
@@ -296,7 +300,7 @@ root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>selectView(b.datas
 const pageNames={dashboard:'Projektübersicht',historie:'Bauhistorie',bauteile:'Raumzentrale',infos:'Dokumente',aufgaben:'Aufgaben',modell:'Hausmodell',kosten:'Kosten',calendar:'Kalender',settings:'Einstellungen',admin:'Administration'};
 function showEverydayPage(name){
  if(mode!=='alltag')return;
- everydayPage=['aufgaben','calendar','settings'].includes(name)?name:'aufgaben';
+ everydayPage=['dashboard','aufgaben','calendar','settings'].includes(name)?name:'dashboard';
  everydayDashboard.hidden=everydayPage!=='dashboard';
  everydayWork.hidden=!['aufgaben','calendar'].includes(everydayPage);
  everydayPlaceholder.hidden=everydayPage==='dashboard'||!everydayWork.hidden;
@@ -334,7 +338,7 @@ function setMode(which){
  const pages=app.querySelectorAll('.panagei-page,#panageiModelPage');
  pages.forEach(p=>{if(everyday&&p!==root)p.hidden=true});
  switcher.querySelectorAll('[data-context]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.context===which)));
- if(!everyday){window.panageiOpenPage?.('dashboard')}else{selectedDate='';showEverydayPage('aufgaben');void load(true)}
+ if(!everyday){window.panageiOpenPage?.('dashboard')}else{selectedDate='';showEverydayPage('dashboard');void load(true)}
 }
 switcher.querySelectorAll('[data-context]').forEach(b=>b.onclick=()=>setMode(b.dataset.context));
 function tick(){
