@@ -184,6 +184,13 @@ const style=document.createElement('style');style.textContent=`
  #panageiApp[data-context="alltag"] #panageiSettingsPage{width:calc(100% - 20px)!important;margin:12px auto 20px!important;padding:12px!important;border-radius:14px!important}
 }
 
+/* V80.1 readable selected calendar day titles */
+#panageiApp[data-context="alltag"] #everydaySelectedDay{margin-top:14px;padding:14px;background:#f8fbff;border:1px solid #9dbbd3;border-radius:10px;color:#173d59!important}
+#panageiApp[data-context="alltag"] #everydaySelectedDay h4{font-size:16px;font-weight:700;color:#173d59!important;margin:0 0 9px}
+#panageiApp[data-context="alltag"] #everydaySelectedDay .everyday-day-event{padding:11px 12px;margin:7px 0;border:1px solid #b3ccdf;border-radius:8px;background:#eaf3fc;color:#173d59!important}
+#panageiApp[data-context="alltag"] #everydaySelectedDay .everyday-day-event strong{display:block;font-size:15px;font-weight:700;color:#173d59!important}
+#panageiApp[data-context="alltag"] #everydaySelectedDay .everyday-day-event small{display:block;font-size:13px;color:#3c607c!important;margin-top:3px}
+
 `;document.head.appendChild(style);
 const switcher=document.createElement('div');switcher.id='panageiContextSwitch';switcher.hidden=true;
 switcher.innerHTML='<button type="button" data-context="umbau" aria-pressed="true">Umbau</button><button type="button" data-context="alltag" aria-pressed="false">Alltag</button>';
@@ -310,6 +317,18 @@ function renderCalendar(){
  const key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
  const count=rows.filter(r=>r.kind==='event'&&localDay(r.starts_at)===key).length;
  const b=element('button',count?'has-events':'',String(day)+(count?' •':''),grid);b.type='button';b.setAttribute('aria-pressed',String(selectedDate===key));b.setAttribute('aria-label',key+(count?' · '+count+' Termine':''));b.onclick=()=>{selectedDate=selectedDate===key?'':key;if(!edit)$('everydayForm').elements.event_date.value=key;render()};
+ }
+
+ const chosen=selectedDate||localDay(new Date());
+ const dayBox=element('section','',null,box);dayBox.id='everydaySelectedDay';
+ element('h4','Termine am '+new Date(chosen+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),dayBox);
+ const dayEvents=rows.filter(r=>r.kind==='event'&&localDay(r.starts_at)===chosen).sort((a,b)=>new Date(a.starts_at)-new Date(b.starts_at));
+ if(!dayEvents.length)element('p','','Keine Termine an diesem Tag.',dayBox);
+ for(const r of dayEvents){
+  const item=element('div','everyday-day-event',null,dayBox);
+  element('strong','',r.title,item);
+  element('small','',new Date(r.starts_at).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr · '+(r.category||'Sonstiges'),item);
+  if(r.notes)element('p','',r.notes,item);
  }
 }
 function startEdit(r){
