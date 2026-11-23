@@ -93,6 +93,41 @@ const style=document.createElement('style');style.textContent=`
 @media(max-width:760px){#panageiEveryday{margin:10px;padding:12px;border-radius:12px}#panageiContextSwitch{padding:10px 12px}}
 @media(max-width:500px){#panageiEveryday .everyday-fields,#panageiEveryday .everyday-reminders{grid-template-columns:1fr}#panageiEveryday .everyday-wide{grid-column:1}}
 
+
+/* V76 -- identical app shell, sidebar and content dimensions in both contexts */
+#panageiApp:has(#panageiEveryday:not([hidden])){background:radial-gradient(ellipse at 65% 17%,#244862,#152f43 65%,#102736);color:#ecf4fa}
+#panageiApp:has(#panageiEveryday:not([hidden]))>header{background:#122d40!important;border-right-color:#5c7d95}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiTabs{display:flex!important;background:linear-gradient(165deg,#102b3f,#17384f);border-right-color:#6d91a8}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiTabs button{color:#eff6fb}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiTabs button[aria-selected=true]{background:linear-gradient(110deg,#cde6fb,#81a9ca);color:#143650;border-color:#bbd7ed}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiTabs button[aria-selected=true] svg{color:#214966}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiTabs button svg{color:#c2deed}
+#panageiApp:has(#panageiEveryday:not([hidden])) #panageiContextSwitch{background:#dce9f5}
+#panageiApp #panageiEveryday.panagei-page{
+ width:calc(100% - 32px);max-width:1450px;min-width:0;
+ margin:20px auto;box-sizing:border-box;padding:clamp(13px,2vw,25px);
+ background:#e3edf7!important;border:1px solid #a9c2d7!important;border-radius:18px!important;
+ color:#1b3c56;box-shadow:0 12px 36px #051c2e42;
+}
+#panageiEveryday .everyday-page-title{font-size:clamp(25px,3vw,36px);font-weight:730;letter-spacing:-.035em;margin:0 0 6px}
+#panageiEveryday .everyday-lead{font-size:14px;color:#526e83;margin:0 0 20px}
+#panageiEveryday .everyday-panel{padding:clamp(12px,2vw,22px);border-radius:12px}
+#panageiEveryday .everyday-dashboard-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#panageiEveryday .everyday-dashboard-stats>div{background:#e1edf8;border:1px solid #b1c8dc;border-radius:10px;padding:14px;min-width:0}
+#panageiEveryday .everyday-dashboard-stats strong{display:block;font-size:clamp(18px,2.5vw,28px);color:#1b496b}
+#panageiEveryday .everyday-dashboard-stats small{font-size:12px;color:#456680}
+#panageiEveryday .everyday-shortcuts{display:flex;flex-wrap:wrap;gap:10px}
+#panageiEveryday .everyday-shortcuts button{min-width:180px;text-align:left}
+#panageiEveryday .everyday-placeholder{min-height:240px}
+#panageiEveryday #everydayStatus{margin:0 0 10px;font-size:13px;color:#3c627e}
+#panageiEveryday .everyday-tabs{display:none!important}
+@media(max-width:760px){
+ #panageiApp #panageiEveryday.panagei-page{width:calc(100% - 20px);padding:12px;margin:12px auto 20px;border-radius:14px!important}
+ #panageiEveryday .everyday-dashboard-stats{grid-template-columns:1fr 1fr}
+ #panageiEveryday .everyday-shortcuts button{flex:1}
+}
+@media(max-width:380px){#panageiEveryday .everyday-dashboard-stats{grid-template-columns:1fr}}
+
 `;document.head.appendChild(style);
 const switcher=document.createElement('div');switcher.id='panageiContextSwitch';switcher.hidden=true;
 switcher.innerHTML='<button type="button" data-context="umbau" aria-pressed="true">Umbau</button><button type="button" data-context="alltag" aria-pressed="false">Alltag</button>';
@@ -115,6 +150,17 @@ root.innerHTML=`<h2>Alltag</h2><p>Eigene Aufgaben und Termine, getrennt vom Umba
 <div id="everydayFilterLabel" class="everyday-fields"><label>Zuständigkeit<select id="everydayFilter"><option value="">Alle</option><option value="me">Meine Aufgaben</option><option value="all">Gemeinsam</option><option value="unassigned">Nicht zugewiesen</option></select></label><label>Status<select id="everydayStatusFilter"><option value="open">Offen</option><option value="done">Erledigt</option><option value="all">Alle</option></select></label></div>
 <div id="everydayList"></div></div>`;
 tabs.after(root);
+root.className='panagei-page';
+const everydayWork=document.createElement('div');everydayWork.id='everydayWork';
+while(root.firstChild)everydayWork.appendChild(root.firstChild);
+root.appendChild(everydayWork);
+const everydayDashboard=document.createElement('div');everydayDashboard.id='everydayDashboard';everydayDashboard.hidden=true;
+everydayDashboard.innerHTML='<h2 class="everyday-page-title">Alltagsübersicht</h2><p class="everyday-lead">Aufgaben und Termine auf einen Blick.</p><section class="everyday-panel"><h3>Schnellaktionen</h3><div class="everyday-shortcuts"><button type="button" data-everyday-shortcut="aufgaben">＋ Neue Aufgabe</button><button type="button" data-everyday-shortcut="calendar">＋ Neuer Termin</button></div></section><section class="everyday-panel"><h3>Dein Alltag</h3><div class="everyday-dashboard-stats"><div><strong id="everydayOpenCount">0</strong><small>Offene Aufgaben</small></div><div><strong id="everydayDoneCount">0</strong><small>Erledigte Aufgaben</small></div><div><strong id="everydayFutureCount">0</strong><small>Bevorstehende Termine</small></div></div><h3 style="margin-top:22px">Nächste Termine</h3><div id="everydayUpcoming">Noch keine anstehenden Termine.</div></section>';
+root.prepend(everydayDashboard);
+const everydayPlaceholder=document.createElement('div');everydayPlaceholder.id='everydayPlaceholder';everydayPlaceholder.hidden=true;
+everydayPlaceholder.innerHTML='<h2 class="everyday-page-title" id="everydayPlaceholderTitle"></h2><p class="everyday-lead">Dieser Bereich ist für die Alltagsansicht vorgesehen.</p><section class="everyday-panel everyday-placeholder"><h3>Noch keine Einträge</h3><p>Hier wird der entsprechende Alltagsbereich später eingerichtet. Deine Umbaudaten bleiben unverändert.</p></section>';
+root.appendChild(everydayPlaceholder);
+let everydayPage='dashboard';
 let mode='umbau',view='task',project=null,identity=null,rows=[],members=[],edit=null,calendarMonth=new Date(),selectedDate='',loading=false,role='viewer',lastRefresh=0;
 const $=id=>document.getElementById(id);
 const session=()=>{try{return JSON.parse(sessionStorage.getItem('umbau26_auth')||'null')}catch{return null}};
@@ -154,7 +200,18 @@ function resetForm(){edit=null;const form=$('everydayForm');form.reset();if(view
 function selectView(which){view=which;resetForm();root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===view)));for(const id of ['everydayDateLabel','everydayPriorityLabel','everydayAssigneeLabel','everydayFilterLabel'])$(id).hidden=view!=='task';for(const id of ['everydayStartLabel','everydayTimeLabel','everydayCategoryLabel','everydayRemindersLabel','everydayCalendarBox'])$(id).hidden=view!=='event';$('everydayListTitle').textContent=view==='task'?'Aufgaben':'Termine';render()}
 function element(tag,className,text,parent){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined&&text!==null)el.textContent=text;if(parent)parent.appendChild(el);return el}
 function visibleRows(){const filter=$('everydayFilter').value,doneFilter=$('everydayStatusFilter').value;return rows.filter(r=>(view!=='task'||doneFilter==='all'||r.done===(doneFilter==='done'))&&r.kind===view&&(!selectedDate||view!=='event'||localDay(r.starts_at)===selectedDate)&&(!filter||view!=='task'||(filter==='me'?(r.assigned_to===identity||r.assigned_to_all):filter==='all'?r.assigned_to_all:filter==='unassigned'?!r.assigned_to&&!r.assigned_to_all:r.assigned_to===filter)))}
+function renderDashboardEveryday(){
+ const open=rows.filter(r=>r.kind==='task'&&!r.done).length,done=rows.filter(r=>r.kind==='task'&&r.done).length;
+ const future=rows.filter(r=>r.kind==='event'&&new Date(r.starts_at)>=new Date()).sort((a,b)=>new Date(a.starts_at)-new Date(b.starts_at));
+ $('everydayOpenCount').textContent=String(open);
+ $('everydayDoneCount').textContent=String(done);
+ $('everydayFutureCount').textContent=String(future.length);
+ const upcoming=$('everydayUpcoming');upcoming.replaceChildren();
+ if(!future.length){upcoming.textContent='Keine anstehenden Termine.';return}
+ for(const r of future.slice(0,5)){const item=document.createElement('div');item.className='everyday-entry';item.textContent=r.title+' · '+dateLabel(r);upcoming.appendChild(item)}
+}
 function render(){
+ renderDashboardEveryday();
  const list=$('everydayList');list.replaceChildren();
  const items=visibleRows().sort((a,b)=>view==='task'?Number(a.done)-Number(b.done)||String(a.due_date||'9999').localeCompare(String(b.due_date||'9999')):String(a.starts_at).localeCompare(String(b.starts_at)));
  if(!items.length)element('p','',view==='task'?'Keine Aufgaben für diesen Filter.':'Keine Termine für diese Auswahl.',list);
@@ -214,20 +271,54 @@ $('everydayCancel').onclick=resetForm;
 $('everydayReload').onclick=()=>void load(true);
 $('everydayFilter').onchange=render;$('everydayStatusFilter').onchange=render;
 root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>selectView(b.dataset.view));
+const pageNames={dashboard:'Projektübersicht',historie:'Bauhistorie',bauteile:'Raumzentrale',infos:'Dokumente',aufgaben:'Aufgaben',modell:'Hausmodell',kosten:'Kosten',calendar:'Kalender',settings:'Einstellungen',admin:'Administration'};
+function showEverydayPage(name){
+ if(mode!=='alltag')return;
+ everydayPage=name in pageNames?name:'dashboard';
+ everydayDashboard.hidden=everydayPage!=='dashboard';
+ everydayWork.hidden=!['aufgaben','calendar'].includes(everydayPage);
+ everydayPlaceholder.hidden=everydayPage==='dashboard'||!everydayWork.hidden;
+ $('everydayPlaceholderTitle').textContent=pageNames[everydayPage]||'Alltag';
+ if(!everydayWork.hidden){
+   selectView(everydayPage==='aufgaben'?'task':'event');
+   const heading=everydayWork.querySelector('h2');if(heading){heading.textContent=pageNames[everydayPage];heading.classList.add('everyday-page-title')}
+   const lead=everydayWork.querySelector('p');if(lead){lead.textContent=everydayPage==='aufgaben'?'Alltagsaufgaben mit Priorität, Frist und Zuständigkeit.':'Deine Alltagstermine und Erinnerungen.';lead.classList.add('everyday-lead')}
+ }
+ document.querySelectorAll('[data-panagei-tab]').forEach(b=>{const selected=b.dataset.panageiTab===everydayPage;b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1});
+ if(everydayPage==='dashboard')renderDashboardEveryday();
+ window.scrollTo(0,0);
+}
+tabs.addEventListener('click',event=>{
+ if(mode!=='alltag')return;
+ const button=event.target.closest('[data-panagei-tab]');if(!button)return;
+ event.preventDefault();event.stopImmediatePropagation();showEverydayPage(button.dataset.panageiTab);
+},true);
+tabs.addEventListener('keydown',event=>{
+ if(mode!=='alltag'||!['ArrowDown','ArrowUp','ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;
+ const button=event.target.closest('[data-panagei-tab]');if(!button)return;
+ event.preventDefault();event.stopImmediatePropagation();
+ const buttons=[...tabs.querySelectorAll('[data-panagei-tab]')].filter(x=>!x.hidden);
+ const i=buttons.indexOf(button);
+ const next=event.key==='Home'?0:event.key==='End'?buttons.length-1:(i+(['ArrowRight','ArrowDown'].includes(event.key)?1:-1)+buttons.length)%buttons.length;
+ buttons[next].focus();showEverydayPage(buttons[next].dataset.panageiTab);
+},true);
+root.querySelectorAll('[data-everyday-shortcut]').forEach(b=>b.onclick=()=>showEverydayPage(b.dataset.everydayShortcut));
 function setMode(which){
  if(which===mode)return;
  mode=which;const everyday=which==='alltag';
- const header=app.querySelector('header h1');if(header)header.textContent=everyday?'Alltag – Aufgaben & Kalender':'Digitale Gebäudeakte';
- root.hidden=!everyday;tabs.hidden=everyday;
- const pages=app.querySelectorAll('.panagei-page,#panageiModelPage');pages.forEach(p=>{if(everyday)p.hidden=true});
+ app.dataset.context=which;
+ root.hidden=!everyday;
+ tabs.hidden=false;
+ const pages=app.querySelectorAll('.panagei-page,#panageiModelPage');
+ pages.forEach(p=>{if(everyday&&p!==root)p.hidden=true});
  switcher.querySelectorAll('[data-context]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.context===which)));
- if(!everyday){window.panageiOpenPage?.('dashboard');const fallback=$('panageiDashboardPage');if(fallback)fallback.hidden=false}else{selectedDate='';void load(true)}
+ if(!everyday){window.panageiOpenPage?.('dashboard')}else{selectedDate='';showEverydayPage('dashboard');void load(true)}
 }
 switcher.querySelectorAll('[data-context]').forEach(b=>b.onclick=()=>setMode(b.dataset.context));
 function tick(){
  const s=session();const ready=!app.hidden&&!!s?.user?.id&&!!selectedProject();
  switcher.hidden=!ready;
- if(!ready){if(mode==='alltag'){mode='umbau';root.hidden=true;tabs.hidden=false}project=null;identity=null;rows=[];const header=app.querySelector('header h1');if(header)header.textContent='Digitale Gebäudeakte';return}
+ if(!ready){if(mode==='alltag'){mode='umbau';app.dataset.context='umbau';root.hidden=true;tabs.hidden=false;window.panageiOpenPage?.('dashboard')}project=null;identity=null;rows=[];const header=app.querySelector('header h1');if(header)header.textContent='Digitale Gebäudeakte';return}
  if(mode==='alltag'&&(project!==selectedProject()||identity!==s.user.id||Date.now()-lastRefresh>30000))void load(true);
 }
 setInterval(tick,1500);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&mode==='alltag')void load(true)});tick();
