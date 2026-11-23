@@ -206,6 +206,72 @@ const style=document.createElement('style');style.textContent=`
  color:#173d59!important;opacity:1!important
 }
 
+
+/* V84: shared event card for dashboard, calendar and selected day */
+#panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card{
+ background:#edf6fd!important;color:#173b59!important;border:1px solid #a8c8e0!important;
+ border-radius:10px;padding:14px 16px;margin:9px 0;min-width:0;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-title{
+ display:block;font-size:16px;font-weight:750;color:#133957!important;opacity:1!important;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-meta{
+ margin-top:5px;font-size:13px;color:#315d7b!important;opacity:1!important;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-notes{
+ margin-top:10px;border-top:1px solid #b8d0e4;padding-top:9px;color:#204762!important;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-notes-label{
+ display:block;font-size:12px;font-weight:750;color:#285877!important;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-notes p{
+ margin:3px 0;white-space:pre-wrap;overflow-wrap:anywhere;color:#204762!important;font-size:14px;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-reminders{
+ font-size:12px;color:#386181!important;margin-top:8px;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-actions{
+ margin-top:11px;justify-content:flex-start;gap:8px!important;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayFormDisclosure{
+ padding:0!important;overflow:hidden;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayFormDisclosure>summary{
+ cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+ gap:14px;padding:15px 18px;list-style:none;font-weight:750;
+ color:inherit!important;font-size:16px;min-height:56px;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayFormDisclosure>summary::-webkit-details-marker{display:none}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayFormDisclosure>summary:after{
+ content:"▾";margin-left:auto;font-size:18px;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayFormDisclosure:not([open])>summary:after{content:"▸"}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayFormDisclosure .everyday-disclosure-hint{
+ font-weight:400;font-size:12px;opacity:.78;
+}
+#panageiApp[data-context="alltag"] #panageiEveryday #everydayFormDisclosure form{
+ margin:0 12px 12px;
+}
+html[data-theme="dark"] #panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card{
+ background:#254968!important;border-color:#527c9d!important;color:#f0f8ff!important;
+}
+html[data-theme="dark"] #panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-title,
+html[data-theme="dark"] #panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-notes p,
+html[data-theme="dark"] #panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-notes-label{
+ color:#f3f9ff!important;
+}
+html[data-theme="dark"] #panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card :is(.everyday-event-meta,.everyday-event-reminders){
+ color:#c9e0f4!important;
+}
+html[data-theme="dark"] #panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card .everyday-event-notes{
+ border-color:#567d9d!important;color:#e5f3ff!important;
+}
+@media(max-width:500px){
+ #panageiApp[data-context="alltag"] #panageiEveryday #everydayFormDisclosure>summary{padding:12px;flex-wrap:wrap}
+ #panageiApp[data-context="alltag"] #panageiEveryday #everydayFormDisclosure .everyday-disclosure-hint{font-size:11px}
+ #panageiApp[data-context="alltag"] #panageiEveryday .everyday-event-card{padding:12px}
+}
+
 `;document.head.appendChild(style);
 const switcher=document.createElement('div');switcher.id='panageiContextSwitch';switcher.hidden=true;
 switcher.innerHTML='<button type="button" data-context="umbau" aria-pressed="true">Umbau</button><button type="button" data-context="alltag" aria-pressed="false">Alltag</button>';
@@ -214,7 +280,7 @@ const root=document.createElement('div');root.id='panageiEveryday';root.hidden=t
 root.innerHTML=`<h2>Alltag</h2><p>Eigene Aufgaben und Termine, getrennt vom Umbau. Synchronisiert über das gemeinsame Projekt.</p>
 <div class="everyday-tabs" role="tablist"><button type="button" data-view="task" aria-selected="true">Aufgaben</button><button type="button" data-view="event" aria-selected="false">Kalender</button></div>
 <div id="everydayStatus" role="status" aria-live="polite"></div>
-<div class="everyday-panel"><h3 id="everydayFormTitle">Neue Aufgabe</h3><form id="everydayForm" class="workspace-form"><div class="everyday-fields">
+<details id="everydayFormDisclosure" class="everyday-panel" open><summary id="everydayFormSummary"><span id="everydayFormTitle">Neue Aufgabe</span><span class="everyday-disclosure-hint">Felder anzeigen / ausblenden</span></summary><form id="everydayForm" class="workspace-form"><div class="everyday-fields">
 <label class="everyday-wide">Bezeichnung<input name="title" required maxlength="240" autocomplete="off"></label>
 <label class="everyday-wide">Notizen<textarea name="notes" maxlength="5000"></textarea></label>
 <label id="everydayPriorityLabel">Priorität<select name="priority"><option value="low">Niedrig</option><option value="normal" selected>Normal</option><option value="high">Hoch</option><option value="urgent">Dringend</option></select></label><label id="everydayDateLabel">Frist<input name="due_date" type="date"></label>
@@ -222,7 +288,7 @@ root.innerHTML=`<h2>Alltag</h2><p>Eigene Aufgaben und Termine, getrennt vom Umba
 <label id="everydayCategoryLabel" hidden>Kategorie<select name="category"><option>Besprechung</option><option>Arzttermin</option><option>Privat</option><option>Familie</option><option>Wartung</option><option>Sonstiges</option></select></label><div class="everyday-wide" id="everydayRemindersLabel" hidden><strong>Erinnerungen</strong><div class="everyday-reminders"><label><input type="checkbox" name="reminder_10080">1 Woche vorher</label><label><input type="checkbox" name="reminder_1440" checked>24 Stunden vorher</label><label><input type="checkbox" name="reminder_120">2 Stunden vorher</label><label><input type="checkbox" name="reminder_60" checked>1 Stunde vorher</label><label><input type="checkbox" name="reminder_30">30 Minuten vorher</label><label><input type="checkbox" name="reminder_15">15 Minuten vorher</label><label><input type="checkbox" name="reminder_0">Zum Terminbeginn</label></div><small>Neue Termine benachrichtigen andere Projektmitglieder mit aktiviertem Push. Zeitgesteuerte Erinnerungen für Alltagstermine sind noch nicht aktiv.</small></div>
 <label id="everydayAssigneeLabel">Zuständig<select name="assignee"><option value="">Nicht zugewiesen</option><option value="all">Gemeinsam</option></select></label>
 </div><div class="everyday-row"><button type="submit" id="everydaySave">Aufgabe hinzufügen</button><button type="button" id="everydayCancel" hidden>Abbrechen</button></div>
-</form></div>
+</form></details>
 <div id="everydayCalendarBox" class="everyday-panel" hidden></div>
 <div class="everyday-panel"><div class="everyday-row"><h3 id="everydayListTitle">Aufgaben</h3><button type="button" id="everydayReload">Aktualisieren</button></div>
 <div id="everydayFilterLabel" class="everyday-fields"><label>Zuständigkeit<select id="everydayFilter"><option value="">Alle</option><option value="me">Meine Aufgaben</option><option value="all">Gemeinsam</option><option value="unassigned">Nicht zugewiesen</option></select></label><label>Status<select id="everydayStatusFilter"><option value="open">Offen</option><option value="done">Erledigt</option><option value="all">Alle</option></select></label></div>
@@ -274,10 +340,34 @@ async function load(force=false){
  lastRefresh=Date.now();render();
  }catch(e){status('Synchronisierung fehlgeschlagen: '+e.message)}finally{loading=false}
 }
-function resetForm(){edit=null;const form=$('everydayForm');form.reset();if(view==='event')form.elements.event_date.value=selectedDate||localDay(new Date());$('everydayCancel').hidden=true;$('everydayFormTitle').textContent=view==='task'?'Neue Aufgabe':'Neuer Termin';$('everydaySave').textContent=view==='task'?'Aufgabe hinzufügen':'Termin hinzufügen'}
+function resetForm(){edit=null;const form=$('everydayForm');form.reset();if(view==='event')form.elements.event_date.value=selectedDate||localDay(new Date());$('everydayCancel').hidden=true;$('everydayFormTitle').textContent=view==='task'?'Neue Aufgabe':'Neuer Termin';$('everydaySave').textContent=view==='task'?'Aufgabe hinzufügen':'Termin hinzufügen';$('everydayFormDisclosure').open=view==='task'}
 function selectView(which){view=which;resetForm();root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===view)));for(const id of ['everydayDateLabel','everydayPriorityLabel','everydayAssigneeLabel','everydayFilterLabel'])$(id).hidden=view!=='task';for(const id of ['everydayStartLabel','everydayTimeLabel','everydayCategoryLabel','everydayRemindersLabel','everydayCalendarBox'])$(id).hidden=view!=='event';$('everydayListTitle').textContent=view==='task'?'Aufgaben':'Termine';render()}
 function element(tag,className,text,parent){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined&&text!==null)el.textContent=text;if(parent)parent.appendChild(el);return el}
 function visibleRows(){const filter=$('everydayFilter').value,doneFilter=$('everydayStatusFilter').value;return rows.filter(r=>(view!=='task'||doneFilter==='all'||r.done===(doneFilter==='done'))&&r.kind===view&&(!selectedDate||view!=='event'||localDay(r.starts_at)===selectedDate)&&(!filter||view!=='task'||(filter==='me'?(r.assigned_to===identity||r.assigned_to_all):filter==='all'?r.assigned_to_all:filter==='unassigned'?!r.assigned_to&&!r.assigned_to_all:r.assigned_to===filter)))}
+function reminderText(minutes){
+ const labels={0:'Zum Terminbeginn',5:'5 Minuten',15:'15 Minuten',30:'30 Minuten',60:'1 Stunde',120:'2 Stunden',1440:'24 Stunden',2880:'2 Tage',10080:'1 Woche'};
+ return labels[minutes]||minutes+' Minuten';
+}
+function appendEventCard(parent,r,withActions=false){
+ const card=element('article','everyday-event-card',null,parent);
+ element('strong','everyday-event-title',r.title,card);
+ const when=new Date(r.starts_at).toLocaleString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+ element('div','everyday-event-meta',when+' Uhr · '+(r.category||'Sonstiges'),card);
+ if(r.notes&&r.notes.trim()){
+  const notes=element('div','everyday-event-notes',null,card);
+  element('span','everyday-event-notes-label','Notizen',notes);
+  element('p','',r.notes,notes);
+ }
+ if(Array.isArray(r.reminders)&&r.reminders.length){
+  element('div','everyday-event-reminders','Erinnerungen: '+r.reminders.map(reminderText).join(', '),card);
+ }
+ if(withActions&&role!=='viewer'){
+  const buttons=element('div','everyday-row everyday-event-actions',null,card);
+  const editButton=element('button','','Bearbeiten',buttons);editButton.type='button';editButton.onclick=()=>startEdit(r);
+  const remove=element('button','','Löschen',buttons);remove.type='button';remove.onclick=()=>{if(confirm('Termin wirklich löschen?'))void deleteEntry(r)};
+ }
+ return card;
+}
 function renderDashboardEveryday(){
  const open=rows.filter(r=>r.kind==='task'&&!r.done).length,done=rows.filter(r=>r.kind==='task'&&r.done).length;
  const future=rows.filter(r=>r.kind==='event'&&new Date(r.starts_at)>=new Date()).sort((a,b)=>new Date(a.starts_at)-new Date(b.starts_at));
@@ -290,12 +380,7 @@ function renderDashboardEveryday(){
  for(const task of currentTasks.slice(0,6)){const item=document.createElement('div');item.className='everyday-entry';const name=document.createElement('strong');name.textContent=task.title;item.appendChild(name);const details=document.createElement('small');details.textContent=dateLabel(task)+' · '+memberName(task);item.appendChild(details);taskList.appendChild(item)}
  const upcoming=$('everydayUpcoming');upcoming.replaceChildren();
  if(!future.length){upcoming.textContent='Keine anstehenden Termine.';return}
- for(const r of future.slice(0,5)){
-  const item=document.createElement('div');item.className='everyday-entry';
-  const title=document.createElement('strong');title.textContent=r.title;item.appendChild(title);
-  const details=document.createElement('small');details.textContent=dateLabel(r);item.appendChild(details);
-  upcoming.appendChild(item);
- }
+ for(const r of future.slice(0,5))appendEventCard(upcoming,r,false);
 }
 function render(){
  renderDashboardEveryday();
@@ -303,6 +388,8 @@ function render(){
  const items=visibleRows().sort((a,b)=>view==='task'?Number(a.done)-Number(b.done)||String(a.due_date||'9999').localeCompare(String(b.due_date||'9999')):String(a.starts_at).localeCompare(String(b.starts_at)));
  if(!items.length)element('p','',view==='task'?'Keine Aufgaben für diesen Filter.':'Keine Termine für diese Auswahl.',list);
  for(const r of items){
+ if(view==='event'){appendEventCard(list,r,true);continue}
+
  const row=element('div','everyday-entry',null,list),top=element('div','everyday-row',null,row);
  if(view==='task'){
   const check=element('input','',null,top);check.type='checkbox';check.checked=r.done;check.disabled=role==='viewer';check.style.width='20px';check.style.minHeight='20px';check.setAttribute('aria-label',r.title+' erledigt');check.onchange=()=>void mutate(r,{done:check.checked}).catch(e=>{check.checked=!check.checked;status(e.message)});
@@ -339,15 +426,10 @@ function renderCalendar(){
  element('h4','Termine am '+new Date(chosen+'T12:00:00').toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),dayBox);
  const dayEvents=rows.filter(r=>r.kind==='event'&&localDay(r.starts_at)===chosen).sort((a,b)=>new Date(a.starts_at)-new Date(b.starts_at));
  if(!dayEvents.length)element('p','','Keine Termine an diesem Tag.',dayBox);
- for(const r of dayEvents){
-  const item=element('div','everyday-day-event',null,dayBox);
-  element('strong','',r.title,item);
-  element('small','',new Date(r.starts_at).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr · '+(r.category||'Sonstiges'),item);
-  if(r.notes)element('p','',r.notes,item);
- }
+ for(const r of dayEvents)appendEventCard(dayBox,r,false);
 }
 function startEdit(r){
- edit=r;$('everydayFormTitle').textContent='Eintrag bearbeiten';$('everydaySave').textContent='Änderungen speichern';$('everydayCancel').hidden=false;
+ edit=r;$('everydayFormDisclosure').open=true;$('everydayFormTitle').textContent='Eintrag bearbeiten';$('everydaySave').textContent='Änderungen speichern';$('everydayCancel').hidden=false;
  const f=$('everydayForm').elements;f.title.value=r.title;f.notes.value=r.notes||'';f.due_date.value=r.due_date||'';f.priority.value=r.priority||'normal';f.category.value=r.category||'Sonstiges';f.event_date.value=r.starts_at?localDay(r.starts_at):'';f.event_time.value=r.starts_at?toLocal(r.starts_at).slice(11,16):'09:00';for(const m of [10080,1440,120,60,30,15,0])f['reminder_'+m].checked=(r.reminders||[]).includes(m);f.assignee.value=r.assigned_to_all?'all':r.assigned_to||'';root.scrollIntoView({block:'start',behavior:'smooth'});
 }
 function toLocal(value){const d=new Date(value),t=new Date(d.getTime()-d.getTimezoneOffset()*60000);return t.toISOString().slice(0,16)}
@@ -406,7 +488,7 @@ tabs.addEventListener('keydown',event=>{
  const next=event.key==='Home'?0:event.key==='End'?buttons.length-1:(i+(['ArrowRight','ArrowDown'].includes(event.key)?1:-1)+buttons.length)%buttons.length;
  buttons[next].focus();showEverydayPage(buttons[next].dataset.panageiTab);
 },true);
-root.querySelectorAll('[data-everyday-shortcut]').forEach(b=>b.onclick=()=>showEverydayPage(b.dataset.everydayShortcut));
+root.querySelectorAll('[data-everyday-shortcut]').forEach(b=>b.onclick=()=>{showEverydayPage(b.dataset.everydayShortcut);$('everydayFormDisclosure').open=true;$('everydayFormDisclosure').scrollIntoView({behavior:'smooth',block:'start'});});
 function setMode(which){
  if(which===mode)return;
  mode=which;const everyday=which==='alltag';
