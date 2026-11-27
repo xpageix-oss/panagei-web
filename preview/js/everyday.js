@@ -5,6 +5,11 @@ const app=document.getElementById('panageiApp');
 if(!app)return;
 const style=document.createElement('style');style.textContent=`
 #panageiApp:not([data-context="alltag"]) #panageiTabs [data-panagei-tab="shopping"]{display:none!important}
+#shopStatus{display:inline-flex;align-items:center;gap:.5em;font-weight:700}
+#shopStatus::before{content:'';width:1em;height:1em;border-radius:50%;border:1px solid #555;background:var(--shop-color)}
+#shopStatus[data-state="open"]{--shop-color:#facc15}
+#shopStatus[data-state="started"]{--shop-color:#ef4444}
+#shopStatus[data-state="complete"]{--shop-color:#22c55e}
 #panageiEveryday .shop-fields{display:grid;grid-template-columns:5em minmax(0,1fr) 8em;gap:8px}
 #panageiEveryday label.shop-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #adc2ce}
 #panageiEveryday label.shop-item input{width:21px;min-height:21px}
@@ -349,7 +354,7 @@ async function load(force=false){
 function resetForm(){edit=null;const form=$('everydayForm');form.reset();if(view==='event')form.elements.event_date.value=selectedDate||localDay(new Date());$('everydayCancel').hidden=true;$('everydayFormTitle').textContent=view==='task'?'Neue Aufgabe':'Neuer Termin';$('everydaySave').textContent=view==='task'?'Aufgabe hinzufügen':'Termin hinzufügen';$('everydayFormDisclosure').open=view==='task'}
 function selectView(which){view=which;resetForm();root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===view)));for(const id of ['everydayDateLabel','everydayPriorityLabel','everydayAssigneeLabel','everydayFilterLabel'])$(id).hidden=view!=='task';for(const id of ['everydayStartLabel','everydayTimeLabel','everydayCategoryLabel','everydayRemindersLabel','everydayCalendarBox'])$(id).hidden=view!=='event';$('everydayListTitle').textContent=view==='task'?'Aufgaben':'Termine';render()}
 function element(tag,className,text,parent){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined&&text!==null)el.textContent=text;if(parent)parent.appendChild(el);return el}
-function visibleRows(){const filter=$('everydayFilter').value,doneFilter=$('everydayStatusFilter').value;return rows.filter(r=>(view!=='task'||doneFilter==='all'||r.done===(doneFilter==='done'))&&r.kind===view&&(!selectedDate||view!=='event'||localDay(r.starts_at)===selectedDate)&&(!filter||view!=='task'||(filter==='me'?(r.assigned_to===identity||r.assigned_to_all):filter==='all'?r.assigned_to_all:filter==='unassigned'?!r.assigned_to&&!r.assigned_to_all:r.assigned_to===filter)))}
+function visibleRows(){const filter=$('everydayFilter').value,doneFilter=$('everydayStatusFilter').value;return rows.filter(r=>!r.shopping_number&&(view!=='task'||doneFilter==='all'||r.done===(doneFilter==='done'))&&r.kind===view&&(!selectedDate||view!=='event'||localDay(r.starts_at)===selectedDate)&&(!filter||view!=='task'||(filter==='me'?(r.assigned_to===identity||r.assigned_to_all):filter==='all'?r.assigned_to_all:filter==='unassigned'?!r.assigned_to&&!r.assigned_to_all:r.assigned_to===filter)))}
 function reminderText(minutes){
  const labels={0:'Zum Terminbeginn',5:'5 Minuten',15:'15 Minuten',30:'30 Minuten',60:'1 Stunde',120:'2 Stunden',1440:'24 Stunden',2880:'2 Tage',10080:'1 Woche'};
  return labels[minutes]||minutes+' Minuten';
@@ -375,13 +380,13 @@ function appendEventCard(parent,r,withActions=false){
  return card;
 }
 function renderDashboardEveryday(){
- const open=rows.filter(r=>r.kind==='task'&&!r.done).length,done=rows.filter(r=>r.kind==='task'&&r.done).length;
+ const open=rows.filter(r=>!r.shopping_number&&r.kind==='task'&&!r.done).length,done=rows.filter(r=>!r.shopping_number&&r.kind==='task'&&r.done).length;
  const future=rows.filter(r=>r.kind==='event'&&new Date(r.starts_at)>=new Date()).sort((a,b)=>new Date(a.starts_at)-new Date(b.starts_at));
  $('everydayOpenCount').textContent=String(open);
  $('everydayDoneCount').textContent=String(done);
  $('everydayFutureCount').textContent=String(future.length);
  const taskList=$('everydayCurrentTasks');taskList.replaceChildren();
- const currentTasks=rows.filter(r=>r.kind==='task'&&!r.done).sort((a,b)=>String(a.due_date||'9999-12-31').localeCompare(String(b.due_date||'9999-12-31')));
+ const currentTasks=rows.filter(r=>!r.shopping_number&&r.kind==='task'&&!r.done).sort((a,b)=>String(a.due_date||'9999-12-31').localeCompare(String(b.due_date||'9999-12-31')));
  if(!currentTasks.length)taskList.textContent='Keine offenen Aufgaben.';
  for(const task of currentTasks.slice(0,6)){const item=document.createElement('div');item.className='everyday-entry';const name=document.createElement('strong');name.textContent=task.title;item.appendChild(name);const details=document.createElement('small');details.textContent=dateLabel(task)+' · '+memberName(task);item.appendChild(details);taskList.appendChild(item)}
  const upcoming=$('everydayUpcoming');upcoming.replaceChildren();
@@ -403,7 +408,6 @@ function render(){
  }
  const strong=element('strong','',r.title,top);if(r.done)strong.style.textDecoration='line-through';
  element('small','',dateLabel(r)+' · '+(view==='task'?memberName(r):'Alltagstermin'),row);
- if(r.shopping_number){const open=element('button','','Einkaufsliste öffnen',row);open.onclick=()=>chooseList(r.id);continue}
  if(r.notes)element('p','',r.notes,row);
  if(role!=='viewer'){
   const actions=element('div','everyday-row',null,row);
@@ -445,7 +449,8 @@ async function mutate(r,fields){
  try{await request('panagei_everyday_entries?id=eq.'+encodeURIComponent(r.id)+'&project_id=eq.'+encodeURIComponent(project)+'&updated_at=eq.'+encodeURIComponent(r.updated_at),'PATCH',{...fields,updated_at:new Date().toISOString()},{'Prefer':'return=representation'}).then(data=>{if(!data?.length)throw Error('Eintrag wurde zwischenzeitlich geändert. Bitte aktualisieren.')});await load(true)}
  catch(e){status('Speichern fehlgeschlagen: '+e.message);throw e}
 }
-async function deleteEntry(r){try{const out=await request('panagei_everyday_entries?id=eq.'+encodeURIComponent(r.id)+'&project_id=eq.'+encodeURIComponent(project)+'&updated_at=eq.'+encodeURIComponent(r.updated_at),'DELETE',null,{'Prefer':'return=representation'});if(!out?.length)throw Error('Eintrag inzwischen geändert');resetForm();await load(true)}catch(e){status('Löschen fehlgeschlagen: '+e.message)}}
+async function removeEntry(r){const out=await request('panagei_everyday_entries?id=eq.'+encodeURIComponent(r.id)+'&project_id=eq.'+encodeURIComponent(project)+'&updated_at=eq.'+encodeURIComponent(r.updated_at),'DELETE',null,{'Prefer':'return=representation'});if(!out?.length)throw Error('Eintrag inzwischen geändert')}
+async function deleteEntry(r){try{await removeEntry(r);resetForm();await load(true)}catch(e){status('Löschen fehlgeschlagen: '+e.message)}}
 $('everydayForm').onsubmit=async e=>{
  e.preventDefault();if(role==='viewer'){status('Keine Schreibberechtigung');return}
  const f=e.currentTarget.elements,p=selectedProject();if(!p)return;
@@ -471,11 +476,11 @@ shop.hidden=true;
 shop.innerHTML=`<h2 class="everyday-page-title">Einkaufsliste</h2>
 <section class="everyday-panel"><button id="shopNew" type="button">Neue Einkaufsliste</button>
 <p id="shopMessage" role="status"></p><label>Liste auswählen<select id="shopSelect"></select></label></section>
-<section id="shopDetail" class="everyday-panel" hidden><h3 id="shopTitle"></h3>
+<section id="shopDetail" class="everyday-panel" hidden><h3 id="shopTitle"></h3><p id="shopStatus" role="status"></p>
 <form id="shopForm"><div class="shop-fields"><label>Menge<input name="quantity" type="number" min="1" step="1" required value="1"></label>
 <label>Bezeichnung<input name="article" list="shopSuggestions" required maxlength="160" autocomplete="off" placeholder="Artikel suchen oder eingeben"></label>
 <datalist id="shopSuggestions"></datalist><label>Geschäft<select name="store"><option>Edeka</option><option>Aldi</option><option>Sonstiges</option></select></label></div>
-<button type="submit">Artikel hinzufügen</button></form><div id="shopItems"></div><button id="shopFinish" type="button"></button></section>`;
+<button type="submit">Artikel hinzufügen</button></form><div id="shopItems"></div><button id="shopDelete" type="button">Einkaufsliste löschen</button></section>`;
 let shoppingId='',shoppingBusy=false;
 const shoppingForm=shop.querySelector('form');
 const knownArticles=new Map();
@@ -485,12 +490,24 @@ function chooseList(id){
  shoppingForm.reset();
  showEverydayPage('shopping');
 }
+const shoppingDate=new Intl.DateTimeFormat('de-DE',{day:'numeric',month:'numeric',year:'2-digit',timeZone:'Europe/Berlin'});
+function shoppingTitle(list){return 'Einkaufsliste '+shoppingDate.format(new Date(list.created_at))}
+function shoppingStatus(list){
+ const total=list.shopping_items.length;
+ const checked=list.shopping_items.filter(item=>item.done).length;
+ if(total && checked===total)return {key:'complete',symbol:'🟢',label:'Erledigt'};
+ if(checked)return {key:'started',symbol:'🔴',label:'In Bearbeitung'};
+ return {key:'open',symbol:'🟡',label:'Offen'};
+}
 function renderShopping(){
  const lists=rows.filter(r=>r.shopping_number).sort((a,b)=>b.shopping_number-a.shopping_number);
  const select=$('shopSelect');
  select.replaceChildren();
- for(const list of lists)option(select,list.id,list.title+(list.done?' · Erledigt':''));
- const active=shoppingRecord()||lists.find(r=>!r.done)||lists[0];
+ for(const list of lists){
+  const state=shoppingStatus(list);
+  option(select,list.id,state.symbol+' '+shoppingTitle(list)+' · '+state.label);
+ }
+ const active=shoppingRecord()||lists.find(r=>shoppingStatus(r).key!=='complete')||lists[0];
  shoppingId=active?.id||'';
  select.value=shoppingId;
  select.parentElement.hidden=!active;
@@ -506,24 +523,27 @@ function renderShopping(){
  const suggestions=$('shopSuggestions');suggestions.replaceChildren();
  for(const item of knownArticles.values())option(suggestions,item.name,item.store);
  if(!active)return;
- $('shopTitle').textContent=active.title;
- shoppingForm.hidden=active.done||role==='viewer';
+ $('shopTitle').textContent=shoppingTitle(active);
+ const state=shoppingStatus(active);
+ $('shopStatus').dataset.state=state.key;
+ $('shopStatus').textContent=state.label+' · '+active.shopping_items.filter(item=>item.done).length+' von '+active.shopping_items.length+' abgehakt';
+ shoppingForm.hidden=role==='viewer';
  for(const field of shoppingForm.elements)field.disabled=!writable;
  const box=$('shopItems');box.replaceChildren();
  if(!active.shopping_items.length)element('p','','Noch keine Artikel.',box);
  for(const item of active.shopping_items){
   const label=element('label','shop-item',null,box);
-  const check=element('input','',null,label);check.type='checkbox';check.checked=item.done;check.disabled=!writable||active.done;
+  const check=element('input','',null,label);check.type='checkbox';check.checked=item.done;check.disabled=!writable;
   element('span','',item.quantity+' × '+item.name,label);
   element('small','',item.store,label);
   check.onchange=()=>shopAction(()=>updateShop(active,{shopping_items:active.shopping_items.map(i=>i.id===item.id?{...i,done:check.checked}:i)}));
  }
- const finish=$('shopFinish');
- finish.textContent=active.done?'Liste wieder öffnen':'Liste als erledigt markieren';
- finish.disabled=!writable;
+ $('shopDelete').hidden=role==='viewer';
+ $('shopDelete').disabled=!writable;
 }
 async function updateShop(record,fields){
- await mutate(record,fields);
+ const items=fields.shopping_items;
+ await mutate(record,{...fields,done:items.length>0 && items.every(item=>item.done)});
 }
 async function shopAction(action){
  if(shoppingBusy || role==='viewer' || project!==selectedProject() || identity!==session()?.user?.id)return;
@@ -541,7 +561,17 @@ $('shopNew').onclick=()=>shopAction(async()=>{
  rows=[record,...rows.filter(r=>r.id!==record.id)];
  chooseList(record.id);await load(true);
 });
-$('shopFinish').onclick=()=>{const r=shoppingRecord();if(r)shopAction(()=>updateShop(r,{done:!r.done}))};
+$('shopDelete').onclick=()=>{
+ const record=shoppingRecord();
+ if(record && confirm(shoppingTitle(record)+' mit allen Artikeln löschen?')){
+  shopAction(async()=>{
+   await removeEntry(record);
+   rows=rows.filter(row=>row.id!==record.id);
+   shoppingForm.reset();
+   await load(true);
+  });
+ }
+};
 shoppingForm.elements.article.oninput=e=>{
  const item=knownArticles.get(e.target.value.trim().toLocaleLowerCase('de'));
  if(item)shoppingForm.elements.store.value=item.store;
