@@ -579,7 +579,7 @@ shoppingForm.elements.article.oninput=e=>{
 shoppingForm.onsubmit=e=>{
  e.preventDefault();
  const r=shoppingRecord(),fields=shoppingForm.elements,name=fields.article.value.trim(),quantity=Number(fields.quantity.value);
- if(!r||r.done||!name||!Number.isSafeInteger(quantity)||quantity<1)return;
+ if(!r||!name||!Number.isSafeInteger(quantity)||quantity<1)return;
  const item={id:crypto.randomUUID(),name,quantity,store:fields.store.value,done:false};
  shopAction(async()=>{await updateShop(r,{shopping_items:[...r.shopping_items,item]});shoppingForm.reset();});
 };
