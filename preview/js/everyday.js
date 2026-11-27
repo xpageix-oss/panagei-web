@@ -4,6 +4,12 @@ const API='https://evvfenvbvctcvyscooyp.supabase.co',KEY='sb_publishable_ju52qhr
 const app=document.getElementById('panageiApp');
 if(!app)return;
 const style=document.createElement('style');style.textContent=`
+#panageiApp:not([data-context="alltag"]) #panageiTabs [data-panagei-tab="shopping"]{display:none!important}
+#panageiEveryday .shop-fields{display:grid;grid-template-columns:5em minmax(0,1fr) 8em;gap:8px}
+#panageiEveryday label.shop-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #adc2ce}
+#panageiEveryday label.shop-item input{width:21px;min-height:21px}
+.shop-item span{flex:1;overflow-wrap:anywhere}.shop-item:has(:checked) span{text-decoration:line-through}
+@media(max-width:560px){#panageiEveryday .shop-fields{grid-template-columns:5em minmax(0,1fr)}.shop-fields label:last-child{grid-column:1/-1}}
 #panageiTabs[hidden]{display:none!important}
 #panageiContextSwitch{display:flex;gap:8px;padding:12px max(16px,calc((100vw - 1160px)/2));background:#e4eee7}
 #panageiContextSwitch button{flex:1;max-width:220px;font-weight:700}
@@ -130,7 +136,7 @@ const style=document.createElement('style');style.textContent=`
 
 
 /* V78: Alltag navigation includes Dashboard, Aufgaben, Kalender, Einstellungen. Umbau unchanged. */
-#panageiApp[data-context="alltag"] #panageiTabs button:not([data-panagei-tab="dashboard"]):not([data-panagei-tab="aufgaben"]):not([data-panagei-tab="calendar"]):not([data-panagei-tab="settings"]){display:none!important}
+#panageiApp[data-context="alltag"] #panageiTabs button:not([data-panagei-tab="dashboard"]):not([data-panagei-tab="aufgaben"]):not([data-panagei-tab="calendar"]):not([data-panagei-tab="settings"]):not([data-panagei-tab="shopping"]){display:none!important}
 #panageiApp[data-context="alltag"] #panageiTabs button{color:#eaf4fc!important;border-color:transparent!important;background:transparent!important}
 #panageiApp[data-context="alltag"] #panageiTabs button:hover{background:#2b5472!important}
 #panageiApp[data-context="alltag"] #panageiTabs button[aria-selected="true"]{background:#7baed1!important;color:#102f47!important;border-color:#b3d7ed!important;box-shadow:0 4px 16px #2a67984d!important}
@@ -327,7 +333,7 @@ async function load(force=false){
  loading=true;status('Synchronisiere Alltag …');
  try{
  const changed=p!==project||identity!==s.user.id;project=p;identity=s.user.id;
- if(changed){rows=[];edit=null;resetForm()}
+ if(changed){rows=[];role='viewer';shoppingId='';shoppingForm.reset();$('shopMessage').textContent='';renderShopping();edit=null;resetForm()}
  const [entries,people,myRole]=await Promise.all([
  request('panagei_everyday_entries?project_id=eq.'+encodeURIComponent(p)+'&select=*&order=created_at.desc'),
  request('rpc/umbau_task_members','POST',{p_project_id:p}).catch(()=>[]),
@@ -383,6 +389,7 @@ function renderDashboardEveryday(){
  for(const r of future.slice(0,5))appendEventCard(upcoming,r,false);
 }
 function render(){
+ renderShopping();
  renderDashboardEveryday();
  const list=$('everydayList');list.replaceChildren();
  const items=visibleRows().sort((a,b)=>view==='task'?Number(a.done)-Number(b.done)||String(a.due_date||'9999').localeCompare(String(b.due_date||'9999')):String(a.starts_at).localeCompare(String(b.starts_at)));
@@ -396,6 +403,7 @@ function render(){
  }
  const strong=element('strong','',r.title,top);if(r.done)strong.style.textDecoration='line-through';
  element('small','',dateLabel(r)+' · '+(view==='task'?memberName(r):'Alltagstermin'),row);
+ if(r.shopping_number){const open=element('button','','Einkaufsliste öffnen',row);open.onclick=()=>chooseList(r.id);continue}
  if(r.notes)element('p','',r.notes,row);
  if(role!=='viewer'){
   const actions=element('div','everyday-row',null,row);
@@ -452,13 +460,108 @@ $('everydayCancel').onclick=resetForm;
 $('everydayReload').onclick=()=>void load(true);
 $('everydayFilter').onchange=render;$('everydayStatusFilter').onchange=render;
 root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>selectView(b.dataset.view));
+const shoppingTab=element('button');
+shoppingTab.type='button';
+shoppingTab.dataset.panageiTab='shopping';
+shoppingTab.setAttribute('role','tab');
+shoppingTab.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h2l3 12h11l2-9H6M9 20h1m7 0h1"/></svg><span><strong>Einkaufsliste</strong></span>';
+tabs.querySelector('[data-panagei-tab="calendar"]').after(shoppingTab);
+const shop=element('div','',null,root);
+shop.hidden=true;
+shop.innerHTML=`<h2 class="everyday-page-title">Einkaufsliste</h2>
+<section class="everyday-panel"><button id="shopNew" type="button">Neue Einkaufsliste</button>
+<p id="shopMessage" role="status"></p><label>Liste auswählen<select id="shopSelect"></select></label></section>
+<section id="shopDetail" class="everyday-panel" hidden><h3 id="shopTitle"></h3>
+<form id="shopForm"><div class="shop-fields"><label>Menge<input name="quantity" type="number" min="1" step="1" required value="1"></label>
+<label>Bezeichnung<input name="article" list="shopSuggestions" required maxlength="160" autocomplete="off" placeholder="Artikel suchen oder eingeben"></label>
+<datalist id="shopSuggestions"></datalist><label>Geschäft<select name="store"><option>Edeka</option><option>Aldi</option><option>Sonstiges</option></select></label></div>
+<button type="submit">Artikel hinzufügen</button></form><div id="shopItems"></div><button id="shopFinish" type="button"></button></section>`;
+let shoppingId='',shoppingBusy=false;
+const shoppingForm=shop.querySelector('form');
+const knownArticles=new Map();
+function shoppingRecord(){return rows.find(r=>r.id===shoppingId && r.shopping_number)}
+function chooseList(id){
+ shoppingId=id;
+ shoppingForm.reset();
+ showEverydayPage('shopping');
+}
+function renderShopping(){
+ const lists=rows.filter(r=>r.shopping_number).sort((a,b)=>b.shopping_number-a.shopping_number);
+ const select=$('shopSelect');
+ select.replaceChildren();
+ for(const list of lists)option(select,list.id,list.title+(list.done?' · Erledigt':''));
+ const active=shoppingRecord()||lists.find(r=>!r.done)||lists[0];
+ shoppingId=active?.id||'';
+ select.value=shoppingId;
+ select.parentElement.hidden=!active;
+ $('shopDetail').hidden=!active;
+ const writable=!shoppingBusy && project===selectedProject() && identity===session()?.user?.id && role!=='viewer';
+ $('shopNew').disabled=!writable;
+ select.disabled=shoppingBusy;
+ knownArticles.clear();
+ for(const list of lists)for(const item of [...list.shopping_items].reverse()){
+  const key=item.name.toLocaleLowerCase('de');
+  if(!knownArticles.has(key))knownArticles.set(key,item);
+ }
+ const suggestions=$('shopSuggestions');suggestions.replaceChildren();
+ for(const item of knownArticles.values())option(suggestions,item.name,item.store);
+ if(!active)return;
+ $('shopTitle').textContent=active.title;
+ shoppingForm.hidden=active.done||role==='viewer';
+ for(const field of shoppingForm.elements)field.disabled=!writable;
+ const box=$('shopItems');box.replaceChildren();
+ if(!active.shopping_items.length)element('p','','Noch keine Artikel.',box);
+ for(const item of active.shopping_items){
+  const label=element('label','shop-item',null,box);
+  const check=element('input','',null,label);check.type='checkbox';check.checked=item.done;check.disabled=!writable||active.done;
+  element('span','',item.quantity+' × '+item.name,label);
+  element('small','',item.store,label);
+  check.onchange=()=>shopAction(()=>updateShop(active,{shopping_items:active.shopping_items.map(i=>i.id===item.id?{...i,done:check.checked}:i)}));
+ }
+ const finish=$('shopFinish');
+ finish.textContent=active.done?'Liste wieder öffnen':'Liste als erledigt markieren';
+ finish.disabled=!writable;
+}
+async function updateShop(record,fields){
+ await mutate(record,fields);
+}
+async function shopAction(action){
+ if(shoppingBusy || role==='viewer' || project!==selectedProject() || identity!==session()?.user?.id)return;
+ shoppingBusy=true;
+ $('shopMessage').textContent='';
+ try{const result=action();renderShopping();await result}
+ catch(error){$('shopMessage').textContent=error.message;await load(true)}
+ finally{shoppingBusy=false;renderShopping()}
+}
+$('shopSelect').onchange=e=>chooseList(e.target.value);
+$('shopNew').onclick=()=>shopAction(async()=>{
+ const p=project;
+ const record=await request('rpc/panagei_new_shopping_list','POST',{p_project_id:p});
+ if(p!==selectedProject())return;
+ rows=[record,...rows.filter(r=>r.id!==record.id)];
+ chooseList(record.id);await load(true);
+});
+$('shopFinish').onclick=()=>{const r=shoppingRecord();if(r)shopAction(()=>updateShop(r,{done:!r.done}))};
+shoppingForm.elements.article.oninput=e=>{
+ const item=knownArticles.get(e.target.value.trim().toLocaleLowerCase('de'));
+ if(item)shoppingForm.elements.store.value=item.store;
+};
+shoppingForm.onsubmit=e=>{
+ e.preventDefault();
+ const r=shoppingRecord(),fields=shoppingForm.elements,name=fields.article.value.trim(),quantity=Number(fields.quantity.value);
+ if(!r||r.done||!name||!Number.isSafeInteger(quantity)||quantity<1)return;
+ const item={id:crypto.randomUUID(),name,quantity,store:fields.store.value,done:false};
+ shopAction(async()=>{await updateShop(r,{shopping_items:[...r.shopping_items,item]});shoppingForm.reset();});
+};
 const pageNames={dashboard:'Projektübersicht',historie:'Bauhistorie',bauteile:'Raumzentrale',infos:'Dokumente',aufgaben:'Aufgaben',modell:'Hausmodell',kosten:'Kosten',calendar:'Kalender',settings:'Einstellungen',admin:'Administration'};
 function showEverydayPage(name){
  if(mode!=='alltag')return;
- everydayPage=['dashboard','aufgaben','calendar','settings'].includes(name)?name:'dashboard';
+ everydayPage=['dashboard','aufgaben','calendar','shopping','settings'].includes(name)?name:'dashboard';
  const settingsPage=$('panageiSettingsPage');
  const settingsActive=everydayPage==='settings';
  root.hidden=settingsActive;
+ shop.hidden=everydayPage!=='shopping';
+ if(!shop.hidden)renderShopping();
  settingsPage.hidden=!settingsActive;
  everydayDashboard.hidden=everydayPage!=='dashboard';
  everydayWork.hidden=!['aufgaben','calendar'].includes(everydayPage);
@@ -483,7 +586,7 @@ tabs.addEventListener('keydown',event=>{
  if(mode!=='alltag'||!['ArrowDown','ArrowUp','ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;
  const button=event.target.closest('[data-panagei-tab]');if(!button)return;
  event.preventDefault();event.stopImmediatePropagation();
- const buttons=[...tabs.querySelectorAll('[data-panagei-tab]')].filter(x=>!x.hidden);
+ const buttons=[...tabs.querySelectorAll('[data-panagei-tab]')].filter(x=>!x.hidden && x.getClientRects().length);
  const i=buttons.indexOf(button);
  const next=event.key==='Home'?0:event.key==='End'?buttons.length-1:(i+(['ArrowRight','ArrowDown'].includes(event.key)?1:-1)+buttons.length)%buttons.length;
  buttons[next].focus();showEverydayPage(buttons[next].dataset.panageiTab);
