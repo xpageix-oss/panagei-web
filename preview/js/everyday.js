@@ -5,6 +5,10 @@ const app=document.getElementById('panageiApp');
 if(!app)return;
 const style=document.createElement('style');style.textContent=`
 #panageiApp:not([data-context="alltag"]) #panageiTabs [data-panagei-tab="shopping"]{display:none!important}
+#panageiEveryday #shopDetail[hidden],#panageiEveryday #shopMatches[hidden]{display:none!important}
+#shopFilters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:1rem 0}
+#shopFilters button[aria-pressed="true"]{outline:2px solid currentColor;outline-offset:1px}
+#shopMatches{display:grid;gap:.4rem;margin:.75rem 0}
 #shopStatus{display:inline-flex;align-items:center;gap:.5em;font-weight:700}
 #shopStatus::before{content:'';width:1em;height:1em;border-radius:50%;border:1px solid #555;background:var(--shop-color)}
 #shopStatus[data-state="open"]{--shop-color:#facc15}
@@ -338,7 +342,7 @@ async function load(force=false){
  loading=true;status('Synchronisiere Alltag …');
  try{
  const changed=p!==project||identity!==s.user.id;project=p;identity=s.user.id;
- if(changed){rows=[];role='viewer';shoppingId='';shoppingForm.reset();$('shopMessage').textContent='';renderShopping();edit=null;resetForm()}
+ if(changed){rows=[];role='viewer';shoppingId='';shoppingFilter='';shoppingForm.reset();$('shopMessage').textContent='';renderShopping();edit=null;resetForm()}
  const [entries,people,myRole]=await Promise.all([
  request('panagei_everyday_entries?project_id=eq.'+encodeURIComponent(p)+'&select=*&order=created_at.desc'),
  request('rpc/umbau_task_members','POST',{p_project_id:p}).catch(()=>[]),
@@ -475,13 +479,25 @@ const shop=element('div','',null,root);
 shop.hidden=true;
 shop.innerHTML=`<h2 class="everyday-page-title">Einkaufsliste</h2>
 <section class="everyday-panel"><button id="shopNew" type="button">Neue Einkaufsliste</button>
-<p id="shopMessage" role="status"></p><label>Liste auswählen<select id="shopSelect"></select></label></section>
+<p id="shopMessage" role="status"></p><label>Einkaufsliste wählen<select id="shopSelect"></select></label>
+<div id="shopFilters" role="group" aria-label="Einkaufslisten nach Status"></div>
+<div id="shopMatches" hidden></div></section>
 <section id="shopDetail" class="everyday-panel" hidden><h3 id="shopTitle"></h3><p id="shopStatus" role="status"></p>
 <form id="shopForm"><div class="shop-fields"><label>Menge<input name="quantity" type="number" min="1" step="1" required value="1"></label>
 <label>Bezeichnung<input name="article" list="shopSuggestions" required maxlength="160" autocomplete="off" placeholder="Artikel suchen oder eingeben"></label>
 <datalist id="shopSuggestions"></datalist><label>Geschäft<select name="store"><option>Edeka</option><option>Aldi</option><option>Sonstiges</option></select></label></div>
 <button type="submit">Artikel hinzufügen</button></form><div id="shopItems"></div><button id="shopDelete" type="button">Einkaufsliste löschen</button></section>`;
-let shoppingId='',shoppingBusy=false;
+let shoppingId='',shoppingFilter='',shoppingBusy=false;
+const shoppingGroups={all:'Gesamt',open:'🟡 Offen',started:'🔴 In Bearbeitung',complete:'🟢 Erledigt'};
+for(const [key,label] of Object.entries(shoppingGroups)){
+ const button=element('button','',label,$('shopFilters'));
+ button.type='button';
+ button.dataset.filter=key;
+ button.onclick=()=>{
+  shoppingFilter=shoppingFilter===key?'':key;
+  chooseList('');
+ };
+}
 const shoppingForm=shop.querySelector('form');
 const knownArticles=new Map();
 function shoppingRecord(){return rows.find(r=>r.id===shoppingId && r.shopping_number)}
@@ -502,15 +518,36 @@ function shoppingStatus(list){
 function renderShopping(){
  const lists=rows.filter(r=>r.shopping_number).sort((a,b)=>b.shopping_number-a.shopping_number);
  const select=$('shopSelect');
+ const active=shoppingRecord();
+ if(active && shoppingFilter && shoppingFilter!=='all')shoppingFilter=shoppingStatus(active).key;
+ const counts={all:lists.length,open:0,started:0,complete:0};
+ const matches=$('shopMatches');
+ matches.replaceChildren();
+ matches.hidden=!shoppingFilter;
  select.replaceChildren();
+ option(select,'','Bitte wählen …');
  for(const list of lists){
   const state=shoppingStatus(list);
-  option(select,list.id,state.symbol+' '+shoppingTitle(list)+' · '+state.label);
+  counts[state.key]++;
+  if(shoppingFilter && shoppingFilter!=='all' && shoppingFilter!==state.key)continue;
+  const title=state.symbol+' '+shoppingTitle(list)+' · '+state.label;
+  option(select,list.id,title);
+  if(shoppingFilter){
+   const button=element('button','',title,matches);
+   button.type='button';
+   button.disabled=shoppingBusy;
+   button.onclick=()=>chooseList(list.id);
+  }
  }
- const active=shoppingRecord()||lists.find(r=>shoppingStatus(r).key!=='complete')||lists[0];
+ if(shoppingFilter && !counts[shoppingFilter])element('p','','Keine Einkaufslisten in dieser Ansicht.',matches);
+ for(const button of $('shopFilters').children){
+  const key=button.dataset.filter;
+  button.textContent=shoppingGroups[key]+' ('+counts[key]+')';
+  button.setAttribute('aria-pressed',String(shoppingFilter===key));
+  button.disabled=shoppingBusy;
+ }
  shoppingId=active?.id||'';
  select.value=shoppingId;
- select.parentElement.hidden=!active;
  $('shopDetail').hidden=!active;
  const writable=!shoppingBusy && project===selectedProject() && identity===session()?.user?.id && role!=='viewer';
  $('shopNew').disabled=!writable;
@@ -559,7 +596,7 @@ $('shopNew').onclick=()=>shopAction(async()=>{
  const record=await request('rpc/panagei_new_shopping_list','POST',{p_project_id:p});
  if(p!==selectedProject())return;
  rows=[record,...rows.filter(r=>r.id!==record.id)];
- chooseList(record.id);await load(true);
+ shoppingFilter='';chooseList(record.id);await load(true);
 });
 $('shopDelete').onclick=()=>{
  const record=shoppingRecord();
@@ -591,6 +628,7 @@ function showEverydayPage(name){
  const settingsActive=everydayPage==='settings';
  root.hidden=settingsActive;
  shop.hidden=everydayPage!=='shopping';
+ if(shop.hidden){shoppingId='';shoppingFilter='';shoppingForm.reset()}
  if(!shop.hidden)renderShopping();
  settingsPage.hidden=!settingsActive;
  everydayDashboard.hidden=everydayPage!=='dashboard';
